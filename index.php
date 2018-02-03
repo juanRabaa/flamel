@@ -47,7 +47,30 @@ get_header();
 					</div>
 				</div>
 			</div>
-		</section>	
+			<div class="section-separator" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/img/water.png');">
+				<div class="separator-link">
+					<p>Arte utilizado para el proyecto de Boca Juniors</p>
+					<i class="fa fa-angle-right"></i>
+				</div>
+			</div>
+		</section>
+		<section id="section-tools">
+			<div class="section-content container">
+				<h5 id="section-tools-title">HERRAMIENTAS</h5>
+				<div id="section-tools-images">
+					<img src="<?php echo get_template_directory_uri(); ?>/assets/img/tool1.png"/>
+					<img src="<?php echo get_template_directory_uri(); ?>/assets/img/tool2.png"/>
+					<img src="<?php echo get_template_directory_uri(); ?>/assets/img/tool3.png"/>
+					<img src="<?php echo get_template_directory_uri(); ?>/assets/img/tool4.png"/>
+				</div>
+			</div>
+			<div class="section-separator" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/img/water.png');">
+				<div class="separator-link">
+					<p>Arte utilizado para el proyecto de Boca Juniors</p>
+					<i class="fa fa-angle-right"></i>
+				</div>
+			</div>
+		</section>
 	</div>
 <script>
 $(document).ready( function(){
@@ -58,12 +81,14 @@ $(document).ready( function(){
 		this.$slider = $(_id);
 		this.texts = _texts;
 		this.timeInterval = null;
+		this.time = 400;
 		
-		this.exitIfMarkupIsWrong = function(){
+		this.markupIsWrong = function(){
 			if( this.$slider.length == 0 ){
 				console.log("ERROR, the slider doesnt exist");
-				return;
-			}			
+				return true;
+			}
+			return false;
 		};
 		
 		this.amountOfTexts = function(){
@@ -73,7 +98,9 @@ $(document).ready( function(){
 		this.changeSlideText = function( index ){
 			var $slider = this.$slider;
 			var button = $slider.find(".slider-buttons > span:nth-child("+index+")");
-			this.exitIfMarkupIsWrong();
+			
+			if ( this.markupIsWrong() )
+				return;
 			
 			var _this = this;
 			if ( index != this.currentSlide ){
@@ -92,13 +119,16 @@ $(document).ready( function(){
 		}
 		
 		this.activateChangeOverTimer = function( time ){
+			clearInterval(this.timeInterval);
 			var _this = this;
 			this.timeInterval = setInterval(function(){
 				if ( _this.amountOfTexts() == _this.currentSlide )
 					_this.changeSlideText(1);
 				else
-					_this.changeSlideText(_this.currentSlide + 1);
+					_this.changeSlideText(parseInt(_this.currentSlide) + 1);
 			}, time);
+			_this.time = time;
+			console.log(_this.timeInterval);
 		}
 		
 		this.activateChangeOnClick = function(){
@@ -107,11 +137,15 @@ $(document).ready( function(){
 				var slideButtonID = $(this).attr("slide-id");
 				var $slider = _this.$slider;
 				
-				_this.exitIfMarkupIsWrong();
+				if ( _this.markupIsWrong() )
+					return;
 				
 				_this.changeSlideText(slideButtonID);
 				
-				_this.resetTimeInterval();
+				if(_this.timeInterval != null)
+					_this.activateChangeOverTimer(_this.time);
+				
+				
 			});			
 		}
 		
@@ -134,39 +168,6 @@ $(document).ready( function(){
 <script>
 
 $(document).ready( function(){
-	var scroll;
-	var sectionTextSlideOffset;
-	var $navbar = $("#navbar");
-	
-	function variablesReset(){
-		scroll = $(window).scrollTop();
-		sectionTextSlideOffset = $("#section-text-slide").offset().top;		
-	}
-	
-	function runConditions(){
-		variablesReset();
-
-		if ( scroll >=sectionTextSlideOffset && !$navbar.hasClass("in-section-text-slide") )
-			$navbar.addClass("in-section-text-slide");
-		else
-			$navbar.removeClass("in-section-text-slide");
-	}
-	
-	runConditions();
-	
-	$(window).scroll(function (event) {
-		scroll = $(window).scrollTop();
-		runConditions();
-	});
-	
-	//resets the variables on resize
-	$(window).on('resize', function () {
-		variablesReset();
-	});
-	
-	
-	
-	
 	/*Smooth scroll*/
 	$(document).on('click', 'a[href^="#"]', function (event) {
 		event.preventDefault();
@@ -183,6 +184,67 @@ $(document).ready( function(){
 			scrollTop: $("#main-sections > section:nth-child("+sectionNumber+")").offset().top
 		}, 500);		
 	}
+});
+</script>
+<script>
+
+$(document).ready( function(){
+
+	var scroll;
+	var sectionTextSlideOffset;
+	var $navbar = $("#navbar");
+
+	$(window).scroll(function (event) {
+		scroll = $(window).scrollTop();
+	});		
+			
+	function Section(id, onReach, onOut){
+		this.id = id;
+		this.onReach = onReach;
+		this.onOut = onOut;
+		this.offsetTop = function(){
+			return $(id).offset().top;
+		};
+		
+		this.reachCheck = function(){
+			
+			var sectionOffsetTop;
+
+			var _this = this;
+			$(window).scroll(function (event) {
+				sectionOffsetTop = _this.offsetTop();
+				
+				console.log(scroll, sectionOffsetTop, sectionOffsetTop + $(_this.id).outerHeight());
+				if ( scroll >= sectionOffsetTop && scroll <= ( sectionOffsetTop + $(_this.id).outerHeight() ) ){
+					_this.onReach();
+					console.log("reached");
+				}
+				else{
+					_this.onOut();
+					console.log("nope");
+				}
+			})
+		};
+		
+		this.reachCheck();
+	}
+	
+	var sectionTextSlide = new Section( "#section-text-slide", function(){
+		if( !$navbar.hasClass("in-section-text-slide") )
+			$navbar.addClass("in-section-text-slide");
+	}, function(){
+		if( $navbar.hasClass("in-section-text-slide") )
+			$navbar.removeClass("in-section-text-slide");
+	});
+	
+	console.log(sectionTextSlide);
+
+	
+	var sectionsMaster = {
+		sections: [sectionTextSlide],
+	}
+	
+	
 });
 </script>
 <?php get_footer(); ?>
