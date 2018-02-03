@@ -99,6 +99,41 @@ get_header();
 				</div>			
 			</div>
 		</section>
+		<section id="section-projects">
+			<div class="section-content container">
+				<div class="projects-slides-container" id="projects-slider">
+					<div class="project-slide">
+						<div class="project-image" style="background-image: url('http://localhost/wordpress2/htdocs/wp-content/themes/flamel-genosha/assets/img/water.png');"></div>
+						<h6 class="project-category">Estrategia + Visual</h6>
+						<span class="project-name">NOMBRE DE PROYECTO</span>
+					</div>
+					<div class="project-slide">
+						<div class="project-image" style="background-image: url('http://localhost/wordpress2/htdocs/wp-content/themes/flamel-genosha/assets/img/water.png');"></div>
+						<h6 class="project-category">Estrategia + Visual</h6>
+						<span class="project-name">NOMBRE DE PROYECTO</span>
+					</div>
+					<div class="project-slide">
+						<div class="project-image" style="background-image: url('http://localhost/wordpress2/htdocs/wp-content/themes/flamel-genosha/assets/img/water.png');"></div>
+						<h6 class="project-category">Estrategia + Visual</h6>
+						<span class="project-name">NOMBRE DE PROYECTO</span>
+					</div>					
+				</div>		
+			</div>
+		</section>
+		<section id="section-authors">
+			<div class="section-content container">
+				<div class="author-box-landing">
+					<h5>SOLEDAD RIVAS</h5>
+					<h5>MANAGIN DIRECTOR</h5>
+					<h6>soledad@flamel.biz</h6>
+				</div>
+				<div class="author-box-landing">
+					<h5>GUSTAVO CHIOCCIONI</h5>
+					<h5>DESIGN DIRECTOR</h5>
+					<h6>gustavo@flamel.biz</h6>	
+				</div>
+			</div>
+		</section>
 	</div>
 <script>
 $(document).ready( function(){
@@ -234,27 +269,33 @@ $(document).ready( function(){
 			return $(id).offset().top;
 		};
 		
-		this.reachCheck = function(){
+		this.runIfOnPosition = function(){
+			var sectionOffsetTop = this.offsetTop();
 			
-			var sectionOffsetTop;
-
+			console.log(scroll, sectionOffsetTop, sectionOffsetTop + $(this.id).outerHeight());
+			if ( scroll >= sectionOffsetTop && scroll <= ( sectionOffsetTop + $(this.id).outerHeight() ) ){
+				this.onReach();
+				console.log("reached");
+			}
+			else{
+				this.onOut();
+				console.log("nope");
+			}	
+		}
+		
+		this.reachCheck = function(){
 			var _this = this;
 			$(window).scroll(function (event) {
-				sectionOffsetTop = _this.offsetTop();
-				
-				console.log(scroll, sectionOffsetTop, sectionOffsetTop + $(_this.id).outerHeight());
-				if ( scroll >= sectionOffsetTop && scroll <= ( sectionOffsetTop + $(_this.id).outerHeight() ) ){
-					_this.onReach();
-					console.log("reached");
-				}
-				else{
-					_this.onOut();
-					console.log("nope");
-				}
+				_this.runIfOnPosition();
 			})
 		};
 		
-		this.reachCheck();
+		this.onCreationSequence = function(){
+			this.reachCheck();
+			this.runIfOnPosition();		
+		}
+		
+		this.onCreationSequence();
 	}
 	
 	var sectionTextSlide = new Section( "#section-text-slide", function(){
@@ -263,6 +304,14 @@ $(document).ready( function(){
 	}, function(){
 		if( $navbar.hasClass("in-section-text-slide") )
 			$navbar.removeClass("in-section-text-slide");
+	});
+	
+	var sectionTextSlide = new Section( "#section-authors", function(){
+		if( !$navbar.hasClass("in-section-authors") )
+			$navbar.addClass("in-section-authors");
+	}, function(){
+		if( $navbar.hasClass("in-section-authors") )
+			$navbar.removeClass("in-section-authors");
 	});
 	
 	console.log(sectionTextSlide);
