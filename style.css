@@ -63,7 +63,7 @@ p {
 
 h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.5rem;
-    font-family: "Trade Gothic", "Raleway" ,"HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Nanami Light", "Trade Gothic", "Raleway" ,"HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 blockquote, dl, figure, form, ol, p, pre, table, ul {
@@ -356,6 +356,38 @@ section#section-text-slide > .section-content {
 	margin-right: 2rem;
 }
 
+/*Section LISTS
+/*************************************************************************************************/
+#section-lists {
+    background-color: #ffffff;
+}
+
+#section-lists > .section-content {
+    padding: 5rem 0;
+}
+
+#section-lists .list-container .list-title {
+    color: #fd2a5f;
+}
+
+#section-lists .list-container ul {
+    list-style: none;
+}
+
+#section-lists .list-container ul li:before {
+    content: "";
+    position:  relative;
+    height: 0.2rem;
+    width: 1.5rem;
+    background-color: #000000;
+    display: inline-block;
+    top: -0.5rem;
+    margin-right: 0.5rem;
+}
+
+#section-lists .list-container ul li {
+    font-size: 2rem;
+}
 
 
 
