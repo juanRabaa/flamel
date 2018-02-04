@@ -54,6 +54,85 @@ get_header();
 				</div>
 			</div>
 		</section>
+		<section id="section-process">
+			<div class="section-content container">
+				<h6 class="process-section-title">PROCESO DE TRABAJO</h6>    
+				<div class="process-tree">
+					<div class="process">
+						<div class="process-title">
+							<span class="process-number">1</span>
+							<span class="process-name">ESCUCHAMOS</span>
+						</div>
+						<div class="process-items-container">
+							<div class="process-item-holder">
+								<i class="fa fa-angle-right"></i>
+								<span class="process-item">NEGOCIO/CULTURA</span>
+							</div>
+							<div class="process-item-holder">
+								<i class="fa fa-angle-right"></i>
+								<span class="process-item">CATEGORÍA/MERCADO</span>
+							</div>
+							<div class="process-item-holder">
+								<i class="fa fa-angle-right"></i>
+								<span class="process-item">CONTEXTO</span>
+							</div>
+							<div class="process-item-holder">
+								<i class="fa fa-angle-right"></i>
+								<span class="process-item">CONSUMIDOR</span>
+							</div>
+						</div>
+					</div>
+					<div class="process">
+						<div class="process-title">
+							<span class="process-number">2</span>
+							<span class="process-name">DIAGNOSTICAMOS</span>
+						</div>
+						<div class="process-items-container">
+							<div class="process-item-holder">
+								<i class="fa fa-angle-right"></i>
+								<span class="process-item">ANALIZAMOS PARA DIAGNOSTICAR LAS OPORTUNIDADES DE LA MARCA</span>
+							</div>
+						</div>
+					</div>
+					<div class="process">
+						<div class="process-title">
+							<span class="process-number">3</span>
+							<span class="process-name">DISEÑAMOS</span>
+						</div>
+						<div class="process-items-container">
+							<div class="process-item-holder">
+								<i class="fa fa-angle-right"></i>
+								<span class="process-item">DIFERENCIAL ESTRATÉGICO</span>
+							</div>
+							<div class="process-item-holder">
+								<i class="fa fa-angle-right"></i>
+								<span class="process-item">PROPOSITO</span>
+							</div>
+							<div class="process-item-holder">
+								<i class="fa fa-angle-right"></i>
+								<span class="process-item">ARQUITECTURA</span>
+							</div>
+							<div class="process-item-holder">
+								<i class="fa fa-angle-right"></i>
+								<span class="process-item">PROPUESTA VISUAL</span>
+							</div>							
+						</div>
+					</div>
+					<div class="process">
+						<div class="process-title">
+							<span class="process-number">4</span>
+							<span class="process-name">PRODUCIMOS</span>
+						</div>
+						<div class="process-items-container">
+							<div class="process-item-holder">
+								<i class="fa fa-angle-right"></i>
+								<span class="process-item">LOS ACTIVOS DE LA MARCA</span>
+							</div>						
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 		<section id="section-tools">
 			<div class="section-content container">
 				<h5 id="section-tools-title">HERRAMIENTAS</h5>
@@ -253,7 +332,7 @@ $(document).ready( function(){
 
 $(document).ready( function(){
 
-	var scroll;
+	var scroll = $(window).scrollTop();
 	var sectionTextSlideOffset;
 	var $navbar = $("#navbar");
 
@@ -312,6 +391,14 @@ $(document).ready( function(){
 	}, function(){
 		if( $navbar.hasClass("in-section-authors") )
 			$navbar.removeClass("in-section-authors");
+	});
+
+	var sectionTextSlide = new Section( "#section-process", function(){
+		if( !$navbar.hasClass("in-section-process") )
+			$navbar.addClass("in-section-process");
+	}, function(){
+		if( $navbar.hasClass("in-section-process") )
+			$navbar.removeClass("in-section-process");
 	});
 	
 	console.log(sectionTextSlide);

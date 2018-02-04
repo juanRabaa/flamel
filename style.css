@@ -206,10 +206,6 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
     position:  relative;
 }
 
-#navbar.in-section-text-slide #navbar-menu a, #navbar.in-section-authors #navbar-menu a{
-    color: #ffffff;
-}
-
 #navbar-menu li.current_page_item > a {
     color: #fd2a5f!important;
 }
@@ -233,12 +229,17 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
     position:  relative;
 }
 
+#navbar.in-section-text-slide #navbar-menu a, #navbar.in-section-authors #navbar-menu a, #navbar.in-section-process #navbar-menu a {
+    color: #ffffff;
+}
+
 #navbar.in-section-text-slide #logo-svg circle, #navbar.in-section-text-slide #logo-svg line, #navbar.in-section-text-slide #logo-svg path,
-#navbar.in-section-authors #logo-svg circle, #navbar.in-section-authors #logo-svg line, #navbar.in-section-authors #logo-svg path {
+#navbar.in-section-authors #logo-svg circle, #navbar.in-section-authors #logo-svg line, #navbar.in-section-authors #logo-svg path,
+#navbar.in-section-process #logo-svg circle, #navbar.in-section-process #logo-svg line, #navbar.in-section-process #logo-svg path {
     stroke: #fd2a5f;
 }
 
-#navbar.in-section-text-slide #logo-svg path, #navbar.in-section-authors #logo-svg path {
+#navbar.in-section-text-slide #logo-svg path, #navbar.in-section-authors #logo-svg path, #navbar.in-section-process #logo-svg path  {
     fill: #fd2a5f;
 }
 
@@ -330,7 +331,59 @@ section#section-text-slide > .section-content {
     margin-top: 3rem;
 }
 
+/*Section PROCESS
+/*************************************************************************************************/
 
+.process-section-title {
+    color: #ffffff;
+    margin-bottom: 2rem;
+}
+
+#section-process > .section-content {
+    padding-top: 12rem;
+    padding-bottom:  12rem;
+}
+
+.process-name, .process-number {
+    font-size: 4rem;
+}
+
+.process-name {
+    color: #ffffff;
+    margin-left: 1rem;
+}
+
+.process-number {
+    color: #fd2a5f;
+}
+
+.process-items-container {
+    color:  #686868;
+    border-left: solid 0.2rem #686868;
+    padding: 1rem 0 3rem 2rem;
+    font-size: 2rem;
+    box-sizing:  border-box;
+    margin-left: 0.9rem;
+}
+
+.process-item-holder i {
+    margin-right: 0.4rem;
+    margin-left:  0.4rem;
+    text-align:  center;
+}
+
+.process-item {
+    color: #fd2a5f;
+}
+
+.process-item-holder {
+    display:  inline-block;
+}
+
+.process:last-child .process-items-container {
+    border: 0;
+    margin-left: 1.1rem;
+}
 
 /*Section TOOLS
 /*************************************************************************************************/
