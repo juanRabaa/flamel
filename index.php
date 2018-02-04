@@ -182,17 +182,23 @@ get_header();
 			<div class="section-content container">
 				<div class="projects-slides-container" id="projects-slider">
 					<div class="project-slide">
-						<div class="project-image" style="background-image: url('http://localhost/wordpress2/htdocs/wp-content/themes/flamel-genosha/assets/img/water.png');"></div>
+						<div class="project-image">
+							<div style="background-image: url('http://localhost/wordpress2/htdocs/wp-content/themes/flamel-genosha/assets/img/water.png');"></div>
+						</div>
 						<h6 class="project-category">Estrategia + Visual</h6>
 						<span class="project-name">NOMBRE DE PROYECTO</span>
 					</div>
 					<div class="project-slide">
-						<div class="project-image" style="background-image: url('http://localhost/wordpress2/htdocs/wp-content/themes/flamel-genosha/assets/img/water.png');"></div>
+						<div class="project-image">
+							<div style="background-image: url('http://localhost/wordpress2/htdocs/wp-content/themes/flamel-genosha/assets/img/water.png');"></div>
+						</div>						
 						<h6 class="project-category">Estrategia + Visual</h6>
 						<span class="project-name">NOMBRE DE PROYECTO</span>
 					</div>
 					<div class="project-slide">
-						<div class="project-image" style="background-image: url('http://localhost/wordpress2/htdocs/wp-content/themes/flamel-genosha/assets/img/water.png');"></div>
+						<div class="project-image">
+							<div style="background-image: url('http://localhost/wordpress2/htdocs/wp-content/themes/flamel-genosha/assets/img/water.png');"></div>
+						</div>
 						<h6 class="project-category">Estrategia + Visual</h6>
 						<span class="project-name">NOMBRE DE PROYECTO</span>
 					</div>					

@@ -360,7 +360,7 @@ section#section-text-slide > .section-content {
 .process-items-container {
     color:  #686868;
     border-left: solid 0.2rem #686868;
-    padding: 1rem 0 3rem 2rem;
+    padding: 1rem 0 6rem 2rem;
     font-size: 2rem;
     box-sizing:  border-box;
     margin-left: 0.9rem;
@@ -458,20 +458,21 @@ section#section-text-slide > .section-content {
     background-color: #ffffef;
 }
 
-.project-slide {width: 30rem;}
+.project-slide {width: 30rem;cursor:  pointer;}
 
 #projects-slider {
     display:  flex;
     align-items:  center;
 }
 
-.project-image {
+.project-image > div {
     width: 100%;
     height: 39rem;
     max-height: 55vh;
     background-position:  center;
     background-repeat:  no-repeat;
     background-size:  cover;
+    transition:  all 0.4s;
 }
 
 .project-category {
@@ -490,6 +491,13 @@ section#section-text-slide > .section-content {
     margin-left: 2rem;
 }
 
+.project-slide:hover .project-image > div {
+    transform:  scale(1.2);
+}
+
+.project-image {
+    overflow:  hidden;
+}
 /*Section AUTHORS*/
 /*************************************************************************************************/
 #section-authors {
@@ -582,8 +590,7 @@ section#section-text-slide > .section-content {
     width: 75%;
 }
 
-.separator-link >
- i {
+.separator-link > i {
     width: 10%;
     margin-left: 5%;
     color: #fd2a5f;
