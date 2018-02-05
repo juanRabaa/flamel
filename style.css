@@ -238,10 +238,8 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
     color: #ffffff;
 }
 
-#navbar.in-section-text-slide #logo-svg circle, #navbar.in-section-text-slide #logo-svg line, #navbar.in-section-text-slide #logo-svg path, 
-#navbar.in-section-text-slide #logo-svg polygon, #navbar.in-section-authors #logo-svg circle, #navbar.in-section-authors #logo-svg line, 
-#navbar.in-section-authors #logo-svg path, #navbar.in-section-authors #logo-svg polygon, #navbar.in-section-process #logo-svg circle, 
-#navbar.in-section-process #logo-svg line, #navbar.in-section-process #logo-svg path, #navbar.in-section-process #logo-svg polygon {
+#navbar.in-section-text-slide #logo-svg path, #navbar.in-section-text-slide #logo-svg polygon, #navbar.in-section-authors #logo-svg path, 
+#navbar.in-section-authors #logo-svg polygon, #navbar.in-section-process #logo-svg path, #navbar.in-section-process #logo-svg polygon {
     stroke: #fd2a5f;
 }
 
@@ -281,13 +279,10 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
     flex-direction:  column;
 }
 
-#intro-text {
+#intro-text h6{
     margin: 0 auto;
     width: 60%;
     text-align:  center;
-}
-
-#intro-text h5 {
     font-weight: bold;
     margin-top: 7rem;
 }
@@ -472,7 +467,7 @@ section#section-text-slide > .section-content {
     list-style: none;
 }
 
-#section-lists .list-container ul li:before {
+#section-lists .list-container ul li:after {
     content: "";
     position:  relative;
     height: 0.2rem;
@@ -480,7 +475,7 @@ section#section-text-slide > .section-content {
     background-color: #000000;
     display: inline-block;
     top: -0.5rem;
-    margin-right: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 #section-lists .list-container ul li {
@@ -610,6 +605,18 @@ section#section-text-slide > .section-content {
 		display: block;
 	}
 	
+	#intro-text h6{
+		width: 100%;
+	}
+	
+	.slider-buttons{
+		margin-left: 0;
+	}
+	
+	.slider-buttons > span{
+		width: 5rem;
+		height: 0.5rem;
+	}
 }
 
 .section-separator {

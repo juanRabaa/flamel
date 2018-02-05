@@ -28,7 +28,7 @@ get_header();
 			<div class="section-content container">
 				<img src="<?php echo get_template_directory_uri(); ?>/assets/img/eagle-2.png" id="intro-image">
 				<div id="intro-text">
-					<h5>CONSULTORA ESTRATÉGICA DE DISEÑO INTEGRAL DE MARCA</h5>
+					<h6>CONSULTORA ESTRATÉGICA DE DISEÑO INTEGRAL DE MARCA</h6>
 				</div>
 			</div>
 		</section>
