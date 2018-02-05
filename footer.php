@@ -206,13 +206,14 @@ $(document).ready( function(){
 		scroll = $(window).scrollTop();
 	});		
 			
-	function Section(id, onReach, onOut){
+	function Section(id, onReach, onOut, navbarClass){
 		this.id = id;
 		this.onReach = onReach;
 		this.onOut = onOut;
 		this.offsetTop = function(){
 			return $(id).offset().top;
 		};
+		this.navbarClass = navbarClass;
 		
 		this.runIfOnPosition = function(){
 			var sectionOffsetTop = this.offsetTop() - convertRemToPixels(4.5);
@@ -220,10 +221,12 @@ $(document).ready( function(){
 			//console.log(scroll, sectionOffsetTop, sectionOffsetTop + $(this.id).outerHeight());
 			if ( scroll >= sectionOffsetTop && scroll <= ( sectionOffsetTop + $(this.id).outerHeight() ) ){
 				this.onReach();
+				this.putActiveClassOnNavbar();
 				//console.log("reached");
 			}
 			else{
 				this.onOut();
+				this.removeActiveClassFromNavbar();
 				//console.log("nope");
 			}	
 		}
@@ -240,41 +243,44 @@ $(document).ready( function(){
 			this.runIfOnPosition();		
 		}
 		
+		this.putActiveClassOnNavbar = function(){
+			if( !$navbar.hasClass(this.navbarClass) ){
+				$navbar.addClass(this.navbarClass);
+				$list = $navbar.find('li');
+				$sectionMenuItem = $list.has('a[href="'+this.id+'"]');
+				
+				if( $sectionMenuItem.length == 1 ){
+					$list.removeClass("current_page_item");
+					$list.removeClass("active");
+					$sectionMenuItem.addClass("active");
+				}
+			}
+		}
+		
+		this.removeActiveClassFromNavbar = function(){
+			if( $navbar.hasClass(this.navbarClass) ){
+				$navbar.removeClass(this.navbarClass);
+				$list = $navbar.find('li');
+				$sectionMenuItem = $list.has('a[href="'+this.id+'"]');	
+				$sectionMenuItem.removeClass("active");				
+			}
+		}
+		
 		this.onCreationSequence();
 		
 	}
 	
-	var sectionTextSlide = new Section( "#section-text-slide", function(){
-		if( !$navbar.hasClass("in-section-text-slide") )
-			$navbar.addClass("in-section-text-slide");
-	}, function(){
-		if( $navbar.hasClass("in-section-text-slide") )
-			$navbar.removeClass("in-section-text-slide");
-	});
+	var sectionTextSlide = new Section( "#section-intro", function(){}, function(){}, "in-section-intro");
 	
-	var sectionTextSlide = new Section( "#section-authors", function(){
-		if( !$navbar.hasClass("in-section-authors") )
-			$navbar.addClass("in-section-authors");
-	}, function(){
-		if( $navbar.hasClass("in-section-authors") )
-			$navbar.removeClass("in-section-authors");
-	});
+	var sectionTextSlide = new Section( "#section-text-slide", function(){}, function(){}, "in-section-text-slide");
+	
+	var sectionAuthors = new Section( "#section-authors", function(){}, function(){}, "in-section-authors");
 
-	var sectionTextSlide = new Section( "#section-process", function(){
-		if( !$navbar.hasClass("in-section-process") )
-			$navbar.addClass("in-section-process");
-	}, function(){
-		if( $navbar.hasClass("in-section-process") )
-			$navbar.removeClass("in-section-process");
-	});
+	var sectionProjects = new Section( "#section-projects", function(){}, function(){}, "in-section-projects");
+	
+	var sectionProcess = new Section( "#section-process", function(){}, function(){}, "in-section-process");
 	
 	console.log(sectionTextSlide);
-
-	
-	var sectionsMaster = {
-		sections: [sectionTextSlide],
-	}
-	
 	
 });
 </script>

@@ -16,9 +16,9 @@ get_header();
 			</div>
 			<div id="navbar-menu" class="nine columns">
 				<ul id="header-navigation-menu" class="page-navigation-list" title="Mayúsculas-Clic para editar este elemento.">
-					<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-367 current-menu-item page_item current_page_item"><a>HOLA</a></li>
-					<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-382"><a>TRABAJOS</a></li>
-					<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-446"><a>HABLEMOS</a></li>
+					<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-367 current-menu-item page_item current_page_item"><a href="#section-intro">HOLA</a></li>
+					<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-382"><a href="#section-projects">TRABAJOS</a></li>
+					<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-446"><a href="#section-authors">HABLEMOS</a></li>
 				</ul>
 			</div>
 		</div>
@@ -210,14 +210,22 @@ get_header();
 		<section id="section-authors">
 			<div class="section-content container">
 				<div class="author-box-landing">
-					<h5>SOLEDAD RIVAS</h5>
-					<h5>MANAGIN DIRECTOR</h5>
-					<h6>soledad@flamel.biz</h6>
+					<div class="author-description">
+						<h5>SOLEDAD RIVAS</h5>
+						<h5>MANAGIN DIRECTOR</h5>
+						<h6>soledad@flamel.biz</h6>
+					</div>
+					<div class="author-photo" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/img/author-1.png');">
+					</div>
 				</div>
 				<div class="author-box-landing">
-					<h5>GUSTAVO CHIOCCIONI</h5>
-					<h5>DESIGN DIRECTOR</h5>
-					<h6>gustavo@flamel.biz</h6>	
+					<div class="author-photo" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/img/author-2.png');">
+					</div>							
+					<div class="author-description">
+						<h5>GUSTAVO CHIOCCIONI</h5>
+						<h5>DESIGN DIRECTOR</h5>
+						<h6>gustavo@flamel.biz</h6>	
+					</div>			
 				</div>
 			</div>
 		</section>
