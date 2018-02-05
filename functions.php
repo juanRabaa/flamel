@@ -10,5 +10,8 @@ add_action ("wp_enqueue_scripts", "load_styles");
 
 function load_scripts() {
 	wp_enqueue_script( "jquery-3", "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js", true );
+	wp_enqueue_script( "colors-functions", get_template_directory_uri()."/js/src/color-functions.js", true );
+	wp_enqueue_script( "anime-js", get_template_directory_uri()."/js/libs/anime-master/anime.min.js", true );
+	wp_enqueue_script( "dynamics", get_template_directory_uri()."/js/libs/dynamics.min.js", true );
 }
 add_action ("wp_enqueue_scripts", "load_scripts");

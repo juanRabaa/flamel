@@ -210,12 +210,16 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
     color: #fd2a5f!important;
 }
 
-#logo-svg{
+#logo-svg > svg{
     max-height: 3rem;
     width : 3rem;
 }
 
-#logo-svg circle, #logo-svg line, #logo-svg path {
+#logo-svg > svg.desktop-logo {
+    width: 10rem;
+}
+
+#logo-svg circle, #logo-svg line, #logo-svg path, #logo-svg polygon {
     stroke: #000000;
 	transition: all 0.4s;
 }
@@ -227,20 +231,31 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 
 #navbar-logo {
     position:  relative;
+    display:  flex;
 }
 
 #navbar.in-section-text-slide #navbar-menu a, #navbar.in-section-authors #navbar-menu a, #navbar.in-section-process #navbar-menu a {
     color: #ffffff;
 }
 
-#navbar.in-section-text-slide #logo-svg circle, #navbar.in-section-text-slide #logo-svg line, #navbar.in-section-text-slide #logo-svg path,
-#navbar.in-section-authors #logo-svg circle, #navbar.in-section-authors #logo-svg line, #navbar.in-section-authors #logo-svg path,
-#navbar.in-section-process #logo-svg circle, #navbar.in-section-process #logo-svg line, #navbar.in-section-process #logo-svg path {
+#navbar.in-section-text-slide #logo-svg circle, #navbar.in-section-text-slide #logo-svg line, #navbar.in-section-text-slide #logo-svg path, 
+#navbar.in-section-text-slide #logo-svg polygon, #navbar.in-section-authors #logo-svg circle, #navbar.in-section-authors #logo-svg line, 
+#navbar.in-section-authors #logo-svg path, #navbar.in-section-authors #logo-svg polygon, #navbar.in-section-process #logo-svg circle, 
+#navbar.in-section-process #logo-svg line, #navbar.in-section-process #logo-svg path, #navbar.in-section-process #logo-svg polygon {
     stroke: #fd2a5f;
 }
 
-#navbar.in-section-text-slide #logo-svg path, #navbar.in-section-authors #logo-svg path, #navbar.in-section-process #logo-svg path  {
+#navbar.in-section-text-slide #logo-svg path, #navbar.in-section-authors #logo-svg path, #navbar.in-section-process #logo-svg path, 
+#navbar.in-section-text-slide #logo-svg polygon, #navbar.in-section-authors #logo-svg polygon, #navbar.in-section-process #logo-svg polygon {
     fill: #fd2a5f;
+}
+
+#logo-svg .mobile-logo{
+	display: block;
+}
+
+#logo-svg .desktop-logo{
+	display: none;
 }
 
 
@@ -329,6 +344,34 @@ section#section-text-slide > .section-content {
 
 .slide-content {
     margin-top: 3rem;
+}
+
+@keyframes jumpleft {
+    0%   {top: 0px;}
+    100% {top: 5000px;}
+}
+
+@keyframes jumpright {
+    0%   {top: 0px;}
+    100% {top: 5000px;}
+}
+
+.slide-content p > span {
+	position: relative;
+	display: inline-block;
+    transition: all 0.4s;
+	top: 0;
+    left: 0;
+}
+
+.slide-content p > span.blow-away{
+	animation-name: jumpleft;
+	animation-duration: 3s;
+}
+
+.slide-content p > span.blow-right{
+	animation-name: jumpright;
+	animation-duration: 3s;
 }
 
 /*Section PROCESS
@@ -558,6 +601,15 @@ section#section-text-slide > .section-content {
 	#section-tools-images > img {
 		max-height: 10rem;
 	}
+	
+	#logo-svg .mobile-logo{
+		display: none;
+	}
+
+	#logo-svg .desktop-logo{
+		display: block;
+	}
+	
 }
 
 .section-separator {
