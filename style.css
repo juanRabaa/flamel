@@ -344,6 +344,7 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 #section-text-slide {
     width: 100%;
     background-color: #000000;
+	overflow: hidden;
 }
 
 section#section-text-slide > .section-content {
@@ -377,12 +378,20 @@ section#section-text-slide > .section-content {
 }
 
 .slide-content p {
+	position: relative;
     color: #fd2a5f;
     font-size: 3rem;
     text-transform:  uppercase;
 }
 
+.slide-content p.hidden-slide {
+	position: absolute;
+	top: 0;
+    left: 100vw;
+}
+
 .slide-content {
+	position: absolute;
     margin-top: 3rem;
 }
 

@@ -189,3 +189,127 @@ input[type=radio]:checked:before {
 .customize-control select{
 	height: auto;
 }
+
+
+
+
+
+
+
+
+
+/************************************LISTS CONTROL*/
+.list-edition-button {
+	position: relative;
+	background: #ffffff;
+	color: #23282d;
+	font-weight: 600;
+	text-align: center;
+	border: solid 0.1rem #ddd;
+	padding: 0.6rem;
+	overflow: hidden;
+}
+
+.list-edition-button:hover {
+    border-color: #999;
+    color: #0073aa;
+    overflow: visible;
+}
+
+.list-edition-panel {
+    position:  fixed;
+    width: 40%;
+    height:  0;
+    background-color: #ffffff;
+    top: 0;
+    left:  0;
+    z-index:  20;
+    padding: 0rem 1rem;
+    box-sizing:  border-box;
+	overflow: auto;
+	transition: 0.4s;
+}
+
+.list-edition-panel > span {display:  block;}
+
+.list-selection {
+    text-align:  center;
+    margin-top: 1rem;
+}
+
+.list-selection > span {
+    display:  inline-block;
+    padding: 0.3rem 1rem;
+    color: #fd2a5f;
+    border: solid 0.1rem #fd2a5f;
+    transition: all 0.2s;
+}
+
+.lists-visualization {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: solid 0.1rem #fd2a5f;
+}
+
+.list-edition-panel-title {
+    color: #fd2a5f;
+}
+
+.list-selection > span:hover {
+    background-color: #fd2a5f;
+    color: #ffffff;
+}
+
+.lists-visualization p {
+    font-size: 1.6rem;
+    margin-bottom:  1rem;
+}
+
+.current-list li {
+    position: relative;
+    background: #ffffff;
+    color: #fd2a5f!important;
+    font-weight: 600;
+    text-align: center;
+    border: solid 0.1rem #fd2a5f!important;
+    cursor: move !important;
+    padding: 0.6rem;
+    overflow: hidden;
+}
+
+.current-list ul {
+    margin-left: 0;
+    cursor: move !important;
+    counter-reset: list;
+}
+
+.current-list li:hover, .current-list li.dragged {
+    color: #ffffff!important;
+    overflow: visible;
+    background-color: #fd2a5f;
+}
+
+.current-list li:before {
+    content: counter(list, decimal);
+    counter-increment: list;
+    position: absolute;
+    left: 0;
+    font-size: 6rem;
+    top: -3rem;
+    color: #fd2a5f!important;
+    font-family: sans-serif;
+}
+
+.current-list li:hover:before {
+    color: #ffff00!important;
+}
+
+.add-list-item-button {
+    color: #fd2a5f;
+    font-size: 4rem;
+    text-align: center;
+}
+
+.add-li-button-holder {
+    text-align:  center;
+}

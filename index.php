@@ -6,7 +6,7 @@
 get_header();
 ?>
 <body>
-    <div id="navbar">
+    <div data-wow-duration="1s" id="navbar" class="wow fadeInDown">
 		<div class="row">
 			<div class="three columns" id="navbar-logo">
 				<div id="logo-svg">

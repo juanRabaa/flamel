@@ -19,7 +19,9 @@
 					<span slide-id="3"></span>
 				</div>
 			</div>
-			<div class="slide-content active-slide"><p>"Nuestro diferencial esta puesto en el pensamiento estrategico anclado en el pensamiento visual"</p>
+			<div class="slide-content wow slideInRight">
+				<p class="active-slide">Nuestro diferencial esta puesto en el pensamiento estrategico anclado en el pensamiento visual"</p>
+				<p class="hidden-slide">Nuestro diferencial esta puesto en el pensamiento estrategico anclado en el pensamiento visual"</p>
 			</div>
 		</div>
 	</div>

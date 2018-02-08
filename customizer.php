@@ -48,16 +48,6 @@ function mutant_customizer_register_settings( $wp_customize ) {
 				load_logo("header-logo");
 			}    
 		),
-		
-		'section-intro' => array(
-			'id' => 'section-intro',
-			'selector' => '#section-intro',
-			'settings' => array(
-			),
-			'render_callback' => function(){
-				get_template_part( "sections/section", "intro" );
-			}
-		),
 
 		'sections-order' => array(
 			'id' => 'sections-order',
@@ -67,7 +57,27 @@ function mutant_customizer_register_settings( $wp_customize ) {
 			'render_callback' => function(){
 				load_frontpage_sections();
 			}
+		),
+
+		'section-intro' => array(
+			'id' => 'section-intro',
+			'selector' => '#section-intro',
+			'settings' => array(
+			),
+			'render_callback' => function(){
+				get_template_part( "sections/section", "intro" );
+			}
 		),	
+		
+		'section-lists' => array(
+			'id' => 'section-lists',
+			'selector' => '#section-lists',
+			'settings' => array(
+			),
+			'render_callback' => function(){
+				get_template_part( "sections/section", "lists" );
+			}
+		),		
 		
 	);	
 	
@@ -177,6 +187,42 @@ $wp_customize->add_panel( 'front_page_panel', array(
 	);
 	
 	array_push( $datos_selective_refresh ['section-intro']['settings'], 'section-intro-title', 'section-intro-image' );
+	
+/*Section lists
+*************************************************************************************************************************/	
+	
+	$wp_customize->add_section(
+		'section-lists',
+		array(
+			'title'     => __('Section lists', "flamel-genosha"),
+			'priority'  => 2,
+			'panel'  	=> 'front_page_panel',
+		)
+	); 
+	
+	$wp_customize->add_setting(
+		'section-lists-title',
+		array(
+			'transport' => 'postMessage',
+			'default'	=> "",
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_List_Generator_Control(
+			$wp_customize,
+			'section-lists-title',
+			array(
+				'label'      		=> __( 'Titulo', 'flamel-genosha' ),
+				'section'    		=> 'section-lists',
+				'settings'   		=> 'section-lists-title',
+				'type'       		=> 'text',
+				'max_num_of_lists'	=> 3,
+			)
+		)
+	);
+	
+	array_push( $datos_selective_refresh ['section-lists']['settings'], 'section-lists-title');
 	
 /*Section: Intro text
 *************************************************************************************************************************/	

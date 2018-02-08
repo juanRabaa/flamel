@@ -38,14 +38,18 @@ $(document).ready( function(){
 				return;
 			
 			var _this = this;
-			if ( index != this.currentSlide ){
-				var $slideContent = $slider.find(".slide-content > p");
+			if ( index != this.currentSlide ){//if not the current slide
+				var $slideContent = $slider.find(".slide-content > p.active-slide");
 				
 				$slider.find(".slider-buttons > span").removeClass("active-button");
 				button.addClass("active-button");
 				
-				$slideContent.stop().animate({'opacity': 0}, 400, function(){
-					$(this).html(_this.texts[index - 1]).animate({'opacity': 1}, 400);    
+				$slideContent.stop().animate({'opacity': 0, 'left' : '-100vw'}, 600, function(){
+					var $hiddenSlide = $slider.find(".slide-content > p.hidden-slide");
+					$hiddenSlide.html(_this.texts[index - 1]).animate({'opacity': 1, 'left': 0}, 600, function(){
+						$slideContent.css({'opacity': 1, 'left' : 0}).html(_this.texts[index - 1]);
+						$hiddenSlide.html("").css("left", "100vw");
+					});
 				})
 				
 				this.currentSlide = index;
@@ -283,5 +287,8 @@ $(document).ready( function(){
 	console.log(sectionTextSlide);
 	
 });
+</script>
+<script>
+new WOW().init();
 </script>
 </html>

@@ -525,6 +525,110 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 			<?php  
 		}
 	}
+	
+	
+	/**En cada cambio, se guarda el valor de la vista acutal en el input, y a la vez se actualiza el valor global (verdadero del control) para poder
+	hacer el refresh*/
+	class WP_List_Generator_Control extends WP_Extended_Control {
+		public $max_num_of_lists;
+		public $lists = [ 
+			"first_list" 	=> [ "List item 1", "List item 2"],
+			"second_list" 	=> [ "List item 1", "List item 2"],
+			"third_list" 	=> [ "List item 1", "List item 2"],
+		];
+		
+		public function __construct($manager, $id, $args = array())
+		{
+			parent::__construct($manager, $id, $args);
+
+			$this->max_num_of_lists = $args["max_num_of_lists"];
+		}
+		
+		public function get_list_ordered_json(){
+			$list_json = json_encode($this->lists);
+			return str_replace('"',"'",$list_json); 
+		}
+		
+		public function load_organize_lists_view(){
+		?>
+			<div class="lists-organization">
+				<p>Organizate lists. Right click to edit that list</p>
+				<div class="current-list">
+					<ul class="sortables-ul">
+						<li data-list-name="first-list" class="sortable-li">First list</li>
+						<li data-list-name="second-list" class="sortable-li">Second list</li>
+						<li data-list-name="third-list"class="sortable-li">Third list</li>
+						<?php echo $this->get_list_ordered_json(); ?>
+						<input type="hidden" data-value="{'first_list':['List item 1','List item 2'],'second_list':['List item 1','List item 2'],'third_list':['List item 1','List item 2']}" data-customize-setting-link="section-lists-title">
+					</ul>
+				</div>
+			</div>
+		<?php
+		}
+
+		public function load_edit_list_view(){
+		?>
+			<div class="view-list" style="display: none;">
+				<p> Editing list: "name"</p>
+				<div class="current-list">
+					<ul class="sortables-ul">
+						<li class="sortable-li" >First item</li>
+						<li class="sortable-li" >Second item</li>
+						<li class="sortable-li" >Third item</li>
+						<li class="sortable-li" >Forth item</li>
+						<li class="sortable-li" >Fifth item</li>
+						<input type="hidden" value="<?php echo $this->value(); ?>" <?php $this->link(); ?>>
+					</ul>
+				</div>
+			</div>
+		<?php
+		}
+
+		public function load_add_list_view(){
+		?>
+			<div class="add-list" style="display: none;">
+				<p> Adding list</p>
+				<input type="text" placeholder="List name">
+				<div class="current-list">
+					<ul class="sortables-ul">
+						<li class="sortable-li">First item</li>
+						<li class="sortable-li">Second item</li>
+						<input type="hidden" value="undefined,undefined,undefined,undefined,undefined" data-customize-setting-link="section-lists-title">
+					</ul>
+					<div class="add-li-button-holder">
+						<i class="add-list-item-button fa fa-plus-circle"></i>
+					</div>
+				</div>
+			</div>	
+		<?php
+		}
+		
+		public function render_content() {
+			?>
+			<label class="customize-control-list-edition">
+				<span class="customize-control-title"><?php echo $this->label; ?></span>
+				<span class="description customize-control-description"><?php echo $this->description; ?></span> 
+				<div class="list-edition-button">
+					<span>Default name</span>
+				</div>
+				<div class="list-edition-panel">
+					<h5 class="list-edition-panel-title">Lists control panel</h5>
+					<span> Number of lists: <?php echo $this->max_num_of_lists; ?></span>
+					<span> Maximum number of lists possible: 3</span>
+					<div class="list-selection"> 
+						<span> Add </span>
+						<span> Organize/select </span>
+					</div>
+					<div class="lists-visualization">
+						<?php $this->load_edit_list_view(); ?>
+						<?php $this->load_add_list_view(); ?>
+						<?php $this->load_organize_lists_view(); ?>							
+					</div>
+				</div>
+			</label>
+			<?php  
+		}
+	}
 
 	
 	//Loads a box with as many inputs as settings passed
