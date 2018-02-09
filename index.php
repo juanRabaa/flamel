@@ -14,7 +14,7 @@ get_header();
 				</div>
 			</div>
 			<div id="navbar-menu" class="nine columns">
-				<ul id="header-navigation-menu" class="page-navigation-list" title="Mayúsculas-Clic para editar este elemento.">
+				<ul id="header-navigation-menu" class="page-navigation-list">
 					<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-367 current-menu-item page_item current_page_item"><a href="#section-intro">HOLA</a></li>
 					<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-382"><a href="#section-projects">TRABAJOS</a></li>
 					<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-446"><a href="#section-authors">HABLEMOS</a></li>

@@ -8,7 +8,7 @@
 ?>
 <section id="section-lists">
 	<div class="section-content container">
-		<div class="list-container" id="landing-list-1">
+		<div data-wow-duration="1s" data-wow-delay="0" class="list-container wow fadeInDown" id="landing-list-1">
 			<h6 class="list-title">STRATEGY</h6>
 			<ul>
 				<li>BRANDING</li>
@@ -22,7 +22,7 @@
 				<li>CONTENT</li>
 			</ul>
 		</div>
-		<div class="list-container" id="landing-list-2">
+		<div data-wow-duration="1s" data-wow-delay="0.5s" class="list-container wow fadeInDown" id="landing-list-2">
 			<h6 class="list-title">DESIGN</h6>
 			<ul>
 				<li>PACKAGING</li>

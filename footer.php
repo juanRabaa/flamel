@@ -38,24 +38,56 @@ $(document).ready( function(){
 				return;
 			
 			var _this = this;
-			if ( index != this.currentSlide ){//if not the current slide
-				var $slideContent = $slider.find(".slide-content > p.active-slide");
-				
+			if ( index != this.currentSlide ){//if not the current slide				
 				$slider.find(".slider-buttons > span").removeClass("active-button");
 				button.addClass("active-button");
 				
-				$slideContent.stop().animate({'opacity': 0, 'left' : '-100vw'}, 600, function(){
-					var $hiddenSlide = $slider.find(".slide-content > p.hidden-slide");
-					$hiddenSlide.html(_this.texts[index - 1]).animate({'opacity': 1, 'left': 0}, 600, function(){
-						$slideContent.css({'opacity': 1, 'left' : 0}).html(_this.texts[index - 1]);
-						$hiddenSlide.html("").css("left", "100vw");
-					});
-				})
+				this.fadeTransition(index);
 				
 				this.currentSlide = index;
 			}
 			console.log(_this.currentSlide);
 		}
+		
+		this.fadeTransition = function( index ){
+			var _this = this;
+			var $slider = this.$slider;
+			var $slideContent = $slider.find(".slide-content > p.active-slide");
+			
+			$slider.addClass("animation-running");
+			
+			var $hiddenSlide = $slider.find(".slide-content > p.hidden-slide");
+			if( index > this.currentSlide ){//if the slide comes next to the current
+				$slideContent.stop().animate({'opacity': 0, 'left' : '-100vw'}, 600, function(){
+					$hiddenSlide.css("left", "100vw");
+					$hiddenSlide.html(_this.texts[index - 1]).stop().animate({'opacity': 1, 'left': 0}, 600, function(){
+						$slideContent.css({'opacity': 1, 'left' : 0}).html(_this.texts[index - 1]);
+						$hiddenSlide.html("").css({'opacity': 0, 'left' : "100vw"});
+						$slider.removeClass("animation-running");
+					});
+				})
+			}
+			else{//if it is a previous slide
+				$slideContent.stop().animate({'opacity': 0, 'left' : '100vw'}, 600, function(){
+					$hiddenSlide.css("left", "-100vw");
+					$hiddenSlide.html(_this.texts[index - 1]).stop().animate({'opacity': 1, 'left': 0}, 600, function(){
+						$slideContent.css({'opacity': 1, 'left' : 0}).html(_this.texts[index - 1]);
+						$hiddenSlide.html("").css({'opacity': 0, 'left' : "-100vw"});
+						$slider.removeClass("animation-running");
+					});
+				})
+			}
+		}		
+
+		this.slideTransition = function( index ){
+			var _this = this;
+			var $slider = this.$slider;
+			var $slideContent = $slider.find(".slide-content > p.active-slide");
+			
+			$slideContent.stop().animate({'opacity': 0}, 400, function(){
+				$(this).html(_this.texts[index - 1]).animate({'opacity': 1}, 400);    
+			})
+		}	
 		
 		this.activateChangeOverTimer = function( time ){
 			this.clearInterval();
@@ -76,7 +108,7 @@ $(document).ready( function(){
 				var slideButtonID = $(this).attr("slide-id");
 				var $slider = _this.$slider;
 				
-				if ( _this.markupIsWrong() )
+				if ( _this.markupIsWrong() || $slider.hasClass("animation-running") )
 					return;
 				
 				_this.changeSlideText(slideButtonID);
@@ -166,7 +198,7 @@ $(document).ready( function(){
 	"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec enim tellus.", "Vulputate sit amet lobortis a, ultricies eu ante. Vestibulum tempor tincidunt molestie"]);
 
 	landingTextSlider.activateChangeOnClick();
-	landingTextSlider.activateChangeOverTimer(6000);
+	landingTextSlider.activateChangeOverTimer(4000);
 	
 	console.log(landingTextSlider);
 	

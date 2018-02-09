@@ -25,10 +25,5 @@
 			</div>
 		</div>
 	</div>
-	<div class="section-separator" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/img/water.png');">
-		<div class="separator-link">
-			<p>Arte utilizado para el proyecto de Boca Juniors</p>
-			<i class="fa fa-angle-right"></i>
-		</div>
-	</div>
+	<?php get_template_part( "sections/content", "separator" ); ?>
 </section>

@@ -10,16 +10,12 @@
 	<div class="section-content container">
 		<h5 id="section-tools-title">HERRAMIENTAS</h5>
 		<div id="section-tools-images">
-			<img src="<?php echo get_template_directory_uri(); ?>/assets/img/tool1.png"/>
-			<img src="<?php echo get_template_directory_uri(); ?>/assets/img/tool2.png"/>
-			<img src="<?php echo get_template_directory_uri(); ?>/assets/img/tool3.png"/>
-			<img src="<?php echo get_template_directory_uri(); ?>/assets/img/tool4.png"/>
+			<div><img data-wow-duration="1.5s" data-wow-delay="0s" class="wow fadeInUp" src="<?php echo get_template_directory_uri(); ?>/assets/img/tool1.png"/></div>
+			<div><img data-wow-duration="1.5s" data-wow-delay="0.3s" class="wow fadeInUp" src="<?php echo get_template_directory_uri(); ?>/assets/img/tool2.png"/></div>
+			<div><img data-wow-duration="1.5s" data-wow-delay="0.6s" class="wow fadeInUp" src="<?php echo get_template_directory_uri(); ?>/assets/img/tool3.png"/></div>
+			<div><img data-wow-duration="1.5s" data-wow-delay="0.9s" class="wow fadeInUp" src="<?php echo get_template_directory_uri(); ?>/assets/img/tool4.png"/></div>
+			<div><img data-wow-duration="1.5s" data-wow-delay="1.2s" class="wow fadeInUp" src="<?php echo get_template_directory_uri(); ?>/assets/img/tool5.png"/></div>
 		</div>
 	</div>
-	<div class="section-separator" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/img/water.png');">
-		<div class="separator-link">
-			<p>Arte utilizado para el proyecto de Boca Juniors</p>
-			<i class="fa fa-angle-right"></i>
-		</div>
-	</div>
+	<?php get_template_part( "sections/content", "separator" ); ?>
 </section>
