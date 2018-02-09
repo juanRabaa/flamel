@@ -192,22 +192,8 @@ $(document).ready( function(){
 		}
 		
 	}
-	
-	
-	var landingTextSlider = new TextSlider("#text-slider-landing", ["Nuestro diferencial esta puesto en el pensamiento estrategico anclado en el pensamiento visual",
-	"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec enim tellus.", "Vulputate sit amet lobortis a, ultricies eu ante. Vestibulum tempor tincidunt molestie"]);
 
-	landingTextSlider.activateChangeOnClick();
-	landingTextSlider.activateChangeOverTimer(4000);
-	
-	console.log(landingTextSlider);
-	
-});
 
-</script>
-<script>
-
-$(document).ready( function(){
 	/*Smooth scroll*/
 	$(document).on('click', 'a[href^="#"]', function (event) {
 		event.preventDefault();
@@ -224,11 +210,10 @@ $(document).ready( function(){
 			scrollTop: $("#main-sections > section:nth-child("+sectionNumber+")").offset().top
 		}, 500);		
 	}
-});
-</script>
-<script>
-
-$(document).ready( function(){
+	
+	
+	/*SECTIONS JAVASCRIPT*/
+	/*********************************************************************************************/
 
 	function convertRemToPixels(rem) {    
 		return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
@@ -242,10 +227,11 @@ $(document).ready( function(){
 		scroll = $(window).scrollTop();
 	});		
 			
-	function Section(id, onReach, onOut, navbarClass){
+	function Section(id, onReach, onOut, onClose, navbarClass){
 		this.id = id;
 		this.onReach = onReach;
 		this.onOut = onOut;
+		this.onClose = onClose;
 		this.offsetTop = function(){
 			return $(id).offset().top;
 		};
@@ -264,13 +250,21 @@ $(document).ready( function(){
 				this.onOut();
 				this.removeActiveClassFromNavbar();
 				//console.log("nope");
-			}	
+			}
+		}
+		
+		this.runIfClose = function(){
+			var sectionOffsetTop = this.offsetTop() - $(window).width() / 2;
+			
+			if ( scroll >= sectionOffsetTop && scroll <= ( sectionOffsetTop + $(this.id).outerHeight() ) )
+				this.onClose();
 		}
 		
 		this.reachCheck = function(){
 			var _this = this;
 			$(window).scroll(function (event) {
 				_this.runIfOnPosition();
+				_this.runIfClose();
 			})
 		};
 		
@@ -306,18 +300,43 @@ $(document).ready( function(){
 		
 	}
 	
-	var sectionTextSlide = new Section( "#section-intro", function(){}, function(){}, "in-section-intro");
+	var sectionIntro = new Section( "#section-intro", function(){}, function(){}, function(){}, "in-section-intro");
 	
-	var sectionTextSlide = new Section( "#section-text-slide", function(){}, function(){}, "in-section-text-slide");
-	
-	var sectionAuthors = new Section( "#section-authors", function(){}, function(){}, "in-section-authors");
+	var sectionTextSlide = new Section( "#section-text-slide", function(){}, function(){}, function(){
+		if ( !$("#section-text-slide").hasClass("activated-once") ){
+			var landingTextSlider = new TextSlider("#text-slider-landing", ["Nuestro diferencial esta puesto en el pensamiento estrategico anclado en el pensamiento visual",
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec enim tellus.", "Vulputate sit amet lobortis a, ultricies eu ante. Vestibulum tempor tincidunt molestie"]);
 
-	var sectionProjects = new Section( "#section-projects", function(){}, function(){}, "in-section-projects");
+			landingTextSlider.activateChangeOnClick();
+			//landingTextSlider.changeSlideText(2);
+			landingTextSlider.activateChangeOverTimer(4000);
+			
+			console.log(landingTextSlider);	
+
+			$("#section-text-slide").addClass("activated-once");
+		}	
+	},"in-section-text-slide");
 	
-	var sectionProcess = new Section( "#section-process", function(){}, function(){}, "in-section-process");
+	var sectionAuthors = new Section( "#section-authors", function(){}, function(){}, function(){},"in-section-authors");
+
+	var sectionProjects = new Section( "#section-projects", function(){}, function(){}, function(){},"in-section-projects");
+	
+	var sectionProcess = new Section( "#section-process", function(){}, function(){}, function(){},"in-section-process");
 	
 	console.log(sectionTextSlide);
 	
+});
+</script>
+<script>
+/*Accordion*/
+$(document).ready( function(){
+	$(document).on("click", ".process-title", function(){
+		var $parentProcess = $(this).parent(".process");
+		if ( !$parentProcess.hasClass("open") )
+			$parentProcess.addClass("open");
+		else
+			$parentProcess.removeClass("open");
+	});
 });
 </script>
 <script>

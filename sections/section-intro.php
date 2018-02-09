@@ -8,9 +8,12 @@
 ?>
 <section id="section-intro">
 	<div class="section-content container">
-		<img data-wow-delay="1s" data-wow-duration="1s" class="wow bounceInUp" src="<?php echo get_theme_mod("section-intro-image")?>" id="intro-image">
+		<div data-wow-delay="1s" data-wow-duration="1s"  class="intro-images-container wow bounceInUp">
+			<img class="intro-image-mobile" src="<?php echo get_theme_mod("section-intro-image")?>" >
+			<img class="intro-image-desktop" src="<?php echo get_theme_mod("section-intro-image-desktop")?>">
+		</div>
 		<div data-wow-delay="2s" data-wow-duration="1s" class="wow fadeInUp" id="intro-text">
-			<h6><?php echo get_theme_mod("section-intro-title",__("Welcome to my website", "flamel-genosha")); ?></h6>
+			<p><?php echo get_theme_mod("section-intro-title",__("Welcome to my website", "flamel-genosha")); ?></p>
 		</div>
 	</div>
 </section>

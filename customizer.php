@@ -185,8 +185,27 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			)
 		)
 	);
+
+	$wp_customize->add_setting(
+		'section-intro-image-desktop',
+		array(
+			'transport' => 'postMessage',
+		)
+	);
 	
-	array_push( $datos_selective_refresh ['section-intro']['settings'], 'section-intro-title', 'section-intro-image' );
+	$wp_customize->add_control(
+		new WP_Customize_Image_Control(
+			$wp_customize,
+			'section-intro-image-desktop',
+			array(
+				'label'     	 	=> __( 'Imagen en desktop', 'flamel-genosha' ),
+				'section'   	 	=> 'section-intro',
+				'settings'   		=> 'section-intro-image-desktop',
+			)
+		)
+	);
+	
+	array_push( $datos_selective_refresh ['section-intro']['settings'], 'section-intro-title', 'section-intro-image', 'section-intro-image-desktop' );
 	
 /*Section lists
 *************************************************************************************************************************/	
