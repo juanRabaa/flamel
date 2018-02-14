@@ -8,29 +8,22 @@
 ?>
 <section id="section-lists">
 	<div class="section-content container">
-		<div data-wow-duration="1s" data-wow-delay="0" class="list-container wow fadeInDown" id="landing-list-1">
-			<h6 class="list-title">STRATEGY</h6>
-			<ul>
-				<li>BRANDING</li>
-				<li>NAMING ID</li>
-				<li>INSIGHTS AND DATA</li>
-				<li>RESEARCH</li>
-				<li>BRAND</li>
-				<li>BUSINESS STRATEGY</li>
-				<li>DIGITAL INSIGHT</li>
-				<li>CONCEPT DEVELOPMENT</li>
-				<li>CONTENT</li>
-			</ul>
-		</div>
-		<div data-wow-duration="1s" data-wow-delay="0.5s" class="list-container wow fadeInDown" id="landing-list-2">
-			<h6 class="list-title">DESIGN</h6>
-			<ul>
-				<li>PACKAGING</li>
-				<li>VISUALS</li>
-				<li>ILLUSTRATION</li>
-				<li>UX</li>
-				<li>DIGITAL CRAFT</li>				
-			</ul>
-		</div>			
+		<?php
+		$lists = json_decode ( get_theme_mod('section-lists-title'), true );
+		$delay = 0;
+		foreach( $lists as $list_id => $list ):
+			$list_name = $list["name"];
+			$list_items = $list["items"];
+			?>
+			<div data-wow-duration="1s" data-wow-delay="<?php echo $delay; ?>s" class="list-container wow fadeInDown" id="<?php echo $list_id ?>">
+				<h6 class="list-title"><?php echo $list_name ?></h6>
+				<ul>
+				<?php foreach( $list_items as $item ): ?>
+					<li><?php echo $item ?></li>
+				<?php endforeach; ?>
+				</ul>
+			</div>
+			<?php $delay += 0.5; ?>
+		<?php endforeach; ?>
 	</div>
 </section>

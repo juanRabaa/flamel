@@ -232,7 +232,8 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			$wp_customize,
 			'section-lists-title',
 			array(
-				'label'      		=> __( 'Titulo', 'flamel-genosha' ),
+				'label'      		=> __( 'Edición de listas', 'flamel-genosha' ),
+				'button_content'	=> 'Edit your lists :)',
 				'section'    		=> 'section-lists',
 				'settings'   		=> 'section-lists-title',
 				'type'       		=> 'text',
@@ -240,7 +241,7 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			)
 		)
 	);
-	
+
 	array_push( $datos_selective_refresh ['section-lists']['settings'], 'section-lists-title');
 	
 /*Section: Intro text

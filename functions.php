@@ -4,7 +4,7 @@ function load_styles() {
 	wp_enqueue_style( "TradeGothicforNike365-BdCn", get_template_directory_uri()."/css/fonts/TradeGothicforNike365-BdCn.ttf", array() );
 	wp_enqueue_style( "normalize-skeleton-css", get_template_directory_uri()."/css/libs/Skeleton-2.0.4/css/normalize.css", array() );	
 	wp_enqueue_style( "skeleton-css", get_template_directory_uri()."/css/libs/Skeleton-2.0.4/css/skeleton.css", array() );
-	wp_enqueue_style( "font-awesome-css", get_template_directory_uri()."/css/libs/font-awesome-4.7.0/css/font-awesome.min.css", array() );
+	wp_enqueue_style( "font-awesome-css", get_template_directory_uri()."/css/libs/fontawesome-free-5.0.6/web-fonts-with-css/css/fontawesome-all.min.css", array() );
 	wp_enqueue_style( "animate-css", get_template_directory_uri()."/css/libs/animate.css", array() );
 }
 add_action ("wp_enqueue_scripts", "load_styles");
@@ -20,7 +20,7 @@ add_action ("wp_enqueue_scripts", "load_scripts");
 
 function load_styles_customizer() {	
 	wp_enqueue_style( "skeleton-css", get_template_directory_uri()."/css/libs/Skeleton-2.0.4/css/skeleton.css", array() );
-	wp_enqueue_style( "font-awesome-css", get_template_directory_uri()."/css/libs/font-awesome-4.7.0/css/font-awesome.min.css", array() );		
+	wp_enqueue_style( "font-awesome-css", get_template_directory_uri()."/css/libs/fontawesome-free-5.0.6/web-fonts-with-css/css/fontawesome-all.min.css", array() );		
 	wp_enqueue_style( "customizer-css", get_template_directory_uri()."/css/src/customizer.css" );
 	wp_enqueue_style( "customizer-image-selection-control", get_template_directory_uri()."/css/src/customizer-image-selection-control.css" );
 	wp_enqueue_style( "customizer-color-scheme-control", get_template_directory_uri()."/css/src/customizer-color-scheme-control.css" );
@@ -33,6 +33,8 @@ function load_script_customizer() {
 		wp_enqueue_script( 'wp-editor-customizer', get_template_directory_uri() . '/js/src/customizer-panel.js', array( 'jquery' ), rand(), true );
 		wp_enqueue_script( "customizer-image-selection-control", get_template_directory_uri()."/js/src/customizer-image-selection-control.js", array("jquery"), true );
 		wp_enqueue_script( "customizer-sortable-list-control", get_template_directory_uri()."/js/src/customizer-sortable-list-control.js", array("jquery"), true );
+		wp_enqueue_script( "customizer-lists-generator", get_template_directory_uri()."/js/src/customizer-lists-generator.js", array("jquery"), true );
+		wp_enqueue_script( "jquery-ui", "https://code.jquery.com/ui/1.10.3/jquery-ui.js", array("jquery"), true );
 }
 add_action( 'customize_controls_enqueue_scripts', 'load_script_customizer' );
 

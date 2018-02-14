@@ -531,6 +531,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 	hacer el refresh*/
 	class WP_List_Generator_Control extends WP_Extended_Control {
 		public $max_num_of_lists;
+		public $button_content;
 		public $lists = [ 
 			"first_list" 	=> [ "List item 1", "List item 2"],
 			"second_list" 	=> [ "List item 1", "List item 2"],
@@ -542,11 +543,54 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 			parent::__construct($manager, $id, $args);
 
 			$this->max_num_of_lists = $args["max_num_of_lists"];
+			$this->button_content = $args["button_content"];
 		}
 		
 		public function get_list_ordered_json(){
 			$list_json = json_encode($this->lists);
 			return str_replace('"',"'",$list_json); 
+		}
+		
+		public function sanitized_value(){
+			return str_replace('"',"'",$this->setting->value());
+		}
+		
+		public function decoded_value(){
+			return json_decode ( $this->setting->value(), true );
+		}
+		
+		public function the_lists(){
+			$lists = $this->decoded_value();
+			$index = 0;
+			
+			foreach ( $lists as $list){
+				$list_name = $list["name"];
+				$list_items = $list["items"];
+				?>
+				<li 
+				data-list-name="<?php echo $list_name; ?>"  
+				data-list-id="list_<?php echo $index; ?>" 
+				data-list-items="<?php echo $this->stringify_items_array( $list_items ); ?>"
+				class="sortable-li"
+				>
+					<span class="list-name"><?php echo $list_name; ?></span><i class="far fa-trash-alt delete-list" title="Delete List"></i>
+				</li>
+				<?php
+				$index++;
+			}
+		}
+		
+		public function stringify_items_array( $items_array ){
+			$array_length = count($items_array);
+			$string = "";
+
+			foreach ( $items_array as $index=>$item ){
+				$string .= $item;
+				if ( $index < ($array_length - 1) )
+					$string .= ',';
+			}
+			
+			return $string;
 		}
 		
 		public function load_organize_lists_view(){
@@ -555,12 +599,26 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 				<p>Organizate lists. Right click to edit that list</p>
 				<div class="current-list">
 					<ul class="sortables-ul">
-						<li data-list-name="first-list" class="sortable-li">First list</li>
-						<li data-list-name="second-list" class="sortable-li">Second list</li>
-						<li data-list-name="third-list"class="sortable-li">Third list</li>
-						<?php echo $this->get_list_ordered_json(); ?>
-						<input type="hidden" data-value="{'first_list':['List item 1','List item 2'],'second_list':['List item 1','List item 2'],'third_list':['List item 1','List item 2']}" data-customize-setting-link="section-lists-title">
+						<!--
+						<li data-list-name="First List"  data-list-id="list_1" data-list-items="BRANDING,NAMING ID,INSIGHTS AND DATA" class="sortable-li">
+							<span class="list-name">First list</span><i class="far fa-trash-alt delete-list" title="Delete List"></i>
+						</li>
+						<li data-list-name="Second List"  data-list-id="list_2" data-list-items="li1" class="sortable-li">
+							<span class="list-name">Second list</span><i class="far fa-trash-alt delete-list" title="Delete List"></i>
+						</li>
+						<li data-list-name="Third List"  data-list-id="list_3" data-list-items="li1,li2" class="sortable-li">
+							<span class="list-name">Third list</span><i class="far fa-trash-alt delete-list" title="Delete List"></i>
+						</li>
+						-->
+						<?php
+							if ( !empty($this->value()) )
+								$this->the_lists();
+						?>						
+						<input type="hidden" value="<?php echo $this->sanitized_value(); ?>" data-value="{'first_list':[],'second_list':[],'third_list':[]}" <?php $this->link(); ?>>
 					</ul>
+				</div>
+				<div class="add-list">
+					<i class="fas fa-plus-square" title="Add list"></i>
 				</div>
 			</div>
 		<?php
@@ -568,38 +626,22 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 
 		public function load_edit_list_view(){
 		?>
-			<div class="view-list" style="display: none;">
-				<p> Editing list: "name"</p>
+			<div data-list-id="" class="view-list" style="display: none;">
+				<p> Editing list: "<span class="the-list-name">name</span>" <i class="fas fa-pencil-alt edit-name"></i></p>
+				<span> Right click to edit item content </span>
 				<div class="current-list">
 					<ul class="sortables-ul">
 						<li class="sortable-li" >First item</li>
 						<li class="sortable-li" >Second item</li>
 						<li class="sortable-li" >Third item</li>
 						<li class="sortable-li" >Forth item</li>
-						<li class="sortable-li" >Fifth item</li>
-						<input type="hidden" value="<?php echo $this->value(); ?>" <?php $this->link(); ?>>
+						<li class="sortable-li" >Fifth item</li>				
 					</ul>
+				</div>
+				<div class="add-list-item">
+					<i class="fas fa-plus-square" title="Add list item"></i>
 				</div>
 			</div>
-		<?php
-		}
-
-		public function load_add_list_view(){
-		?>
-			<div class="add-list" style="display: none;">
-				<p> Adding list</p>
-				<input type="text" placeholder="List name">
-				<div class="current-list">
-					<ul class="sortables-ul">
-						<li class="sortable-li">First item</li>
-						<li class="sortable-li">Second item</li>
-						<input type="hidden" value="undefined,undefined,undefined,undefined,undefined" data-customize-setting-link="section-lists-title">
-					</ul>
-					<div class="add-li-button-holder">
-						<i class="add-list-item-button fa fa-plus-circle"></i>
-					</div>
-				</div>
-			</div>	
 		<?php
 		}
 		
@@ -609,20 +651,30 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 				<span class="customize-control-title"><?php echo $this->label; ?></span>
 				<span class="description customize-control-description"><?php echo $this->description; ?></span> 
 				<div class="list-edition-button">
-					<span>Default name</span>
-				</div>
+					<span><?php echo $this->button_content; ?></span>
+				</div>				
 				<div class="list-edition-panel">
-					<h5 class="list-edition-panel-title">Lists control panel</h5>
+					<div class="panel-overlay"></div>
+					<div class="lists-panel-title-container">
+						<i class="fas fa-chevron-circle-left close-lists-panel-button"></i>
+						<h5 class="list-edition-panel-title">Lists control panel</h5>
+					</div>
 					<span> Number of lists: <?php echo $this->max_num_of_lists; ?></span>
 					<span> Maximum number of lists possible: 3</span>
 					<div class="list-selection"> 
-						<span> Add </span>
-						<span> Organize/select </span>
+						<span class="organize-button active" > Organize/select list</span>
 					</div>
 					<div class="lists-visualization">
 						<?php $this->load_edit_list_view(); ?>
-						<?php $this->load_add_list_view(); ?>
-						<?php $this->load_organize_lists_view(); ?>							
+						<?php $this->load_organize_lists_view(); ?>
+						<div class="insert-item-content ui-draggable">
+							<h6> Editing list item </h6>
+							<textarea class="item-edition-field"></textarea>
+							<div class="item-edition-buttons awaiting-edition">
+								<i class="far fa-save save-changes-button" title="Save changes"></i>
+								<i class="far fa-trash-alt discard-changes-button" title="Discard changes"></i>
+							</div>
+						</div>
 					</div>
 				</div>
 			</label>

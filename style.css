@@ -456,6 +456,8 @@ section#section-text-slide > .section-content {
 .process-name {
     color: #ffffff;
     margin-left: 1rem;
+    /* text-overflow:  ellipsis; */
+    /* overflow:  hidden; */
 }
 
 .process-number {
@@ -500,6 +502,8 @@ section#section-text-slide > .section-content {
 .process-title {
     cursor: pointer;
     user-select: none;
+    display:  flex;
+    align-items:  center;
 }
 
 .open-process-button {

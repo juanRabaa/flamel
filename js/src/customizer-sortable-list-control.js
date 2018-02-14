@@ -24,8 +24,7 @@
 					_super($item, container);
 					$item.parents( ".sortables-ul" ).find( 'input[type="hidden"]' ).val( getNewSortableListOrder($item.parents( ".sortables-ul" )) ).trigger( 'change' );
 				}
-			});
-			//console.log($(".sortables-ul"));
+			});		
 		}, 1)
 	})
 

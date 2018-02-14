@@ -201,7 +201,7 @@
       top: pointer.top - offset.top + 10,
       left: pointer.left - elementWidth/2
     };
-	console.log($(element.context).offset(), relPos);
+	//console.log($(element.context).offset(), relPos);
 	return relPos;
 	/*ORIGINAL
     *var offset = element.offset()
