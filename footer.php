@@ -170,8 +170,7 @@ $(document).ready( function(){
 			  }
 			});
 		}
-		
-		
+			
 		this.changeLetterColors = function( _color ){
 			this.convertLettersToSpans();
 			var time = 0;
@@ -191,9 +190,30 @@ $(document).ready( function(){
 			});
 		}
 		
+		this.createButtons = function(){
+			var $sliderButtonsContainer = this.$slider.find(".slider-buttons");
+			console.log($sliderButtonsContainer);
+			$sliderButtonsContainer.html("");
+			var counter = 1;
+
+			this.texts.forEach(function(){
+				console.log(counter);
+				var elemClass = '';
+				if ( counter == 1)
+					elemClass = 'class="active-button"';
+				
+				$sliderButtonsContainer.append('<span slide-id="'+ counter +'" '+ elemClass +'></span>');
+				counter++;
+				
+			})
+		}
+		
+		this.createButtons();
+		this.$slider.find(".slide-content > p.active-slide").text(this.texts[0]);
 	}
 
 
+			
 	/*Smooth scroll*/
 	$(document).on('click', 'a[href^="#"]', function (event) {
 		event.preventDefault();
@@ -269,8 +289,7 @@ $(document).ready( function(){
 		};
 		
 		this.onCreationSequence = function(){
-			this.reachCheck();
-			this.runIfOnPosition();		
+			this.reachCheck();	
 		}
 		
 		this.putActiveClassOnNavbar = function(){
@@ -304,8 +323,8 @@ $(document).ready( function(){
 	
 	var sectionTextSlide = new Section( "#section-text-slide", function(){}, function(){}, function(){
 		if ( !$("#section-text-slide").hasClass("activated-once") ){
-			var landingTextSlider = new TextSlider("#text-slider-landing", ["Nuestro diferencial esta puesto en el pensamiento estrategico anclado en el pensamiento visual",
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec enim tellus.", "Vulputate sit amet lobortis a, ultricies eu ante. Vestibulum tempor tincidunt molestie"]);
+			var texts = <?php echo get_theme_mod('section-text-slide-content'); ?>;
+			var landingTextSlider = new TextSlider("#text-slider-landing", $.map(texts, function(el) { return el }));
 
 			landingTextSlider.activateChangeOnClick();
 			//landingTextSlider.changeSlideText(2);

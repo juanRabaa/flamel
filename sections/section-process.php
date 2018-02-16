@@ -117,11 +117,15 @@
 							</div>
 						</div>
 					</div>
-					<div class="process-arrow"></div>
+					<div class="process-arrow">
+						<div class="fixed-hidder"></div>					
+					</div>
 				</div>
 				<div class="process">
 					<div class="process-arrow">
-						<div></div>
+						<div class="arrow-left">
+							<div class="fixed-hidder"></div>
+						</div>
 					</div>
 					<div class="process-content">
 						<div class="process-title">
@@ -161,7 +165,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="process-arrow"></div>
+					<div class="process-arrow">
+						<div class="fixed-hidder"></div>	
+					</div>
 				</div>
 				<div class="process">
 					<div class="process-arrow"></div>

@@ -19,14 +19,18 @@
 	$(document).ready(function(){
 		setTimeout(function(){
 			$(".customize-control-sortable-list .sortables-ul").sortable({
-				onDrop: function($item, container, _super) {
+				update: function(event, ui) {
 					//$item.find('ol.dropdown-menu').sortable('enable');
-					_super($item, container);
+					var $item = ui.item;
 					$item.parents( ".sortables-ul" ).find( 'input[type="hidden"]' ).val( getNewSortableListOrder($item.parents( ".sortables-ul" )) ).trigger( 'change' );
 				}
-			});		
+			});
+			$(".textarea-generator-sorstable-ul").sortable({
+				update: function(event, ui) {
+					var $item = ui.item;
+					console.log("drop");
+				}
+			});				
 		}, 1)
 	})
-
-
 } )( jQuery );

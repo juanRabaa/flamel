@@ -68,6 +68,16 @@ function mutant_customizer_register_settings( $wp_customize ) {
 				get_template_part( "sections/section", "intro" );
 			}
 		),	
+
+		'section-text-slide' => array(
+			'id' => 'section-text-slide',
+			'selector' => '#section-text-slide',
+			'settings' => array(
+			),
+			'render_callback' => function(){
+				get_template_part( "sections/section", "text-slide" );
+			}
+		),	
 		
 		'section-lists' => array(
 			'id' => 'section-lists',
@@ -207,6 +217,61 @@ $wp_customize->add_panel( 'front_page_panel', array(
 	
 	array_push( $datos_selective_refresh ['section-intro']['settings'], 'section-intro-title', 'section-intro-image', 'section-intro-image-desktop' );
 	
+/*Section text slider
+*************************************************************************************************************************/	
+	
+	$wp_customize->add_section(
+		'section-text-slide',
+		array(
+			'title'     => __('Section text slider', "flamel-genosha"),
+			'priority'  => 2,
+			'panel'  	=> 'front_page_panel',
+		)
+	); 
+	
+	$wp_customize->add_setting(
+		'section-text-slide-title',
+		array(
+			'transport' => 'postMessage',
+			'default'	=> "",
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Extended_Control(
+			$wp_customize,
+			'section-text-slide-title',
+			array(
+				'label'      => __( 'Titulo', 'flamel-genosha' ),
+				'section'    => 'section-text-slide',
+				'settings'   => 'section-text-slide-title',
+				'type'       => 'text',
+			)
+		)
+	);
+
+	$wp_customize->add_setting(
+		'section-text-slide-content',
+		array(
+			'default'	=> "",
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Textarea_Generator_Control(
+			$wp_customize,
+			'section-text-slide-content',
+			array(
+				'label'      => __( 'Textos', 'flamel-genosha' ),
+				'section'    => 'section-text-slide',
+				'settings'   => 'section-text-slide-content',
+				'type'       => 'text',
+			)
+		)
+	);
+	
+	array_push( $datos_selective_refresh ['section-text-slide']['settings'], 'section-text-slide-title' );
+	
 /*Section lists
 *************************************************************************************************************************/	
 	
@@ -220,7 +285,7 @@ $wp_customize->add_panel( 'front_page_panel', array(
 	); 
 	
 	$wp_customize->add_setting(
-		'section-lists-title',
+		'section-lists-generator',
 		array(
 			'transport' => 'postMessage',
 			'default'	=> "",
@@ -230,19 +295,19 @@ $wp_customize->add_panel( 'front_page_panel', array(
 	$wp_customize->add_control(
 		new WP_List_Generator_Control(
 			$wp_customize,
-			'section-lists-title',
+			'section-lists-generator',
 			array(
 				'label'      		=> __( 'Edición de listas', 'flamel-genosha' ),
 				'button_content'	=> 'Edit your lists :)',
 				'section'    		=> 'section-lists',
-				'settings'   		=> 'section-lists-title',
+				'settings'   		=> 'section-lists-generator',
 				'type'       		=> 'text',
 				'max_num_of_lists'	=> 3,
 			)
 		)
 	);
 
-	array_push( $datos_selective_refresh ['section-lists']['settings'], 'section-lists-title');
+	array_push( $datos_selective_refresh ['section-lists']['settings'], 'section-lists-generator');
 	
 /*Section: Intro text
 *************************************************************************************************************************/	

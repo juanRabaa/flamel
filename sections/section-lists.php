@@ -9,7 +9,7 @@
 <section id="section-lists">
 	<div class="section-content container">
 		<?php
-		$lists = json_decode ( get_theme_mod('section-lists-title'), true );
+		$lists = json_decode ( get_theme_mod('section-lists-generator'), true );
 		$delay = 0;
 		foreach( $lists as $list_id => $list ):
 			$list_name = $list["name"];

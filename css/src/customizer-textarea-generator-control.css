@@ -1,0 +1,171 @@
+.collapsible-body {
+    display:  none;
+    background-color: #fd2a5f;
+    padding: 1rem 0.7rem;
+}
+
+.textarea-generator-input {
+    width: 100%;
+    margin-bottom: 0!important;
+}
+
+.textarea-generator-sortable-ul {
+    margin-left: 0;
+}
+
+.customize-control-textarea-generator {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: solid 0.1rem #adadad;
+    cursor: default;
+}
+
+.textarea-generator-sortable-ul .customize-control-title {
+    overflow:  hidden;
+    text-overflow:  ellipsis;
+    white-space:  nowrap;
+    max-width: 71%;
+    font-size: 1rem;
+    user-select: none;
+    left: 2rem;
+    position: relative;
+}
+
+.title-holder .customize-control-arrow {
+    width:  15%;
+    text-align:  center;
+}
+
+.add-new-text {
+    text-align:  center;
+}
+
+.add-new-text i:hover {
+    color: #fd2a5f;
+}
+
+.add-new-text i {
+    transition: all 0.4s;
+    font-size: 4rem;
+    cursor:  pointer;
+}
+
+.collapsible-title {
+    transition: all 0.4s;
+    display: block;
+    background: #ffffff;
+    border: solid 1px #bbbbbb;
+    padding: 0.5rem;
+    cursor: pointer;
+    position: relative;
+    height: 3.6rem;
+    box-sizing:  border-box;
+    overflow:  hidden;
+    border-left: 0;
+}
+
+.collapsible-title .collapsible-arrow:hover {
+    color: #fd2a5f;
+}
+
+.collapsible-title i {
+    transition:  all 0.4s;
+}
+
+.collapsible-title .delete-item:hover {
+    color: #a80606;
+}
+
+.collapsible-title .delete-item:hover ~ i {
+    color: #555d66;
+}
+
+.collapsible-title:hover .collapsible-arrow {
+    color: #fd2a5f;
+}
+
+.collapsible-title:hover .customize-control-title {
+    color: #fd2a5f;
+}
+
+.collapsible-title.customize-control-title {
+    transition: all 0.4s;
+}
+
+.draggable-ball-space {
+    height: 3.4rem;
+    width: 3.4rem;
+    position: absolute;
+    left: -1.9rem;
+    top: -0.1rem;
+    background: #eeeeee;
+    border: solid 0.1rem #bbbbbb;
+    border-left: 0;
+    border-radius: 100%;
+    display:  flex;
+    align-items:  center;
+    justify-content: center;
+}
+
+.draggable-ball {
+    display:  block;
+    width: 1.7rem;
+    height: 1.7rem;
+    background-color: #555d66;
+    border-radius: 50%;
+    position: absolute;
+    left: 0rem;
+    top: 0.9rem;
+    cursor: move;
+    transition:  all 0.4s;
+    z-index:  2;
+}
+
+.draggable-ball:hover {
+    background-color: #fd2a5f;
+    box-shadow: 0px 0px 2px 0px #fd2a5f;
+}
+
+.textarea-generator-sortable-ul li {
+    position:  relative;
+    padding-left: 0.8rem;
+}
+
+.collapsible-body-controls .delete-item {
+    font-size:  2.5rem;
+    color: #ffffff;
+    transition:  all 0.4s;
+    cursor:  pointer;
+}
+
+.collapsible-body-controls {
+    text-align:  right;
+    margin-top: 1rem;
+}
+
+.collapsible-body-controls .delete-item:hover {
+    color: #ffa300;
+}
+
+.textarea-generator-sortable-ul .ui-sortable-placeholder {
+
+    height: 3.6rem!important;
+    box-sizing: border-box;
+    border-style: none!important;
+    overflow: hidden;
+}
+
+.textarea-generator-sortable-ul .ui-sortable-placeholder:before {
+    content: "";
+    display: block;
+    width: 1.7rem;
+    height: 1.7rem;
+    background-color: #fd2a5f;
+    border-radius: 50%;
+    position: absolute;
+    left: 0rem;
+    top: 0.9rem;
+    cursor: move;
+    transition: all 0.4s;
+    z-index: 2;
+}

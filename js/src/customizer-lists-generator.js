@@ -24,8 +24,8 @@
 			});
 			
 			$(".list-edition-panel .lists-organization .sortables-ul").sortable({
-				onDrop: function($item, container, _super) {
-					_super($item, container);
+				update: function(event, ui) {
+					var $item = ui.item;
 					var $parentListOrg =  $item.parents(".list-edition-panel").find('.lists-organization');
 					var input = $parentListOrg.find('input[type="hidden"]');
 
@@ -35,8 +35,8 @@
 			});	
 
 			$(".list-edition-panel .view-list .sortables-ul").sortable({
-				onDrop: function($item, container, _super) {
-					_super($item, container);
+				update: function(event, ui) {
+					var $item = ui.item;
 					updateList($item.parents(".list-edition-panel"));
 				}
 			});	
@@ -91,10 +91,11 @@
 				editListName($(this).closest(".list-edition-panel"));
 			})
 
-			$(document).on( "click", ".list-edition-panel .delete-list-item", function(event){
+			$(document).on( "click", ".view-list li .delete-list-item", function(event){
 				removeListItem( $(this).closest("li") );
+				console.log("remove");
 			})				
-		}, 1);
+		}, 10);
 	})
 
 	function editListName( $listEditionPanel ){
@@ -123,6 +124,7 @@
 
 	function removeListItem( $listItem ){
 		var $listEditionPanels = $listItem.closest(".list-edition-panel");
+		console.log($listItem);
 		$listItem.remove();
 		updateList($listEditionPanels);
 	}
@@ -178,7 +180,7 @@
 	
 	function updateList($listEditionPanels){
 		var newValue = "";
-		console.log($listEditionPanels);
+		//console.log($listEditionPanels);
 		var $listItems = $listEditionPanels.find(".view-list li");
 		$listItems.each(function( index ){
 			newValue += $(this).find(".list-item-name").text();
@@ -186,7 +188,7 @@
 				newValue += ','; 
 		});
 		
-		console.log(newValue);
+		//console.log(newValue);
 		updateListValue($listEditionPanels, $(".view-list").attr("data-list-id"), newValue);
 	}
 	
@@ -228,7 +230,7 @@
 		input.attr("data-value", jsonString);
 		input.val(jsonString);
 		input.trigger( 'change' );
-		console.log(newOrganization);
+		//console.log(newOrganization);
 	}
 	
 	function createListView( $viewList, $list ){		

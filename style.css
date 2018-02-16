@@ -584,6 +584,10 @@ section#section-text-slide > .section-content {
     margin-left: 2rem;
     border-bottom: 0;
     position: relative;
+    overflow:  hidden;
+    position:  relative;
+    -webkit-clip-path: inset(0 -1px 0 0);
+    clip-path: inset(0 -1px 0 0);
 }
 
 .process-desktop .process:last-child .process-items-container {
@@ -596,6 +600,9 @@ section#section-text-slide > .section-content {
     border: 0;
     height: 30rem;
     top: -0.5rem;
+    overflow:  visible;
+    -webkit-clip-path: none;
+    clip-path:  none;
 }
 
 .process-desktop .process:nth-child(odd) {
@@ -609,15 +616,27 @@ section#section-text-slide > .section-content {
     top: 0rem;
 }
 
-.process-desktop .process-arrow:nth-child(odd) > div {
+.process-desktop .process-arrow:nth-child(odd) > .arrow-left {
     margin-left: 0;
     margin-right: 2rem;
     border: solid 0.1rem #686868;
     border-right: 0;
+    border-bottom-width: 0.2rem;
     height: 37.4rem;
     width: 3rem;
+    overflow: hidden;
+    -webkit-clip-path: inset(0 -1px 0 0);
+    clip-path: inset(0 0 0 0);
 }
 
+.fixed-hidder {
+    height: 77%;
+    width: 100%;
+    left: -0.1rem;
+    position: fixed;
+    bottom: -15rem;
+    background-color: black;
+}
 /*Section TOOLS
 /*************************************************************************************************/
 #section-tools > .section-content {

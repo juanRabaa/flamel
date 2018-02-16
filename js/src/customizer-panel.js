@@ -75,22 +75,24 @@
 
             $(window).load(function(){
 				$(document).on("click",".title-holder", function(){
-					var settings = $(this).siblings(".input-container-control");
-					var arrow = $(this).children(".customize-control-arrow");
-					if ( !settings.hasClass("animating") ){
-						settings.addClass("animating");
+					var $settings = $(this).siblings(".input-container-control");
+					if (!$settings.length)
+						$settings = $(this).siblings(".collapsible-body");
+					var $arrow = $(this).children(".customize-control-arrow i:not(.delete-item)");
+					if ( !$settings.hasClass("animating") ){
+						$settings.addClass("animating");
 						
-						if ( settings.css("display") == "none" ){
-							settings.slideDown();
-							arrow.css('transform','rotate(180deg)');
+						if ( $settings.css("display") == "none" ){
+							$settings.slideDown();
+							$arrow.css('transform','rotate(180deg)');
 						}
 						else{
-							settings.slideUp();
-							arrow.removeClass('rotate');
-							arrow.css('transform','rotate(0deg)');
+							$settings.slideUp();
+							$arrow.removeClass('rotate');
+							$arrow.css('transform','rotate(0deg)');
 						}
 						
-						settings.removeClass("animating");
+						$settings.removeClass("animating");
 					}
 				});
             });

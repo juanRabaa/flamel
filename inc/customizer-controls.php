@@ -525,10 +525,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 			<?php  
 		}
 	}
-	
-	
-	/**En cada cambio, se guarda el valor de la vista acutal en el input, y a la vez se actualiza el valor global (verdadero del control) para poder
-	hacer el refresh*/
+		
 	class WP_List_Generator_Control extends WP_Extended_Control {
 		public $max_num_of_lists;
 		public $button_content;
@@ -627,7 +624,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 		public function load_edit_list_view(){
 		?>
 			<div data-list-id="" class="view-list" style="display: none;">
-				<p> Editing list: "<span class="the-list-name">name</span>" <i class="fas fa-pencil-alt edit-name"></i></p>
+				<p> Editing list: <span class="the-list-name">name</span><i class="fas fa-pencil-alt edit-name"></i></p>
 				<span> Right click to edit item content </span>
 				<div class="current-list">
 					<ul class="sortables-ul">
@@ -662,7 +659,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 					<span> Number of lists: <?php echo $this->max_num_of_lists; ?></span>
 					<span> Maximum number of lists possible: 3</span>
 					<div class="list-selection"> 
-						<span class="organize-button active" > Organize/select list</span>
+						<span class="organize-button active">Organize/select list</span>
 					</div>
 					<div class="lists-visualization">
 						<?php $this->load_edit_list_view(); ?>
@@ -682,6 +679,57 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 		}
 	}
 
+	class WP_Textarea_Generator_Control extends WP_Extended_Control {
+		
+		public function get_items(){
+			return json_decode ( $this->setting->value(), true );
+		}
+		
+		public function print_item( $item_name ){
+			?>
+			<li class="sortable-li">
+				<span class="draggable-ball"></span>
+				<div class="collapsible-title">
+					<div class="draggable-ball-space"></div>
+					<span class="customize-control-arrow">
+						<i class="fas fa-angle-down collapsible-arrow" aria-hidden="true"></i>
+					</span>
+					<span class="customize-control-title"><?php echo $item_name; ?></span><div class="customize-control-notifications-container" style="display: none;"><ul></ul></div> 
+				</div>
+				<div class="collapsible-body">
+					<textarea class="textarea-generator-input"><?php echo $item_name; ?></textarea>
+					<div class="collapsible-body-controls">
+						<i class="fas fa-trash-alt delete-item"></i>
+					</div>
+				</div>					
+			</li>		
+			<?php
+		}
+		
+		public function print_all_items(){
+			$items = $this->get_items();
+			foreach( $items as $item ){
+				$this->print_item($item);
+			}
+		}
+		
+		
+		public function render_content() {
+			?>
+			<label class="customize-control-textarea-generator">
+				<span class="customize-control-title"><?php echo $this->label; ?></span>
+				<span class="description customize-control-description"><?php echo $this->description; ?></span> 
+				<ul class="textarea-generator-sortable-ul">
+					<?php $this->print_all_items(); ?>			
+				</ul>
+				<div class="add-new-text">
+					<i class="fas fa-plus"></i>
+				</div>
+				<input type="hidden" value="" <?php $this->link(); ?>>
+			</label>
+			<?php  
+		}
+	}
 	
 	//Loads a box with as many inputs as settings passed
 	class WP_Social_Icons_Control extends WP_Extended_Control {
