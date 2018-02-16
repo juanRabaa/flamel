@@ -88,7 +88,16 @@ function mutant_customizer_register_settings( $wp_customize ) {
 				get_template_part( "sections/section", "lists" );
 			}
 		),		
-		
+
+		'section-tools' => array(
+			'id' => 'section-tools',
+			'selector' => '#section-tools',
+			'settings' => array(
+			),
+			'render_callback' => function(){
+				get_template_part( "sections/section", "tools" );
+			}
+		),			
 	);	
 	
 /*Sections panel
@@ -308,6 +317,39 @@ $wp_customize->add_panel( 'front_page_panel', array(
 	);
 
 	array_push( $datos_selective_refresh ['section-lists']['settings'], 'section-lists-generator');
+
+/*Section tools
+*************************************************************************************************************************/	
+	
+	$wp_customize->add_section(
+		'section-tools',
+		array(
+			'title'     => __('Section tools', "flamel-genosha"),
+			'priority'  => 2,
+			'panel'  	=> 'front_page_panel',
+		)
+	); 
+
+    $wp_customize->add_setting( 
+		'section-tools-images', 
+		array(
+			'transport' => 'postMessage',
+			'default' => array(),
+			'sanitize_callback' => 'wp_parse_id_list',
+		)
+	);
+    $wp_customize->add_control( new CustomizeImageGalleryControl\Control(
+        $wp_customize,
+        'section-tools-images',
+        array(
+            'label'    => __( 'Image Gallery Field Label' ),
+            'section'  => 'section-tools',
+            'settings' => 'section-tools-images',
+            'type'     => 'image_gallery',
+        )
+    ) );
+	
+	array_push( $datos_selective_refresh ['section-tools']['settings'],  'section-tools-images');
 	
 /*Section: Intro text
 *************************************************************************************************************************/	

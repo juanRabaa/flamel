@@ -323,7 +323,7 @@ $(document).ready( function(){
 	
 	var sectionTextSlide = new Section( "#section-text-slide", function(){}, function(){}, function(){
 		if ( !$("#section-text-slide").hasClass("activated-once") ){
-			var texts = <?php echo get_theme_mod('section-text-slide-content'); ?>;
+			var texts = <?php echo get_theme_mod('section-text-slide-content', []); ?>;
 			var landingTextSlider = new TextSlider("#text-slider-landing", $.map(texts, function(el) { return el }));
 
 			landingTextSlider.activateChangeOnClick();
@@ -360,5 +360,48 @@ $(document).ready( function(){
 </script>
 <script>
 new WOW().init();
+</script>
+<script>
+$(document).ready( function(){
+	function InvisibleMarker($marker){
+		this.invisibleMarker = $marker;
+		this.distance = 400;
+		this.offsetTop = function(){
+			return this.invisibleMarker.offset().top - this.distance;
+		};
+		this.offsetBottom = function(){
+			return this.invisibleMarker.offset().top + this.invisibleMarker.height() - this.distance;
+		};
+		this.size = function(){
+			return this.offsetBottom() - this.offsetTop();
+		};
+		this.percentage = function(){
+			var scroll = $(window).scrollTop() - this.offsetTop();
+			return scroll * 100/ this.size();
+		};
+		this.setNewHeight = function(){
+			var percentage = this.percentage();
+			if ( percentage > -50 && percentage < 120 ){
+				var height = this.invisibleMarker.height();
+				var reduceHeightBy = height * this.percentage() / 100;
+				this.invisibleMarker.find('div').height( height - reduceHeightBy );
+				console.log(this.percentage());
+			}		
+		};
+		this.start = function(){
+			var _this = this;
+			//console.log(this);
+			$(window).on("scroll", function(){
+				_this.setNewHeight();
+			});
+			_this.setNewHeight();		
+		}
+	}
+
+	$("#section-process .fixed-hidder").each(function(){
+		var invmarker = new InvisibleMarker($(this));
+		invmarker.start();
+	})
+});
 </script>
 </html>

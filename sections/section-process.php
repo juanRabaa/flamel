@@ -118,13 +118,15 @@
 						</div>
 					</div>
 					<div class="process-arrow">
-						<div class="fixed-hidder"></div>					
+						<div class="arrow"></div>
+						<div class="fixed-hidder"><div></div></div>					
 					</div>
 				</div>
 				<div class="process">
 					<div class="process-arrow">
-						<div class="arrow-left">
-							<div class="fixed-hidder"></div>
+						<div class="even-arrow-container">
+							<div class="arrow-left"></div>
+							<div class="fixed-hidder"><div></div></div>
 						</div>
 					</div>
 					<div class="process-content">
@@ -166,7 +168,8 @@
 						</div>
 					</div>
 					<div class="process-arrow">
-						<div class="fixed-hidder"></div>	
+						<div class="arrow"></div>
+						<div class="fixed-hidder"><div></div></div>				
 					</div>
 				</div>
 				<div class="process">

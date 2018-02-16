@@ -574,20 +574,11 @@ section#section-text-slide > .section-content {
 
 .process-desktop .process-arrow {
     height: 29rem;
-    border: solid 0.1rem;
-    border-color: #686868;
-    display:  inline-block;
-    width: 3rem;
-    max-width: 20%;
-    border-left: 0;
+    overflow:  hidden;
+    max-width:  20%;
+    position:  relative;
     margin-top: 7.5rem;
     margin-left: 2rem;
-    border-bottom: 0;
-    position: relative;
-    overflow:  hidden;
-    position:  relative;
-    -webkit-clip-path: inset(0 -1px 0 0);
-    clip-path: inset(0 -1px 0 0);
 }
 
 .process-desktop .process:last-child .process-items-container {
@@ -614,14 +605,14 @@ section#section-text-slide > .section-content {
 .process-desktop .process:nth-child(even) .process-content {
     position:  relative;
     top: 0rem;
+    left: -2.2rem;
 }
 
-.process-desktop .process-arrow:nth-child(odd) > .arrow-left {
+.process-desktop .process-arrow:nth-child(odd) .arrow-left {
     margin-left: 0;
     margin-right: 2rem;
     border: solid 0.1rem #686868;
     border-right: 0;
-    border-bottom-width: 0.2rem;
     height: 37.4rem;
     width: 3rem;
     overflow: hidden;
@@ -630,12 +621,39 @@ section#section-text-slide > .section-content {
 }
 
 .fixed-hidder {
-    height: 77%;
+    height: 38rem;
     width: 100%;
-    left: -0.1rem;
-    position: fixed;
-    bottom: -15rem;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+.fixed-hidder div {
     background-color: black;
+    height:  100%;
+    width:  100%;
+    position: absolute;
+    bottom:  0;
+}
+
+.process-arrow .arrow {
+    border: solid 0.1rem;
+    border-color: #686868;
+    display: inline-block;
+    width: 3rem;
+    height: 100%;
+    border-left: 0;
+    border-bottom: 0;
+    position: relative;
+    overflow: hidden;
+    position: relative;
+    -webkit-clip-path: inset(0 -1px 0 0);
+    clip-path: inset(0 -1px 0 0);
+}
+
+.even-arrow-container {
+    overflow:  hidden;
+    position:  relative;
 }
 /*Section TOOLS
 /*************************************************************************************************/
