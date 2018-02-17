@@ -5,8 +5,13 @@
 *
 *
 */
+$show_section = get_theme_mod('section-tools-show', true);
+$visibility_class = "";
+if ( !$show_section )
+	$visibility_class = "display-none-section";
 ?>
-<section id="section-tools">
+<section id="section-tools" class="<?php echo $visibility_class; ?>">
+	<?php if ($show_section): ?>
 	<div class="section-content container">
 		<?php
 			$images_id = get_theme_mod('section-tools-images', []); 
@@ -26,4 +31,5 @@
 		</div>
 	</div>
 	<?php get_template_part( "sections/content", "separator" ); ?>
+	<?php endif; ?>
 </section>

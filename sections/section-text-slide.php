@@ -5,8 +5,13 @@
 *
 *
 */
+$show_section = get_theme_mod('section-text-slide-show', true);
+$visibility_class = "";
+if ( !$show_section )
+	$visibility_class = "display-none-section";
 ?>
-<section id="section-text-slide">
+<section id="section-text-slide" class="<?php echo $visibility_class; ?>">
+	<?php if ($show_section): ?>
 	<div class="section-content container">
 		<div class="text-slider" id="text-slider-landing">
 			<div class="slider-header row">
@@ -36,4 +41,5 @@
 		</div>
 	</div>
 	<?php get_template_part( "sections/content", "separator" ); ?>
+	<?php endif; ?>
 </section>

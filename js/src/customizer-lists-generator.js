@@ -176,12 +176,14 @@
 		$editionContainer.attr("data-list-item-index", $listItemsAll.index( $listItem ) + 1);
 		$editionContainer.find("textarea").val( $listItemContent );
 		$editionContainer.find("textarea").addClass("awaiting-edition");
+		$editionContainer.find("textarea").focus();
 	}
 	
 	function updateList($listEditionPanels){
 		var newValue = "";
 		//console.log($listEditionPanels);
-		var $listItems = $listEditionPanels.find(".view-list li");
+		var $viewList = $listEditionPanels.find(".view-list");
+		var $listItems = $viewList.find("li");		
 		$listItems.each(function( index ){
 			newValue += $(this).find(".list-item-name").text();
 			if ( index < $listItems.length - 1 )
@@ -189,7 +191,7 @@
 		});
 		
 		//console.log(newValue);
-		updateListValue($listEditionPanels, $(".view-list").attr("data-list-id"), newValue);
+		updateListValue($listEditionPanels, $viewList.attr("data-list-id"), newValue);
 	}
 	
 	function updateListValue($listEditionPanels, listID, value){

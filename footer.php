@@ -16,8 +16,7 @@ $(document).ready( function(){
 		this.$slider = $(_id);
 		this.texts = _texts;
 		this.timeInterval = null;
-		this.time = 400;
-		
+
 		this.markupIsWrong = function(){
 			if( this.$slider.length == 0 ){
 				console.log("ERROR, the slider doesnt exist");
@@ -46,7 +45,7 @@ $(document).ready( function(){
 				
 				this.currentSlide = index;
 			}
-			console.log(_this.currentSlide);
+			//console.log(_this.currentSlide);
 		}
 		
 		this.fadeTransition = function( index ){
@@ -99,7 +98,7 @@ $(document).ready( function(){
 					_this.changeSlideText(parseInt(_this.currentSlide) + 1);
 			}, time);
 			_this.time = time;
-			console.log(_this.timeInterval);
+			//console.log(_this.timeInterval);
 		}
 		
 		this.activateChangeOnClick = function(){
@@ -192,12 +191,12 @@ $(document).ready( function(){
 		
 		this.createButtons = function(){
 			var $sliderButtonsContainer = this.$slider.find(".slider-buttons");
-			console.log($sliderButtonsContainer);
+			//console.log($sliderButtonsContainer);
 			$sliderButtonsContainer.html("");
 			var counter = 1;
 
 			this.texts.forEach(function(){
-				console.log(counter);
+				//console.log(counter);
 				var elemClass = '';
 				if ( counter == 1)
 					elemClass = 'class="active-button"';
@@ -328,7 +327,7 @@ $(document).ready( function(){
 
 			landingTextSlider.activateChangeOnClick();
 			//landingTextSlider.changeSlideText(2);
-			landingTextSlider.activateChangeOverTimer(4000);
+			landingTextSlider.activateChangeOverTimer(<?php echo intval( get_theme_mod('section-text-slide-duration', 4000) ); ?>);
 			
 			console.log(landingTextSlider);	
 
@@ -385,7 +384,7 @@ $(document).ready( function(){
 				var height = this.invisibleMarker.height();
 				var reduceHeightBy = height * this.percentage() / 100;
 				this.invisibleMarker.find('div').height( height - reduceHeightBy );
-				console.log(this.percentage());
+				//console.log(this.percentage());
 			}		
 		};
 		this.start = function(){

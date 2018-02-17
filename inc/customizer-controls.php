@@ -133,7 +133,19 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 
 	class WP_Extended_Control extends WP_Customize_Control {
 		public $li_classes = "";
+		public $dependents_controls = "";
 
+		public function __construct($manager, $id, $args = array())
+		{
+			parent::__construct($manager, $id, $args);
+			
+			$this->dependents_controls = $args["dependents_controls"];
+		}
+		
+		protected function input_id(){
+			return '_customize-input-' . $this->id;
+		}
+		
 		protected function render() {
 			$id    = 'customize-control-' . str_replace( array( '[', ']' ), array( '-', '' ), $this->id );
 			$class = 'customize-control customize-control-' . $this->type . " " . $this->li_classes;
@@ -141,42 +153,28 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 			?><li id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( $class ); ?>">
 				<?php $this->render_content(); ?>
 			</li><?php
+			
+			if( $this->type == "checkbox" && !empty($this->dependents_controls) ):
+				?>
+				<script>
+				$(document).ready(function(){
+					$("#<?php echo $this->input_id(); ?>").on("change", function(){
+						var dependentsControls = "<?php echo $this->dependents_controls; ?>".split(',');
+						var checkbox = this;
+						dependentsControls.forEach(function(control){
+							if(checkbox.checked)
+								wp.customize.control( control ).container.stop().slideDown();
+							else
+								wp.customize.control( control ).container.stop().slideUp();							
+						});
+					});
+				});
+				</script>
+				<?php
+			endif;
 		}
 	}
 	
-	/*TO BE DEPRECATED
-	*Use WP_Taxonomy_Dropdown_Control, with type => 'category' 
-	*/
-	class WP_Customize_Category_Control extends WP_Extended_Control {
-		public $show_option_none = '&mdash; Select &mdash;';
-		/**
-		 * Render the control's content.
-		 *
-		 * @since 3.4.0
-		 */
-		public function render_content() {
-			 
-			$dropdown = wp_dropdown_categories(
-				array(
-					'name'              => '_customize-dropdown-categories-' . $this->id,
-					'echo'              => 0,
-					'show_option_none'  => __( $this->show_option_none ),
-					'option_none_value' => '0',
-					'selected'          => $this->value(),
-				)
-			);
- 
-			// Hackily add in the data link parameter.
-			$dropdown = str_replace( '<select', '<select ' . $this->get_link(), $dropdown );
- 
-			printf(
-				'<label class="customize-control-select"><span class="customize-control-title">%s</span> %s</label>',
-				$this->label,
-				$dropdown
-			);
-		}
-	}
-		
 	class WP_Taxonomy_Dropdown_Control extends WP_Extended_Control {
 		public $show_option_none = '&mdash; Select &mdash;';
 		/**
@@ -264,6 +262,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 					<ul>
 						<li>"pages"</li>
 						<li>"categories"</li>
+						<li>"tags"</li>
 						<li>"posts"</li>
 					</ul>
 				</label>

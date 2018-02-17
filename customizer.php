@@ -89,6 +89,16 @@ function mutant_customizer_register_settings( $wp_customize ) {
 			}
 		),		
 
+		'section-process' => array(
+			'id' => 'section-process',
+			'selector' => '#section-process',
+			'settings' => array(
+			),
+			'render_callback' => function(){
+				get_template_part( "sections/section", "process" );
+			}
+		),	
+		
 		'section-tools' => array(
 			'id' => 'section-tools',
 			'selector' => '#section-tools',
@@ -96,6 +106,16 @@ function mutant_customizer_register_settings( $wp_customize ) {
 			),
 			'render_callback' => function(){
 				get_template_part( "sections/section", "tools" );
+			}
+		),
+
+		'section-projects' => array(
+			'id' => 'section-projects',
+			'selector' => '#section-projects',
+			'settings' => array(
+			),
+			'render_callback' => function(){
+				get_template_part( "sections/section", "projects" );
 			}
 		),			
 	);	
@@ -106,8 +126,8 @@ $wp_customize->add_panel( 'front_page_panel', array(
 	'priority'       => 3,
 	'capability'     => 'edit_theme_options',
 	'theme_supports' => '',
-	'title'          => __('Front page', 'entity-power-design'),
-	'description'    => __('Front page settings', 'entity-power-design'),
+	'title'          => __('Front page', 'flamel-genosha'),
+	'description'    => __('Front page settings', 'flamel-genosha'),
 ) );
 
 /*Sections order
@@ -134,7 +154,7 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			$wp_customize,
 			'sections-order',			
 			array(
-				'label'          	=> __( 'Sections order', 'entity-power-design' ),
+				'label'          	=> __( 'Sections order', 'flamel-genosha' ),
 				'section'        	=> 'sections-order',
 				'settings'       	=> 'sections-order',
 				'items'  		 	=> array(
@@ -164,7 +184,29 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			'panel'  	=> 'front_page_panel',
 		)
 	); 
-	
+
+	$wp_customize->add_setting(
+		'section-intro-show',
+		array(
+			'transport' => 'postMessage',
+			'default'	=> true,
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Extended_Control(
+			$wp_customize,
+			'section-intro-show',
+			array(
+				'label'      			=> __( 'Show section', 'flamel-genosha' ),
+				'section'    			=> 'section-intro',
+				'settings'   			=> 'section-intro-show',
+				'type'       			=> 'checkbox',
+				'dependents_controls'	=> 'section-intro-title,section-intro-image,section-intro-image-desktop',
+			)
+		)
+	);
+		
 	$wp_customize->add_setting(
 		'section-intro-title',
 		array(
@@ -224,7 +266,7 @@ $wp_customize->add_panel( 'front_page_panel', array(
 		)
 	);
 	
-	array_push( $datos_selective_refresh ['section-intro']['settings'], 'section-intro-title', 'section-intro-image', 'section-intro-image-desktop' );
+	array_push( $datos_selective_refresh ['section-intro']['settings'], 'section-intro-show', 'section-intro-title', 'section-intro-image', 'section-intro-image-desktop' );
 	
 /*Section text slider
 *************************************************************************************************************************/	
@@ -237,6 +279,52 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			'panel'  	=> 'front_page_panel',
 		)
 	); 
+
+	$wp_customize->add_setting(
+		'section-text-slide-show',
+		array(
+			'transport' => 'postMessage',
+			'default'	=> true,
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Extended_Control(
+			$wp_customize,
+			'section-text-slide-show',
+			array(
+				'label'      			=> __( 'Show section', 'flamel-genosha' ),
+				'section'    			=> 'section-text-slide',
+				'settings'   			=> 'section-text-slide-show',
+				'type'       			=> 'checkbox',
+				'dependents_controls'	=> 'section-text-slide-duration,section-text-slide-title,section-text-slide-content',
+			)
+		)
+	);
+
+	$wp_customize->add_setting(
+		'section-text-slide-duration',
+		array(
+			//'transport' => 'postMessage',
+			'default'	=> 4000,
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Extended_Control(
+			$wp_customize,
+			'section-text-slide-duration',
+			array(
+				'label'      => __( 'Duration', 'flamel-genosha' ),
+				'section'    => 'section-text-slide',
+				'settings'   => 'section-text-slide-duration',
+				'type'       => 'number',
+				'input_attrs' 	 => array(
+					'min'   	 => 4000,
+				),				
+			)
+		)
+	);
 	
 	$wp_customize->add_setting(
 		'section-text-slide-title',
@@ -279,7 +367,7 @@ $wp_customize->add_panel( 'front_page_panel', array(
 		)
 	);
 	
-	array_push( $datos_selective_refresh ['section-text-slide']['settings'], 'section-text-slide-title' );
+	array_push( $datos_selective_refresh ['section-text-slide']['settings'], 'section-text-slide-title', 'section-text-slide-duration', 'section-text-slide-show' );
 	
 /*Section lists
 *************************************************************************************************************************/	
@@ -292,6 +380,28 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			'panel'  	=> 'front_page_panel',
 		)
 	); 
+
+	$wp_customize->add_setting(
+		'section-lists-show',
+		array(
+			'transport' => 'postMessage',
+			'default'	=> true,
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Extended_Control(
+			$wp_customize,
+			'section-lists-show',
+			array(
+				'label'      			=> __( 'Show section', 'flamel-genosha' ),
+				'section'    			=> 'section-lists',
+				'settings'   			=> 'section-lists-show',
+				'type'       			=> 'checkbox',
+				'dependents_controls'	=> 'section-lists-generator',				
+			)
+		)
+	);
 	
 	$wp_customize->add_setting(
 		'section-lists-generator',
@@ -316,40 +426,230 @@ $wp_customize->add_panel( 'front_page_panel', array(
 		)
 	);
 
-	array_push( $datos_selective_refresh ['section-lists']['settings'], 'section-lists-generator');
+	array_push( $datos_selective_refresh ['section-lists']['settings'], 'section-lists-show', 'section-lists-generator');
 
-/*Section tools
+/*Section process
 *************************************************************************************************************************/	
 	
 	$wp_customize->add_section(
-		'section-tools',
+		'section-process',
 		array(
-			'title'     => __('Section tools', "flamel-genosha"),
+			'title'     => __('Section process', "flamel-genosha"),
 			'priority'  => 2,
 			'panel'  	=> 'front_page_panel',
 		)
 	); 
 
-    $wp_customize->add_setting( 
-		'section-tools-images', 
+	$wp_customize->add_setting(
+		'section-process-show',
 		array(
 			'transport' => 'postMessage',
-			'default' => array(),
-			'sanitize_callback' => 'wp_parse_id_list',
+			'default'	=> true,
 		)
 	);
-    $wp_customize->add_control( new CustomizeImageGalleryControl\Control(
-        $wp_customize,
-        'section-tools-images',
-        array(
-            'label'    => __( 'Image Gallery Field Label' ),
-            'section'  => 'section-tools',
-            'settings' => 'section-tools-images',
-            'type'     => 'image_gallery',
-        )
-    ) );
+
+	$wp_customize->add_control(
+		new WP_Extended_Control(
+			$wp_customize,
+			'section-process-show',
+			array(
+				'label'      			=> __( 'Show section', 'flamel-genosha' ),
+				'section'    			=> 'section-process',
+				'settings'   			=> 'section-process-show',
+				'type'       			=> 'checkbox',
+				'dependents_controls'	=> 'section-process-title,section-process-generator',	
+			)
+		)
+	);
 	
-	array_push( $datos_selective_refresh ['section-tools']['settings'],  'section-tools-images');
+	$wp_customize->add_setting(
+		'section-process-title',
+		array(
+			//'transport' => 'postMessage',
+			'default'	=> "",
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Extended_Control(
+			$wp_customize,
+			'section-process-title',
+			array(
+				'label'      => __( 'Titulo', 'flamel-genosha' ),
+				'section'    => 'section-process',
+				'settings'   => 'section-process-title',
+				'type'       => 'text',
+			)
+		)
+	);
+	
+	$wp_customize->add_setting(
+		'section-process-generator',
+		array(
+			//'transport' => 'postMessage',
+			'default'	=> "",
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_List_Generator_Control(
+			$wp_customize,
+			'section-process-generator',
+			array(
+				'label'      		=> __( 'Edición de procesos', 'flamel-genosha' ),
+				'button_content'	=> __( 'Edit the process', 'flamel-genosha' ),
+				'section'    		=> 'section-process',
+				'settings'   		=> 'section-process-generator',
+				'type'       		=> 'text',
+				'max_num_of_lists'	=> 3,
+			)
+		)
+	);
+
+	array_push( $datos_selective_refresh ['section-process']['settings'], 'section-process-show', 'section-process-generator', 'section-process-title');
+
+	
+/*Section tools
+*************************************************************************************************************************/	
+	if ( class_exists("CustomizeImageGalleryControl\Control")){
+			
+		$wp_customize->add_section(
+			'section-tools',
+			array(
+				'title'     => __('Section tools', "flamel-genosha"),
+				'priority'  => 2,
+				'panel'  	=> 'front_page_panel',
+			)
+		); 
+
+		$wp_customize->add_setting(
+			'section-tools-show',
+			array(
+				'transport' => 'postMessage',
+				'default'	=> true,
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Extended_Control(
+				$wp_customize,
+				'section-tools-show',
+				array(
+					'label'      			=> __( 'Show section', 'flamel-genosha' ),
+					'section'    			=> 'section-tools',
+					'settings'   			=> 'section-tools-show',
+					'type'       			=> 'checkbox',
+					'dependents_controls'	=> 'section-tools-images',
+				)
+			)
+		);
+	
+		$wp_customize->add_setting( 
+			'section-tools-images', 
+			array(
+				'transport' => 'postMessage',
+				'default' => array(),
+				'sanitize_callback' => 'wp_parse_id_list',
+			)
+		);
+		
+		$wp_customize->add_control( new CustomizeImageGalleryControl\Control(
+			$wp_customize,
+			'section-tools-images',
+			array(
+				'label'    => __( 'Image Gallery Field Label' ),
+				'section'  => 'section-tools',
+				'settings' => 'section-tools-images',
+				'type'     => 'image_gallery',
+			)
+		) );
+		
+		array_push( $datos_selective_refresh ['section-tools']['settings'],  'section-tools-show', 'section-tools-images');
+	
+	}
+
+/*Section projects
+*************************************************************************************************************************/	
+	
+	$wp_customize->add_section(
+		'section-projects',
+		array(
+			'title'     => __('Section projects', "flamel-genosha"),
+			'priority'  => 2,
+			'panel'  	=> 'front_page_panel',
+		)
+	); 
+
+	$wp_customize->add_setting(
+		'section-projects-show',
+		array(
+			'transport' => 'postMessage',
+			'default'	=> true,
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Extended_Control(
+			$wp_customize,
+			'section-projects-show',
+			array(
+				'label'      			=> __( 'Show section', 'flamel-genosha' ),
+				'section'    			=> 'section-projects',
+				'settings'   			=> 'section-projects-show',
+				'type'       			=> 'checkbox',
+				'dependents_controls'	=> 'section-projects-title,section-projects-generator',	
+			)
+		)
+	);
+
+	$wp_customize->add_setting(
+		'section-projects-amount',
+		array(
+			'transport' => 'postMessage',
+			'default'	=> 3,
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Extended_Control(
+			$wp_customize,
+			'section-projects-amount',
+			array(
+				'label'      	 => __( 'Max amount of projects', 'flamel-genosha' ),
+				'section'    	 => 'section-projects',
+				'settings'  	 => 'section-projects-amount',
+				'type'       	 => 'number',
+				'input_attrs' 	 => array(
+					'min'   	 => 1,
+				),				
+			)
+		)
+	);
+	
+	$wp_customize->add_setting(
+		'section-projects-tag',
+		array(
+			'transport' => 'postMessage',
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Taxonomy_Dropdown_Control(
+			$wp_customize,
+			'section-projects-tag',
+			array(
+				'label'      			=> __( 'Choose tag', 'flamel-genosha' ),
+				'section'    			=> 'section-projects',
+				'settings'   			=> 'section-projects-tag',
+				'type'       			=> 'tags',
+				'description'			=> 'Post with this tag will be displayed as proyects',
+			)
+		)
+	);	
+
+	array_push( $datos_selective_refresh ['section-projects']['settings'], 'section-projects-show', 'section-projects-amount', 'section-projects-tag');
+
+	
 	
 /*Section: Intro text
 *************************************************************************************************************************/	
@@ -375,7 +675,7 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			$wp_customize,
 			'text-section-show',
 			array(
-				'label'      => __( 'Show section', 'entity-power-design' ),
+				'label'      => __( 'Show section', 'flamel-genosha' ),
 				'section'    => 'text-section',
 				'settings'   => 'text-section-show',
 				'type'       => 'checkbox',
@@ -396,7 +696,7 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			$wp_customize,
 			'text-section-quote',
 			array(
-				'label'      => __( 'Text', 'entity-power-design' ),
+				'label'      => __( 'Text', 'flamel-genosha' ),
 				'section'    => 'text-section',
 				'settings'   => 'text-section-quote',
 				'type'       => 'textarea',

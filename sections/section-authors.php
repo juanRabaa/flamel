@@ -5,8 +5,13 @@
 *
 *
 */
+$show_section = get_theme_mod('section-authors-show', true);
+$visibility_class = "";
+if ( !$show_section )
+	$visibility_class = "display-none-section";
 ?>
-<section id="section-authors">
+<section id="section-authors" class="<?php echo $visibility_class; ?>">
+	<?php if ($show_section): ?>
 	<div class="section-content container">
 		<div class="author-box-landing">
 			<div data-wow-duration="1s" data-wow-delay="0.5s" class="author-description wow fadeInUp">
@@ -27,4 +32,5 @@
 			</div>			
 		</div>
 	</div>
+	<?php endif; ?>
 </section>

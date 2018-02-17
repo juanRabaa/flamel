@@ -5,8 +5,13 @@
 *
 *
 */
+$show_section = get_theme_mod('section-lists-show', true);
+$visibility_class = "";
+if ( !$show_section )
+	$visibility_class = "display-none-section";
 ?>
-<section id="section-lists">
+<section id="section-lists" class="<?php echo $visibility_class; ?>">
+	<?php if ($show_section): ?>
 	<div class="section-content container">
 		<?php
 		$lists = json_decode ( get_theme_mod('section-lists-generator'), true );
@@ -26,4 +31,5 @@
 			<?php $delay += 0.5; ?>
 		<?php endforeach; ?>
 	</div>
+	<?php endif; ?>
 </section>
