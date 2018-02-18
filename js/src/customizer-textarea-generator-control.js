@@ -6,8 +6,47 @@
 					var $item = ui.item;
 					updateValue( $item.closest(".customize-control-textarea-generator") );
 				},
-				handle: ".draggable-ball"
-			});				
+				handle: ".draggable-ball",
+				//connectWith: ".delete-item-on-drop",
+				stop: function( event, ui ){
+					var $item = ui.item;
+					var $textareaGeneratorPanel = $item.closest(".customize-control-textarea-generator");
+					var $trashCan = $textareaGeneratorPanel.find('.delete-item-on-drop');
+					setTimeout(function(){
+						if ($trashCan.is(':hover')) {
+							deleteItem( $item );
+						}
+						$trashCan.removeClass("trashcan-activated");	
+					}, 1);
+				},
+				start: function( event, ui ){
+					var $item = ui.item;
+					var $textareaGeneratorPanel = $item.closest(".customize-control-textarea-generator");
+					var $trashCan = $textareaGeneratorPanel.find('.delete-item-on-drop');
+					$trashCan.addClass("trashcan-activated");		
+				},
+				/*
+				sort: function( event, ui ){
+					var $item = ui.item;
+					var $textareaGeneratorPanel = $item.closest(".customize-control-textarea-generator");
+					var $trashCan = $textareaGeneratorPanel.find('.delete-item-on-drop');
+					var trashCanOffsetTop = $trashCan.offset().top;
+					var trashCanOffsetBottom = trashCanOffsetTop + $trashCan.height();
+					var trashCanOffsetLeft = $trashCan.offset().left;
+					var trashCanOffsetRight = trashCanOffsetLeft + $trashCan.width();
+					var itemOffsetTop = $item.offset().top;
+					var itemOffsetLeft = $item.offset().left;	
+					
+					if ( (itemOffsetTop > trashCanOffsetTop && itemOffsetTop < trashCanOffsetBottom) && 
+					( itemOffsetLeft > trashCanOffsetLeft && itemOffsetLeft < trashCanOffsetRight) && !$trashCan.hasClass("hovered") ){
+						$trashCan.addClass("hovered");
+						//console.log("hovered");
+					}
+					else	
+						$trashCan.removeClass("hovered");
+				},*/
+			});	
+		
 		}, 1)
 		
 		$(document).on("click", ".customize-control-textarea-generator .add-new-text", function(){

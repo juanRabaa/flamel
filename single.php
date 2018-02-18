@@ -75,7 +75,7 @@ get_header();
 				C9.8,27.2,28.8,7.8,53,7.2l27.5-0.1V2.4H54.3C48.4,2.4,42.7,3.4,37.2,5.4z"></path>
 				</g>
 				</svg>
-				<p class="container">CONSULTORA ESTRATEGICA DE DISEÑO Y MARCA</p>
+				<p class="container"><?php echo get_theme_mod("section-intro-title",__("Welcome to my website", "flamel-genosha")); ?></p>
 			</div>
 		</div>
 	</div>

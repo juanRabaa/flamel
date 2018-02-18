@@ -735,7 +735,10 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 		public function render_content() {
 			?>
 			<label class="customize-control-textarea-generator">
-				<span class="customize-control-title"><?php echo $this->label; ?></span>
+				<div class="title-and-trash-holder">
+					<span class="customize-control-title"><?php echo $this->label; ?></span>
+					<i class="fas fa-trash-alt delete-item-on-drop" title="Drag item over to delete"></i>
+				</div>
 				<span class="description customize-control-description"><?php echo $this->description; ?></span> 
 				<ul class="textarea-generator-sortable-ul">
 					<?php $this->print_all_items(); ?>			
