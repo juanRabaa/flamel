@@ -133,41 +133,59 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 
 	class WP_Extended_Control extends WP_Customize_Control {
 		public $li_classes = "";
-		public $dependents_controls = "";
+		public $separator_content = "";
+		public $dependents_controls = array(
+			'controls'	=> [],//array of strings, with the names of the controls to hidde/show
+			'hide_all'	=> false,//if true, it hides all the controls from his section, except self
+			'reverse'	=> false,//if true, it hides the dependencies when the input value is true
+		);
 
 		public function __construct($manager, $id, $args = array())
 		{
 			parent::__construct($manager, $id, $args);
 			
-			$this->dependents_controls = $args["dependents_controls"];
+			
+			if ( !empty($args["dependents_controls"]) )
+				$this->dependents_controls = array_merge($this->dependents_controls, $args["dependents_controls"]);
 		}
 		
 		protected function input_id(){
 			return '_customize-input-' . $this->id;
 		}
 		
+		protected function dependencies_activated(){
+			foreach( $this->dependents_controls as $dependencies_option ){
+				if( !empty($dependencies_option) )
+					return true;
+			}
+			return false;
+		}
+		
 		protected function render() {
 			$id    = 'customize-control-' . str_replace( array( '[', ']' ), array( '-', '' ), $this->id );
 			$class = 'customize-control customize-control-' . $this->type . " " . $this->li_classes;
 	 
-			?><li id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( $class ); ?>">
+			?>
+			<li id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( $class ); ?>">
+				<?php if (!empty($this->separator_content)) : ?>
+				<div class="controls-separator"><?php echo $this->separator_content; ?></div>
+				<?php endif; ?>
 				<?php $this->render_content(); ?>
 			</li><?php
 			
-			if( $this->type == "checkbox" && !empty($this->dependents_controls) ):
+			if( $this->dependencies_activated() ):
 				?>
 				<script>
+		
+				
 				$(document).ready(function(){
-					$("#<?php echo $this->input_id(); ?>").on("change", function(){
-						var dependentsControls = "<?php echo $this->dependents_controls; ?>".split(',');
-						var checkbox = this;
-						dependentsControls.forEach(function(control){
-							if(checkbox.checked)
-								wp.customize.control( control ).container.stop().slideDown();
-							else
-								wp.customize.control( control ).container.stop().slideUp();							
+					var dependencies = JSON.parse('<?php echo json_encode($this->dependents_controls); ?>');
+					wp.customize('<?php echo $this->id; ?>', function( value ) {
+						value.bind( function ( value ) {
+							toggle_dependencies('<?php echo $this->id; ?>', '<?php echo $this->input_id(); ?>', dependencies);						
 						});
-					});
+					});							
+					toggle_dependencies('<?php echo $this->id; ?>', '<?php echo $this->input_id(); ?>', dependencies);
 				});
 				</script>
 				<?php
@@ -246,6 +264,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 					<span class="customize-control-title">
 						<?php echo $this->label; ?>
 					</span>
+					<span class="description customize-control-description"><?php echo $this->label; ?></span>					
 					<?php echo $dropdown; ?>
 				</label>
 				<?php

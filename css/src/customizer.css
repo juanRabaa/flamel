@@ -142,7 +142,15 @@ label, legend {
 	color: #B31F31;
 } 
 
-
+.controls-separator{
+    margin: 3rem 0;
+    text-align: center;
+    border: solid 0.3rem #fd2a5f;
+    border-left: 0;
+    border-right: 0;
+    font-weight: bold;
+	font-size: 2.3rem;
+}
 
 
 /*SELECT RADIO WITH IMAGES CONTROL*/
@@ -189,4 +197,8 @@ input[type=radio]:checked:before {
 
 .customize-control select{
 	height: auto;
+}
+
+input ~ label{
+	display: inline;
 }

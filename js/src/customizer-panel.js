@@ -69,7 +69,7 @@
 
     wp.customizerCtrlEditor.init();
 	
-    wp.customizerInputs= {
+    wp.customizerInputsCollapsible= {
 
         init: function() {
 
@@ -99,8 +99,9 @@
         }
 
     };
-	wp.customizerInputs.init();
-
+	wp.customizerInputsCollapsible.init();
+	
+/*
 	wp.customizerContactSocial= {
 
         init: function() {
@@ -195,5 +196,30 @@
 
     };
 	wp.customizerEvents.init();
-
+*/
 } )( jQuery );
+
+/*Function for the extended control, it hides/shows the input controls dependencies*/
+function toggle_dependencies(controlID, inputID, dependencies){
+	var masterControl = wp.customize.control(controlID);
+	
+	var dependentsControls = dependencies;
+
+	var value = masterControl.setting();
+
+	if ( dependentsControls.reverse )
+		value = !value;
+
+	if ( dependentsControls.controls ){
+		dependentsControls.controls.forEach(function(control){
+			wp.customize.control( control ).toggle(value);					
+		});							
+	}
+	else if ( dependentsControls.hide_all ){
+		//console.log(wp.customize.section(masterControl.section()).controls())
+		wp.customize.section(masterControl.section()).controls().forEach(function(control){
+			if ( control.id != controlID )
+				wp.customize.control( control.id ).toggle(value);					
+		});
+	}	
+}

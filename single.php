@@ -32,7 +32,12 @@ get_header();
 				<span class="post-category"><?php echo get_the_category()[0]->name; ?></span>
 				<p class="post-title"><?php the_title(); ?></p>
 				<p class="post-excerpt"><?php echo get_the_excerpt(); ?></p>
-				<span class="post-client"><?php echo get_the_tags()[0]->name; ?></span>
+				<?php 
+					$cliente = get_post_meta(  $post->ID, 'cliente', true );
+					if( !empty($cliente) ):
+				?>
+				<span class="post-client"><?php echo $cliente; ?></span>
+				<?php endif; ?>
 			</div>
 		</div>
 		<?php 

@@ -34,6 +34,128 @@ function mutant_customizer_register_settings( $wp_customize ) {
 	}
 	
 	$category_list = get_category_list_array();
+
+	function create_section_separator_controls( &$wp_customize_manager, $section, &$selective_refresh_array){
+	
+		$wp_customize_manager->add_setting(
+			$section.'-separator-show',
+			array(
+				'transport' => 'postMessage',
+				'default'	=> true,
+			)
+		);
+
+		$wp_customize_manager->add_control(
+			new WP_Extended_Control(
+				$wp_customize_manager,
+				$section.'-separator-show',
+				array(
+					'label'      			=> __( 'Use image separator', 'flamel-genosha' ),
+					'section'    			=> $section,
+					'settings'   			=> $section.'-separator-show',
+					'type'       			=> 'checkbox',
+					'dependents_controls'	=> array(
+						'controls' => ["$section-separator-post","$section-separator-text","$section-separator-use-thumbnail", "$section-separator-image"],
+					),
+					'separator_content'		=> __( 'Opciones de separador', 'flamel-genosha' ),					
+				)
+			)
+		);
+
+		$wp_customize_manager->add_setting(
+			$section.'-separator-post',
+			array(
+				'transport' => 'postMessage',
+			)
+		);
+
+		$wp_customize_manager->add_control(
+			new WP_Taxonomy_Dropdown_Control(
+				$wp_customize_manager,
+				$section.'-separator-post',
+				array(
+					'label'      			=> __( 'Choose post', 'flamel-genosha' ),
+					'section'    			=> $section,
+					'settings'   			=> $section.'-separator-post',
+					'type'       			=> 'posts',
+					'description'			=> 'Post to wich the separator will link to',
+					'show_option_none'		=> 'None',
+					'dependents_controls'	=> array(
+						'controls' => ["$section-separator-text"],
+					),					
+				)
+			)
+		);	
+
+		$wp_customize_manager->add_setting(
+			$section.'-separator-text',
+			array(
+				'transport' => 'postMessage',
+				'default'	=> "",
+			)
+		);
+
+		$wp_customize_manager->add_control(
+			new WP_Extended_Control(
+				$wp_customize_manager,
+				$section.'-separator-text',
+				array(
+					'label'      => __( 'Separator link text', 'flamel-genosha' ),
+					'section'    => $section,
+					'settings'   => $section.'-separator-text',
+					'type'       => 'text',
+				)
+			)
+		);
+
+		$wp_customize_manager->add_setting(
+			$section.'-separator-use-thumbnail',
+			array(
+				'transport' => 'postMessage',
+				'default'	=> true,
+			)
+		);
+
+		$wp_customize_manager->add_control(
+			new WP_Extended_Control(
+				$wp_customize_manager,
+				$section.'-separator-use-thumbnail',
+				array(
+					'label'      			=> __( 'Use post thumbnail as image', 'flamel-genosha' ),
+					'section'    			=> $section,
+					'settings'   			=> $section.'-separator-use-thumbnail',
+					'type'       			=> 'checkbox',
+					'dependents_controls'	=> array(
+						'controls' => ["$section-separator-image"],
+						'reverse'  => true,
+					),
+				)
+			)
+		);
+		
+		$wp_customize_manager->add_setting(
+			$section.'-separator-image',
+			array(
+				'transport' => 'postMessage',
+			)
+		);
+		
+		$wp_customize_manager->add_control(
+			new WP_Customize_Image_Control(
+				$wp_customize_manager,
+				$section.'-separator-image',
+				array(
+					'label'     	 	=> __( 'Separator image', 'flamel-genosha' ),
+					'section'   	 	=> $section,
+					'settings'   		=> $section.'-separator-image',
+				)
+			)
+		);
+	
+		array_push( $selective_refresh_array [$section]['settings'], "$section-separator-show", "$section-separator-post","$section-separator-text","$section-separator-image","$section-separator-use-thumbnail" );
+	
+	}
+	
     
 	$wp_customize->get_section( 'title_tagline')->priority = 1;
 	//data structs that estructuras de datos que guardan la informacion de las opciones y controles segun seccion para poder
@@ -192,7 +314,7 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			'default'	=> true,
 		)
 	);
-
+/*"$section-separator-show", "$section-separator-post","$section-separator-text","$section-separator-image"*/
 	$wp_customize->add_control(
 		new WP_Extended_Control(
 			$wp_customize,
@@ -202,7 +324,9 @@ $wp_customize->add_panel( 'front_page_panel', array(
 				'section'    			=> 'section-intro',
 				'settings'   			=> 'section-intro-show',
 				'type'       			=> 'checkbox',
-				'dependents_controls'	=> 'section-intro-title,section-intro-image,section-intro-image-desktop',
+				'dependents_controls'	=> array(
+					'hide_all'		=> true,
+				),
 			)
 		)
 	);
@@ -266,6 +390,8 @@ $wp_customize->add_panel( 'front_page_panel', array(
 		)
 	);
 	
+	create_section_separator_controls( $wp_customize, 'section-intro', $datos_selective_refresh);
+	
 	array_push( $datos_selective_refresh ['section-intro']['settings'], 'section-intro-show', 'section-intro-title', 'section-intro-image', 'section-intro-image-desktop' );
 	
 /*Section text slider
@@ -297,7 +423,9 @@ $wp_customize->add_panel( 'front_page_panel', array(
 				'section'    			=> 'section-text-slide',
 				'settings'   			=> 'section-text-slide-show',
 				'type'       			=> 'checkbox',
-				'dependents_controls'	=> 'section-text-slide-duration,section-text-slide-title,section-text-slide-content',
+				'dependents_controls'	=> array(
+					'hide_all'		=> true,
+				),
 			)
 		)
 	);
@@ -367,6 +495,8 @@ $wp_customize->add_panel( 'front_page_panel', array(
 		)
 	);
 	
+	create_section_separator_controls( $wp_customize, 'section-text-slide', $datos_selective_refresh);
+	
 	array_push( $datos_selective_refresh ['section-text-slide']['settings'], 'section-text-slide-title', 'section-text-slide-duration', 'section-text-slide-show' );
 	
 /*Section lists
@@ -398,7 +528,9 @@ $wp_customize->add_panel( 'front_page_panel', array(
 				'section'    			=> 'section-lists',
 				'settings'   			=> 'section-lists-show',
 				'type'       			=> 'checkbox',
-				'dependents_controls'	=> 'section-lists-generator',				
+				'dependents_controls'	=> array(
+					'hide_all'		=> true,
+				),		
 			)
 		)
 	);
@@ -425,6 +557,8 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			)
 		)
 	);
+	
+	create_section_separator_controls( $wp_customize, 'section-lists', $datos_selective_refresh);
 
 	array_push( $datos_selective_refresh ['section-lists']['settings'], 'section-lists-show', 'section-lists-generator');
 
@@ -457,7 +591,9 @@ $wp_customize->add_panel( 'front_page_panel', array(
 				'section'    			=> 'section-process',
 				'settings'   			=> 'section-process-show',
 				'type'       			=> 'checkbox',
-				'dependents_controls'	=> 'section-process-title,section-process-generator',	
+				'dependents_controls'	=> array(
+					'hide_all'		=> true,
+				),
 			)
 		)
 	);
@@ -505,6 +641,8 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			)
 		)
 	);
+	
+	create_section_separator_controls( $wp_customize, 'section-process', $datos_selective_refresh);
 
 	array_push( $datos_selective_refresh ['section-process']['settings'], 'section-process-show', 'section-process-generator', 'section-process-title');
 
@@ -539,7 +677,9 @@ $wp_customize->add_panel( 'front_page_panel', array(
 					'section'    			=> 'section-tools',
 					'settings'   			=> 'section-tools-show',
 					'type'       			=> 'checkbox',
-					'dependents_controls'	=> 'section-tools-images',
+					'dependents_controls'	=> array(
+						'hide_all'		=> true,
+					),
 				)
 			)
 		);
@@ -563,6 +703,8 @@ $wp_customize->add_panel( 'front_page_panel', array(
 				'type'     => 'image_gallery',
 			)
 		) );
+		
+		create_section_separator_controls( $wp_customize, 'section-tools', $datos_selective_refresh);
 		
 		array_push( $datos_selective_refresh ['section-tools']['settings'],  'section-tools-show', 'section-tools-images');
 	
@@ -597,7 +739,9 @@ $wp_customize->add_panel( 'front_page_panel', array(
 				'section'    			=> 'section-projects',
 				'settings'   			=> 'section-projects-show',
 				'type'       			=> 'checkbox',
-				'dependents_controls'	=> 'section-projects-title,section-projects-generator',	
+				'dependents_controls'	=> array(
+					'hide_all'		=> true,
+				),
 			)
 		)
 	);
@@ -646,7 +790,9 @@ $wp_customize->add_panel( 'front_page_panel', array(
 			)
 		)
 	);	
-
+	
+	create_section_separator_controls( $wp_customize, 'section-projects', $datos_selective_refresh);
+	
 	array_push( $datos_selective_refresh ['section-projects']['settings'], 'section-projects-show', 'section-projects-amount', 'section-projects-tag');
 
 	
