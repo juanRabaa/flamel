@@ -13,10 +13,15 @@ add_action ("wp_enqueue_scripts", "load_styles");
 
 function load_scripts() {
 	wp_enqueue_script( "jquery-3", "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js", true );
-	wp_enqueue_script( "colors-functions", get_template_directory_uri()."/js/src/color-functions.js", true );
-	wp_enqueue_script( "anime-js", get_template_directory_uri()."/js/libs/anime-master/anime.min.js", true );
-	wp_enqueue_script( "dynamics", get_template_directory_uri()."/js/libs/dynamics.min.js", true );
 	wp_enqueue_script( "wow", get_template_directory_uri()."/js/libs/wow.min.js", true );
+	if (is_front_page()){
+		$text_slider_data = array(
+			'texts'				=> get_theme_mod('section-text-slide-content', []),
+			'slideDuration'		=> intval( get_theme_mod('section-text-slide-duration', 4000) ),
+		);		
+		wp_enqueue_script( 'landing-scripts', get_template_directory_uri()."/js/src/landing-scripts.js", true );
+		wp_localize_script( 'landing-scripts', 'text_slider_data', $text_slider_data );
+	}
 }
 add_action ("wp_enqueue_scripts", "load_scripts");
 

@@ -21,7 +21,7 @@ $separator_post_id = get_theme_mod('section-text-slide-post', -1);
 				<div class="two columns">
 					<h5 class="slider-title"><?php echo get_theme_mod('section-text-slide-title', 'MINDSET'); ?></h5>
 				</div>
-				<div class="ten columns slider-buttons">
+				<div class="nine columns slider-buttons">
 					<?php 
 						$texts = json_decode(get_theme_mod('section-text-slide-content', []), true);
 						$index = 1;
@@ -36,6 +36,9 @@ $separator_post_id = get_theme_mod('section-text-slide-post', -1);
 						endforeach;
 					?>
 				</div>
+				<div class="one columns count-down">
+					<span style="color: #fd2a5f;"></span>
+				</div>				
 			</div>
 			<div class="slide-content">
 				<p class="active-slide wow slideInRight"></p>
