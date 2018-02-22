@@ -200,7 +200,28 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 		 *
 		 * @since 3.4.0
 		 */
-		public function render_content() {
+		
+		public function wrong_dropdown_type_error(){
+		?>
+				<label class="customize-control-select">
+					<span class="customize-control-title">
+						<?php echo $this->label; ?>
+					</span>
+					
+					<p>Error: a WP_Taxonomy_Dropdown_Control instance need to be given a valid 'type'.</p>
+					<p>Current valid types are:</p>
+					<ul>
+						<li>"pages"</li>
+						<li>"categories"</li>
+						<li>"tags"</li>
+						<li>"posts"</li>
+						<li>"authors"</li>
+					</ul>
+				</label>
+		<?php
+		}
+		
+		public function get_dropdown(){
 			$dropdown = null;
 			switch ( $this->type ){			
 				case "categories":
@@ -251,10 +272,28 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 						$dropdown .= '<option value="'. $post->ID .'"'.selected($this->value(), $post->ID, false).'>'.$post->post_title.'</option>';
 					}	
 					
-					$dropdown .= "</section>";
-				break;			
+					$dropdown .= "</select>";
+				break;	
+				case "users":
+					$dropdown = "<select
+						name='_customize-dropdown-posts-". $this->id . "'
+						id='_customize-dropdown-posts-". $this->id . "'		
+					>";
+					$dropdown .= '<option value=""'.selected($this->value(), $post->ID, false).'>'.__( $this->show_option_none ).'</option>';
+					
+					$users = get_users();
+					foreach ( $users as $user ){
+						$dropdown .= '<option value="'. $user->ID .'"'.selected($this->value(), $user->ID, false).'>'.$user->user_nicename.'</option>';
+					}	
+					
+					$dropdown .= "</select>";
+				break;				
 			}
-			
+			return $dropdown;
+		}
+		
+		public function render_content() {
+			$dropdown = $this->get_dropdown();
 			if ( $dropdown ){
 				// Hackily add in the data link parameter.
 				$dropdown = str_replace( '<select', '<select ' . $this->get_link(), $dropdown );
@@ -270,52 +309,115 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 				<?php
 			}
 			else{
-				?>
-				<label class="customize-control-select">
-					<span class="customize-control-title">
-						<?php echo $this->label; ?>
-					</span>
-					
-					<p>Error: a WP_Taxonomy_Dropdown_Control instance need to be given a valid 'type'.</p>
-					<p>Current valid types are:</p>
-					<ul>
-						<li>"pages"</li>
-						<li>"categories"</li>
-						<li>"tags"</li>
-						<li>"posts"</li>
-					</ul>
-				</label>
-				<?php
+				$this->wrong_dropdown_type_error();
 			}
 		}
 	}	
 	
-	class WP_Extended_Select_Control extends WP_Extended_Control {
-		public $show_option_none = '&mdash; None &mdash;';
-		/**
-		 * Render the control's content.
-		 *
-		 * @since 3.4.0
-		 */
-		public function render_content() {
-			$dropdown = "<select ". $this->get_link() . ">";
-			$dropdown = $dropdown . "<option value='' selected>".$this->show_option_none."</option>";
-			
-			foreach( $this->choices as $option ){
-				$dropdown = $dropdown . "<option value='".$option."'>".substr( $option, 0, strlen($option) - 4)."</option>";
-			}
-			
-			$dropdown = $dropdown . "</select>";
-
-			printf(
-				'<label class="customize-control-select"><span class="customize-control-title">%s</span>
-				<span class="description customize-control-description"> %s</span> %s</label>',
-				$this->label,
-				$this->description,
-				$dropdown
-			);
+	class WP_Taxonomy_Multiple_Dropdown_Control extends WP_Taxonomy_Dropdown_Control{
+		
+		public function decode_json_value(){
+			return json_decode($this->value(), true);
 		}
+		
+		public function value_dropdown( $value ){
+			$dropdown = $this->get_dropdown();
+			if ( $value != ""){
+				$dropdown = str_replace('selected="selected"','',$dropdown);
+				$dropdown = str_replace('value="'. $value .'"','value="'. $value .'" selected="selected"',$dropdown);
+			}
+			return $dropdown;
+		}
+		
+		public function render_content() {
+			$dropdown = $this->get_dropdown();
+			if ( $dropdown ){
+				?>
+				<label class="customize-control-tax-mult-dropdown">
+					<div class="title-and-trash-holder">
+						<span class="customize-control-title"><?php echo $this->label; ?></span>
+						<i class="fas fa-trash-alt delete-item-on-drop" title="Drag item over to delete"></i>
+					</div>
+					<span class="description customize-control-description"><?php echo $this->label; ?></span>
+					<ul class="tax-mult-dropdown-sortable-ul ui-sortable" data-original-select="<?php echo htmlspecialchars ($dropdown, ENT_QUOTES); ?>">
+						<?php 
+						$values = $this->decode_json_value();
+						foreach( $values as $value): ?>
+						<li>
+							<span class="draggable-ball"></span>
+							<div class="collapsible-title">
+								<div class="draggable-ball-space"></div>
+								<?php echo $this->value_dropdown( $value ); ?>
+							</div>							
+						</li>
+						<?php endforeach; ?>
+					</ul>
+					<div>
+					<input type="hidden" value="" <?php $this->link(); ?>>
+					<div class="add-new-li">
+						<i class="fas fa-plus"></i>
+					</div>			
+					</div>
+				</label>
+				<?php
+			}
+			else{
+				$this->wrong_dropdown_type_error();
+			}
+		}		
 	}
+	
+	
+	//The setting default must be a JSON
+	//Ex: 'default'	=> '{"input_1": "I'm the first value", "input_2": "I'm the second input value"}'
+	//JSON only works with DOUBLE QUOTES!!!
+	class WP_Inputs_Control extends WP_Extended_Control {
+		public $inputs_types = array();
+
+		public function decode_json_value(){
+			return json_decode($this->value(), true);
+		}
+		
+		//Echo the inputs with empty values. To use when the setting value is null
+		public function empty_values_inputs(){
+			foreach( $this->inputs_types as $input_id => $input_data ):
+				?>
+				<span class="input-label"><?php echo $input_data["nice_name"]; ?></span>
+				<input name="<?php echo $input_id; ?>" type="<?php  echo $input_data["type"]; ?>" value="">
+				<?php 
+			endforeach; 			
+		}
+		
+		public function render_content() {
+			?>
+			<label class="customize-control-multiple-inputs">
+				<div class="collapsible-title">
+					<span class="customize-control-arrow">
+						<i class="fas fa-angle-down collapsible-arrow" aria-hidden="true"></i>
+					</span>
+					<span class="customize-control-title"><?php echo $this->label; ?></span>
+				</div>
+				<div class="collapsible-body inputs-holder">
+					<?php 
+					$inputs = $this->decode_json_value(); 
+					if ( !empty($inputs) ):
+						foreach( $inputs as $input_id => $input_value ):
+							$input_data = $this->inputs_types[$input_id];
+							?>
+							<span class="input-label"><?php echo $input_data["nice_name"]; ?></span>
+							<input name="<?php echo $input_id; ?>" type="<?php  echo $input_data["type"]; ?>" value="<?php echo $input_value; ?>">
+							<?php 
+						endforeach;
+					else :
+						$this->empty_values_inputs();
+					endif;
+					?>
+				</div>
+				<input class="control-value" type="hidden" <?php $this->link(); ?>>
+			</label>
+			<?php
+		}
+	}	
 
 	/*TO ADD
 	/***Option to not use zoom in

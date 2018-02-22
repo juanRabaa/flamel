@@ -401,6 +401,38 @@ $(document).ready( function(){
 		var invmarker = new InvisibleMarker($(this));
 		invmarker.start();
 	})
+		
+	/*Projects slider shadows*/	
+	$("#section-projects > .section-content.container").on("scroll", function(){
+		var scrollLeft = $(this).scrollLeft();
+		var sliderFullWidth = $(this).find(".projects-slides-container").width();
+		var slidetCutedWith = $(this).width();
+		var percentage = slidetCutedWith * 100 / sliderFullWidth;
+		var scrollbarWidth = sliderFullWidth * percentage / 100;
+		var scrollRight = scrollLeft + scrollbarWidth;
+		
+		if ( !$(this).hasClass("shadow-left-activated") ){
+			if( scrollLeft > 20 ){
+				$(this).addClass("shadow-left-activated");
+				$("#section-projects .shadow-left-holder").stop().fadeIn();	
+			}
+		}
+		else if( scrollLeft <= 20 ){
+			$(this).removeClass("shadow-left-activated");
+			$("#section-projects .shadow-left-holder").stop().fadeOut();	
+		}
+		
+		if ( !$(this).hasClass("shadow-right-activated") ){
+			if( scrollRight <= (sliderFullWidth - 20) ){
+				$(this).addClass("shadow-right-activated");
+				$("#section-projects .shadow-right-holder").stop().fadeIn();	
+			}
+		}
+		else if( scrollRight > (sliderFullWidth - 20) ){
+			$(this).removeClass("shadow-right-activated");
+			$("#section-projects .shadow-right-holder").stop().fadeOut();	
+		}		
+	})	
 });
 </script>
 </html>

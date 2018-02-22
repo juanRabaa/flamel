@@ -239,6 +239,16 @@ function mutant_customizer_register_settings( $wp_customize ) {
 			'render_callback' => function(){
 				get_template_part( "sections/section", "projects" );
 			}
+		),	
+
+		'section-authors' => array(
+			'id' => 'section-authors',
+			'selector' => '#section-authors',
+			'settings' => array(
+			),
+			'render_callback' => function(){
+				get_template_part( "sections/section", "authors" );
+			}
 		),			
 	);	
 	
@@ -795,6 +805,105 @@ $wp_customize->add_panel( 'front_page_panel', array(
 	
 	array_push( $datos_selective_refresh ['section-projects']['settings'], 'section-projects-show', 'section-projects-amount', 'section-projects-tag');
 
+/*Section authors
+*************************************************************************************************************************/	
+	
+	$wp_customize->add_section(
+		'section-authors',
+		array(
+			'title'     => __('Section authors', "flamel-genosha"),
+			'priority'  => 2,
+			'panel'  	=> 'front_page_panel',
+		)
+	); 
+
+	$wp_customize->add_setting(
+		'section-authors-show',
+		array(
+			'transport' => 'postMessage',
+			'default'	=> true,
+		)
+	);
+
+	$wp_customize->add_control(
+		new WP_Extended_Control(
+			$wp_customize,
+			'section-authors-show',
+			array(
+				'label'      			=> __( 'Show section', 'flamel-genosha' ),
+				'section'    			=> 'section-authors',
+				'settings'   			=> 'section-authors-show',
+				'type'       			=> 'checkbox',
+				'dependents_controls'	=> array(
+					'hide_all'		=> true,
+				),
+			)
+		)
+	);
+	
+	$amount_of_authors = 2;
+	
+	for ( $i = 1; $i <= $amount_of_authors; $i++ ){
+		$wp_customize->add_setting(
+			'section-authors-author-'.$i.'-data',
+			array(
+				'transport' => 'postMessage',
+			)
+		);
+
+		$wp_customize->add_control(
+			new WP_Inputs_Control(
+				$wp_customize,
+				'section-authors-author-'.$i.'-data',
+				array(
+					'label'      			=> __( 'Author data', 'flamel-genosha' ),
+					'section'    			=> 'section-authors',
+					'settings'   			=> 'section-authors-author-'.$i.'-data',
+					'inputs_types'       	=> array(
+						'author_name'	=>	array(
+							'nice_name'		=>	__( 'Name', 'flamel-genosha' ),
+							'type'			=>  "text",
+						),
+						'author_ocupation'	=>	array(
+							'nice_name'		=>	__( 'Ocupation', 'flamel-genosha' ),
+							'type'			=>  "text",
+						),
+						'author_email'	=>	array(
+							'nice_name'		=>	__( 'Email', 'flamel-genosha' ),
+							'type'			=>  "text",
+						),						
+					),	
+					'separator_content'		=> __( 'Author '.$i.' data', 'flamel-genosha' ),							
+				)
+			)
+		);
+
+		$wp_customize->add_setting(
+			'section-authors-author-'.$i.'-image',
+			array(
+				'transport' => 'postMessage',
+			)
+		);
+		
+		$wp_customize->add_control(
+			new WP_Customize_Image_Control(
+				$wp_customize,
+				'section-authors-author-'.$i.'-image',
+				array(
+					'label'     	 	=> __( 'Author image', 'flamel-genosha' ),
+					'section'   	 	=> 'section-authors',
+					'settings'   		=> 'section-authors-author-'.$i.'-image',
+				)
+			)
+		);
+
+		array_push( $datos_selective_refresh ['section-authors']['settings'], 'section-authors-author-'.$i.'-data', 'section-authors-author-'.$i.'-image');
+	}
+	
+	
+	create_section_separator_controls( $wp_customize, 'section-authors', $datos_selective_refresh);
+	
+	array_push( $datos_selective_refresh ['section-authors']['settings'], 'section-authors-show');
 	
 	
 /*Section: Intro text

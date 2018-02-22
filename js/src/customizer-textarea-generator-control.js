@@ -25,26 +25,6 @@
 					var $trashCan = $textareaGeneratorPanel.find('.delete-item-on-drop');
 					$trashCan.addClass("trashcan-activated");		
 				},
-				/*
-				sort: function( event, ui ){
-					var $item = ui.item;
-					var $textareaGeneratorPanel = $item.closest(".customize-control-textarea-generator");
-					var $trashCan = $textareaGeneratorPanel.find('.delete-item-on-drop');
-					var trashCanOffsetTop = $trashCan.offset().top;
-					var trashCanOffsetBottom = trashCanOffsetTop + $trashCan.height();
-					var trashCanOffsetLeft = $trashCan.offset().left;
-					var trashCanOffsetRight = trashCanOffsetLeft + $trashCan.width();
-					var itemOffsetTop = $item.offset().top;
-					var itemOffsetLeft = $item.offset().left;	
-					
-					if ( (itemOffsetTop > trashCanOffsetTop && itemOffsetTop < trashCanOffsetBottom) && 
-					( itemOffsetLeft > trashCanOffsetLeft && itemOffsetLeft < trashCanOffsetRight) && !$trashCan.hasClass("hovered") ){
-						$trashCan.addClass("hovered");
-						//console.log("hovered");
-					}
-					else	
-						$trashCan.removeClass("hovered");
-				},*/
 			});	
 		
 		}, 1)
@@ -65,18 +45,20 @@
 
 		$(document).on("click",".collapsible-title", function(){
 			var $settings = $(this).siblings(".collapsible-body");
-			console.log($settings);
 			var $arrow = $(this).find(".collapsible-arrow");
-			console.log( $arrow );
+			var _this = this;
 			if ( !$settings.hasClass("animating") ){
 				$settings.addClass("animating");
 				
 				if ( $settings.css("display") == "none" ){
-					$settings.slideDown();
+					$settings.stop().slideDown();
+					$(_this).addClass("collapsible-open");
 					$arrow.css('transform','rotate(180deg)');
 				}
 				else{
-					$settings.slideUp();
+					$settings.stop().slideUp(function(){
+						$(_this).removeClass("collapsible-open");
+					});
 					$arrow.removeClass('rotate');
 					$arrow.css('transform','rotate(0deg)');
 				}

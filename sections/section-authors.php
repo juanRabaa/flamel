@@ -13,24 +13,38 @@ if ( !$show_section )
 <section id="section-authors" class="<?php echo $visibility_class; ?>">
 	<?php if ($show_section): ?>
 	<div class="section-content container">
+		<?php
+			for ( $i = 1; $i <= 2; $i ++):
+				$author_data = json_decode(get_theme_mod('section-authors-author-'.$i.'-data'),true);
+				$author_image = get_theme_mod('section-authors-author-'.$i.'-image');
+				
+				if ( $i % 2 ):
+			?>
 		<div class="author-box-landing">
 			<div data-wow-duration="1s" data-wow-delay="0.5s" class="author-description wow fadeInUp">
-				<h5 class="author-name">SOLEDAD RIVAS</h5>
-				<h5 class="author-ocupation">MANAGIN DIRECTOR</h5>
-				<h6 class="author-email">soledad@flamel.biz</h6>
+				<h5 class="author-name"><?php echo $author_data['author_name']; ?></h5>
+				<h5 class="author-ocupation"><?php echo $author_data['author_ocupation']; ?></h5>
+				<h6 class="author-email"><?php echo $author_data['author_email']; ?></h6>
 			</div>
-			<div data-wow-duration="1s" data-wow-delay="0s" class="author-photo wow fadeInDown" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/img/author-1.png');">
+			<div data-wow-duration="1s" data-wow-delay="0s" class="author-photo wow fadeInDown" style="background-image: url('<?php echo $author_image; ?>');">
 			</div>
 		</div>
+		<?php
+				else:
+		?>		
 		<div class="author-box-landing">
-			<div data-wow-duration="1s" data-wow-delay="0s" class="author-photo wow fadeInDown" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/img/author-2.png');">
+			<div data-wow-duration="1s" data-wow-delay="0s" class="author-photo wow fadeInDown" style="background-image: url('<?php echo $author_image; ?>');">
 			</div>							
 			<div data-wow-duration="1s" data-wow-delay="0.5s" class="author-description wow fadeInUp">
-				<h5 class="author-name">GUSTAVO CHIOCCIONI</h5>
-				<h5 class="author-ocupation">DESIGN DIRECTOR</h5>
-				<h6 class="author-email">gustavo@flamel.biz</h6>	
+				<h5 class="author-name"><?php echo $author_data['author_name']; ?></h5>
+				<h5 class="author-ocupation"><?php echo $author_data['author_ocupation']; ?></h5>
+				<h6 class="author-email"><?php echo $author_data['author_email']; ?></h6>	
 			</div>			
 		</div>
+		<?php 
+				endif; 
+			endfor;
+		?>
 	</div>
 	<?php 
 	if( get_theme_mod('section-authors-separator-show', true) ): 

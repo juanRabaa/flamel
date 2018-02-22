@@ -23,7 +23,20 @@ if ( !$show_section )
 		
 		$delay = 0;
 	?>
-	
+	<div class="container">
+		<div class="shadows-holder">
+			<div class="shadow-right-holder">
+				<div class="shadow-right"></div>
+				<div class="shadow-right-bottom"></div>
+				<div class="shadow-right-top"></div>
+			</div>		
+			<div class="shadow-left-holder">
+				<div class="shadow-left"></div>
+				<div class="shadow-left-bottom"></div>
+				<div class="shadow-left-top"></div>
+			</div>
+		</div>
+	</div>
 	<div class="section-content container">
 		<div class="projects-slides-container" id="projects-slider">
 			<?php 

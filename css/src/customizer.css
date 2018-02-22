@@ -152,6 +152,13 @@ label, legend {
 	font-size: 2.3rem;
 }
 
+.image-gallery-thumbnail-wrapper{
+	cursor: move;
+}
+
+
+
+
 
 /*SELECT RADIO WITH IMAGES CONTROL*/
 /*************************************************************************************************/
@@ -201,4 +208,94 @@ input[type=radio]:checked:before {
 
 input ~ label{
 	display: inline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.customize-control-tax-mult-dropdown {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: solid 0.1rem #adadad;
+    cursor: default;
+}
+
+.tax-mult-dropdown-sortable-ul {
+    margin-left:  0;
+}
+
+.add-new-li {
+    text-align: center;
+}
+
+.add-new-li i {
+    transition: all 0.4s;
+    font-size: 4rem;
+    cursor: pointer;
+}
+
+.add-new-li i:hover {
+    color: #fd2a5f;
+}
+
+.tax-mult-dropdown-sortable-ul li {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.tax-mult-dropdown-sortable-ul .collapsible-title {
+    padding:  0;
+    padding-left: 2rem;
+}
+
+.tax-mult-dropdown-sortable-ul .collapsible-title select {
+    margin: 0;
+    height:  100%;
+    border: 0;
+}
+
+.tax-mult-dropdown-sortable-ul .draggable-ball {
+    left: -0.7rem;
+}
+
+.tax-mult-dropdown-sortable-ul .ui-sortable-placeholder:before {
+    content: "";
+    display: block;
+    width: 1.7rem;
+    height: 1.7rem;
+    background-color: #fd2a5f;
+    border-radius: 50%;
+    position: absolute;
+    left: -0.7rem;
+    top: 0.9rem;
+    cursor: move;
+    transition: all 0.4s;
+    z-index: 2;
 }
