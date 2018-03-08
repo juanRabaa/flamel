@@ -106,6 +106,7 @@
     padding: 0.6rem;
     overflow: hidden;
     min-height: 2rem;
+    white-space: nowrap;
 }
 
 .current-list ul {
@@ -217,12 +218,12 @@
 
 .lists-visualization li .list-name, .view-list li .list-item-name  {
     display:  inline-block;
-    width: 90%;
+    width: 80%;
     box-sizing:  border-box;
     padding-left: 3rem;
 }
 
-.lists-visualization li .delete-list, .view-list li .delete-list-item {
+.lists-visualization li .delete-list, .view-list li .delete-list-item, .lists-visualization li .edit-button, .view-list li .edit-button {
     width: 10%;
     cursor:  pointer;
     transition: transform 0.4s;
@@ -235,12 +236,29 @@
 	animation: colorChange 1.5s infinite;
 }
 
+.lists-visualization li .edit-button:hover, .lists-visualization li .edit-button:hover {
+	animation: colorChange2 1.5s infinite;
+}
+
+
 @keyframes colorChange {
   0% {
     color: #ffffff;
   }
   50% {
     color: #53b2e1;
+  }
+  100% {
+    color: #ffffff;
+  }  
+}
+
+@keyframes colorChange2 {
+  0% {
+    color: #ffffff;
+  }
+  50% {
+    color: #53e15f;
   }
   100% {
     color: #ffffff;

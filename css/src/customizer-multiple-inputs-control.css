@@ -12,7 +12,3 @@
 	border-left-width:  0.1rem!important;
 }
 
-.collapsible-title.collapsible-open ~ .collapsible-body {
-    border: solid 0.1rem #bbbbbb;
-    border-top-width: 0;
-}

@@ -6,7 +6,7 @@
 */
 $(document).ready( function(){
 	
-	function TextSlider(_id, _texts){
+	function TextSlider(_id, _texts, _time){
 		this.currentSlide = 1;
 		this.id = _id;
 		this.$slider = $(_id);
@@ -15,7 +15,8 @@ $(document).ready( function(){
 		this.counterTimeInterval = null
 		this.timeStamp = 0;
 		this.countdownActivated = false;
-
+		this.time = _time;
+		
 		this.markupIsWrong = function(){
 			if( this.$slider.length == 0 ){
 				console.log("ERROR, the slider doesnt exist");
@@ -45,7 +46,7 @@ $(document).ready( function(){
 				this.currentSlide = index;
 			}
 			
-			//console.log(_this.currentSlide);
+			console.log(_this.currentSlide);
 		}
 		
 		this.fadeTransition = function( index ){
@@ -104,6 +105,8 @@ $(document).ready( function(){
 					_this.changeSlideText(parseInt(_this.currentSlide) + 1);
 			}, time);
 			
+			console.log(time);
+			
 			if ( this.countdownActivated ){
 				this.counterTimeInterval = 
 					setInterval(function(){
@@ -126,15 +129,15 @@ $(document).ready( function(){
 				_this.changeSlideText(slideButtonID);
 				
 				if(_this.timeInterval != null)
-					_this.activateChangeOverTimer(_this.time);
+					_this.resetTimeInterval(_this.time);
 				
 				
 			});			
 		}
 		
-		this.resetTimeInterval = function(){
+		this.resetTimeInterval = function( time ){
 			this.clearInterval();
-			this.activateChangeOverTimer;
+			this.activateChangeOverTimer( time );
 		}
 		
 		this.clearInterval = function(){
@@ -337,7 +340,8 @@ $(document).ready( function(){
 		if ( !$("#section-text-slide").hasClass("activated-once") ){
 			
 			var texts = JSON.parse(text_slider_data.texts);
-			var landingTextSlider = new TextSlider("#text-slider-landing", $.map(texts, function(el) { return el }));
+			console.log(texts);
+			var landingTextSlider = new TextSlider("#text-slider-landing", $.map(texts, function(el) { return el }), text_slider_data.slideDuration);
 
 			landingTextSlider.activateChangeOnClick();
 			//landingTextSlider.changeSlideText(2);
@@ -379,7 +383,7 @@ $(document).ready( function(){
 		};
 		this.setNewHeight = function(){
 			var percentage = this.percentage();
-			if ( percentage > -50 && percentage < 120 ){
+			if ( percentage > -500 && percentage < 500 ){
 				var height = this.invisibleMarker.height();
 				var reduceHeightBy = height * this.percentage() / 100;
 				this.invisibleMarker.find('div').height( height - reduceHeightBy );

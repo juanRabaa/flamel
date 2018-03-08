@@ -133,6 +133,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 
 	class WP_Extended_Control extends WP_Customize_Control {
 		public $li_classes = "";
+		public $label_classes = "";
 		public $separator_content = "";
 		public $dependents_controls = array(
 			'controls'	=> [],//array of strings, with the names of the controls to hidde/show
@@ -149,6 +150,10 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 				$this->dependents_controls = array_merge($this->dependents_controls, $args["dependents_controls"]);
 		}
 		
+		public function pre_render(){
+			
+		}
+		
 		protected function input_id(){
 			return '_customize-input-' . $this->id;
 		}
@@ -162,6 +167,8 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 		}
 		
 		protected function render() {
+			$this->pre_render();
+			
 			$id    = 'customize-control-' . str_replace( array( '[', ']' ), array( '-', '' ), $this->id );
 			$class = 'customize-control customize-control-' . $this->type . " " . $this->li_classes;
 	 
@@ -175,9 +182,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 			
 			if( $this->dependencies_activated() ):
 				?>
-				<script>
-		
-				
+				<script>		
 				$(document).ready(function(){
 					var dependencies = JSON.parse('<?php echo json_encode($this->dependents_controls); ?>');
 					wp.customize('<?php echo $this->id; ?>', function( value ) {
@@ -192,98 +197,108 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 			endif;
 		}
 	}
-	
-	class WP_Taxonomy_Dropdown_Control extends WP_Extended_Control {
-		public $show_option_none = '&mdash; Select &mdash;';
-		/**
-		 * Render the control's content.
-		 *
-		 * @since 3.4.0
-		 */
+
+
+	class WP_Inputs_Generator_Control extends WP_Extended_Control {
+
+		public $inputs_types = array();
+		public $input_title = '';
+		public $disable_generator = false;
+		public $show_option_none = "None";
+		public $dinamic_label = null;
+		public $show_inputs_label = true;
 		
-		public function wrong_dropdown_type_error(){
-		?>
-				<label class="customize-control-select">
-					<span class="customize-control-title">
-						<?php echo $this->label; ?>
-					</span>
-					
-					<p>Error: a WP_Taxonomy_Dropdown_Control instance need to be given a valid 'type'.</p>
-					<p>Current valid types are:</p>
-					<ul>
-						<li>"pages"</li>
-						<li>"categories"</li>
-						<li>"tags"</li>
-						<li>"posts"</li>
-						<li>"authors"</li>
-					</ul>
-				</label>
-		<?php
+		public function __construct($manager, $id, $args = array())
+		{
+			parent::__construct($manager, $id, $args);
+			
+			$this->input_title = $args["inputs_title"];
+			$this->disable_generator = $args["disable_generator"] ? $args["disable_generator"] : $this->disable_generator;
+			$this->disable_generator = $args["disable_generator"] ? $args["disable_generator"] : $this->disable_generator;
 		}
 		
-		public function get_dropdown(){
+		public function type_is_taxonomy ( $type ){
+			switch ( $type ){			
+				case "categorie":
+					return true;				
+				break;
+				case "tag":
+					return true;				
+				break;				
+				case "page":
+					return true;					
+				break;
+				case "post":
+					return true;
+				break;	
+				case "user":
+					return true;
+				break;				
+			}
+			return false;
+		}
+
+		public function get_taxs_dropdown( $type, $id, $value ){
 			$dropdown = null;
-			switch ( $this->type ){			
-				case "categories":
+			switch ( $type ){			
+				case "categorie":
 					$dropdown = wp_dropdown_categories(
 						array(
-							'name'              => '_customize-dropdown-categories-' . $this->id,
+							'name'              => $id,
 							'echo'              => 0,
 							'show_option_none'  => __( $this->show_option_none ),
 							'option_none_value' => '0',
-							'selected'          => $this->value(),
+							'selected'          => $value,
 						)
 					);					
 				break;
-				case "tags":
+				case "tag":
 					$dropdown = wp_dropdown_categories(
 						array(
-							'name'              => '_customize-dropdown-categories-' . $this->id,
+							'name'              => $id,
 							'echo'              => 0,
 							'show_option_none'  => __( $this->show_option_none ),
 							'option_none_value' => '0',
-							'selected'          => $this->value(),
+							'selected'          => $value,
 							'taxonomy'			=> 'post_tag',
 						)
 					);					
 				break;				
-				case "pages":
+				case "page":
 					$dropdown = wp_dropdown_pages(
 						array(
-							'name'              => '_customize-dropdown-pages-' . $this->id,
+							'name'              => $id,
 							'echo'              => 0,
 							'show_option_none'  => __( $this->show_option_none ),
 							'option_none_value' => '0',
-							'selected'          => $this->value(),
+							'selected'          => $value,
 						)
 					);					
 				break;
-				case "posts":
+				case "post":
 					$dropdown = "<select
-						name='_customize-dropdown-posts-". $this->id . "'
-						id='_customize-dropdown-posts-". $this->id . "'		
+						name='$id'
 					>";
-					$dropdown .= '<option value=""'.selected($this->value(), $post->ID, false).'>'.__( $this->show_option_none ).'</option>';
+					$dropdown .= '<option value=""'.selected($value, $post->ID, false).'>'.__( $this->show_option_none ).'</option>';
 					$posts = get_posts(array(
 						'posts_per_page'       	=> -1,
 						'orderby'				=> 'title',
 					));
 					foreach ( $posts as $post ){
-						$dropdown .= '<option value="'. $post->ID .'"'.selected($this->value(), $post->ID, false).'>'.$post->post_title.'</option>';
+						$dropdown .= '<option value="'. $post->ID .'"'.selected($value, $post->ID, false).'>'.$post->post_title.'</option>';
 					}	
 					
 					$dropdown .= "</select>";
 				break;	
-				case "users":
+				case "user":
 					$dropdown = "<select
-						name='_customize-dropdown-posts-". $this->id . "'
-						id='_customize-dropdown-posts-". $this->id . "'		
+						name='$id'
 					>";
-					$dropdown .= '<option value=""'.selected($this->value(), $post->ID, false).'>'.__( $this->show_option_none ).'</option>';
+					$dropdown .= '<option value=""'.selected($value, $post->ID, false).'>'.__( $this->show_option_none ).'</option>';
 					
 					$users = get_users();
 					foreach ( $users as $user ){
-						$dropdown .= '<option value="'. $user->ID .'"'.selected($this->value(), $user->ID, false).'>'.$user->user_nicename.'</option>';
+						$dropdown .= '<option value="'. $user->ID .'"'.selected($value, $user->ID, false).'>'.$user->user_nicename.'</option>';
 					}	
 					
 					$dropdown .= "</select>";
@@ -292,133 +307,453 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 			return $dropdown;
 		}
 		
-		public function render_content() {
-			$dropdown = $this->get_dropdown();
-			if ( $dropdown ){
-				// Hackily add in the data link parameter.
-				$dropdown = str_replace( '<select', '<select ' . $this->get_link(), $dropdown );
-	 
-				?>
-				<label class="customize-control-select">
-					<span class="customize-control-title">
-						<?php echo $this->label; ?>
-					</span>
-					<span class="description customize-control-description"><?php echo $this->label; ?></span>					
-					<?php echo $dropdown; ?>
-				</label>
-				<?php
-			}
-			else{
-				$this->wrong_dropdown_type_error();
-			}
-		}
-	}	
-	
-	class WP_Taxonomy_Multiple_Dropdown_Control extends WP_Taxonomy_Dropdown_Control{
-		
 		public function decode_json_value(){
 			return json_decode($this->value(), true);
 		}
 		
-		public function value_dropdown( $value ){
-			$dropdown = $this->get_dropdown();
-			if ( $value != ""){
-				$dropdown = str_replace('selected="selected"','',$dropdown);
-				$dropdown = str_replace('value="'. $value .'"','value="'. $value .'" selected="selected"',$dropdown);
-			}
-			return $dropdown;
+		public function inputs_as_string(){
+			ob_start();
+			$this->print_empty_group();
+			return ob_get_clean();
 		}
 		
-		public function render_content() {
-			$dropdown = $this->get_dropdown();
-			if ( $dropdown ){
-				?>
-				<label class="customize-control-tax-mult-dropdown">
-					<div class="title-and-trash-holder">
-						<span class="customize-control-title"><?php echo $this->label; ?></span>
-						<i class="fas fa-trash-alt delete-item-on-drop" title="Drag item over to delete"></i>
-					</div>
-					<span class="description customize-control-description"><?php echo $this->label; ?></span>
-					<ul class="tax-mult-dropdown-sortable-ul ui-sortable" data-original-select="<?php echo htmlspecialchars ($dropdown, ENT_QUOTES); ?>">
-						<?php 
-						$values = $this->decode_json_value();
-						foreach( $values as $value): ?>
-						<li>
-							<span class="draggable-ball"></span>
-							<div class="collapsible-title">
-								<div class="draggable-ball-space"></div>
-								<?php echo $this->value_dropdown( $value ); ?>
-							</div>							
-						</li>
-						<?php endforeach; ?>
-					</ul>
-					<div>
-					<input type="hidden" value="" <?php $this->link(); ?>>
-					<div class="add-new-li">
-						<i class="fas fa-plus"></i>
-					</div>			
-					</div>
-				</label>
-				<?php
-			}
-			else{
-				$this->wrong_dropdown_type_error();
-			}
-		}		
-	}
-	
-	
-	//The setting default must be a JSON
-	//Ex: 'default'	=> '{"input_1": "I'm the first value", "input_2": "I'm the second input value"}'
-	//JSON only works with DOUBLE QUOTES!!!
-	class WP_Inputs_Control extends WP_Extended_Control {
-		public $inputs_types = array();
-
-		public function decode_json_value(){
-			return json_decode($this->value(), true);
+		public function print_empty_group(){
+			$inputs = $this->inputs_types;
+			foreach( $inputs as $input_id => $value ){
+				$inputs[$input_id] = "";
+			} 
+			$this->print_single_inputs_group( $inputs );			
 		}
 		
-		//Echo the inputs with empty values. To use when the setting value is null
-		public function empty_values_inputs(){
-			foreach( $this->inputs_types as $input_id => $input_data ):
-				?>
-				<span class="input-label"><?php echo $input_data["nice_name"]; ?></span>
-				<input name="<?php echo $input_id; ?>" type="<?php  echo $input_data["type"]; ?>" value="">
+		public function echo_single_input($input_id, $nice_name, $type, $dependencies, $reverse_dependencies, $value){
+			?>
+				<div class="inputs-generator-inputs-holder" data-inputs-dependencies="<?php echo $dependencies; ?>" 
+				data-reverse-dependencies="<?php echo $reverse_dependencies; ?>" data-input-show="true">
+				
+				<?php if ( $type == "checkbox" ): ?>
+				<input name="<?php echo $input_id; ?>" type="<?php  echo $type; ?>" value="<?php echo $value; ?>" 
+				<?php if ( $value ): ?> checked <?php endif; ?>>
+				<?php endif; ?>
+				
+				<?php if ( $this->show_inputs_label ): ?>
+				<span class="input-label"><?php echo $nice_name; ?></span>
+				<?php endif; ?>
+				
+				<?php if ( $type == "textarea" ): ?>
+				<textarea name="<?php echo $input_id; ?>" value="<?php echo $value; ?>"><?php echo $value; ?></textarea>
+				<?php elseif ( $type == "image" ): ?>
+				<div class="input-wp-media-image-holder">
+					<img class="input-image-src" src="<?php echo $value; ?>">
+					<div class="input-image-placeholder">	
+						<p> Select an image </p>
+					</div>					
+					<input name="<?php echo $input_id; ?>" type="text" value="<?php echo $value; ?>">					
+				</div>	
+				<div class="remove-image-button"><i class="fas fa-times" title="Remove image"></i></div>				
 				<?php 
-			endforeach; 			
+					elseif ( $this->type_is_taxonomy( $type ) ):
+						$dropdown = $this->get_taxs_dropdown( $type, $input_id, $value );
+						echo $dropdown;
+
+					elseif ( $type != "checkbox" ):
+				?>
+				<input name="<?php echo $input_id; ?>" type="<?php  echo $type; ?>" value="<?php echo $value; ?>">
+				<?php endif; ?>
+				</div>	
+			<?php
+		}
+		
+		public function print_inputs ( $inputs ){
+			if ( !empty( $inputs ) ){
+				foreach( $inputs as $input_id => $input_value ){
+					$input_data = $this->inputs_types[$input_id];
+					$this->echo_single_input($input_id, $input_data["nice_name"], $input_data["type"], $input_data["dependencies"], $input_data["reverse_dependencies"], $input_value);
+				}
+			}			
+		}
+		
+		public function print_single_inputs_group( $inputs ){
+			$title = $this->label;
+			if ( $this->input_title )
+				$title = $this->input_title;
+			?>
+			<li name="<?php echo $title; ?>" class="customizer-inputs-group sortable-li 
+			<?php if ( !$this->disable_generator ): ?>customizer-draggable-li bullet-draggable<?php endif; ?>">
+				<?php if ( !$this->disable_generator ): ?>
+				<span class="draggable-ball"></span>
+				<div class="collapsible-title customizer-draggable-li-title">
+					<span class="customize-control-arrow">
+						<i class="fas fa-angle-down collapsible-arrow" aria-hidden="true"></i>
+					</span>
+					<span class="customize-control-title"><?php echo $title; ?></span>
+				</div>
+				<?php endif; ?>
+				<div class="<?php if ( !$this->disable_generator ): ?>collapsible-body<?php endif; ?> inputs-holder">
+				<?php
+					$this->print_inputs( $inputs );
+				?>
+				</div>
+			</li>			
+			<?php			
+		}
+		
+		public function print_inputs_groups(){
+			$inputs_groups = $this->decode_json_value(); 
+			if ( !empty($inputs_groups) ){
+				foreach( $inputs_groups as $inputs ){
+					$this->print_single_inputs_group( $inputs );
+					if ( $this->disable_generator )
+						break;
+				}	
+			}
+			else if( $this->disable_generator )
+				$this->print_empty_group();
 		}
 		
 		public function render_content() {
 			?>
-			<label class="customize-control-multiple-inputs">
-				<div class="collapsible-title">
-					<span class="customize-control-arrow">
-						<i class="fas fa-angle-down collapsible-arrow" aria-hidden="true"></i>
-					</span>
+			<label class="customize-control-multiple-inputs customize-control-inputs-generator customizer-control-holder <?php echo $this->label_classes; ?>" 
+			data-base-inputs="<?php echo esc_html($this->inputs_as_string()); ?>"
+			data-dinamic-label-id="<?php echo $this->dinamic_label; ?>">
+				<div class="title-and-trash-holder">
 					<span class="customize-control-title"><?php echo $this->label; ?></span>
+					<?php if ( !$this->disable_generator ): ?>
+					<i class="fas fa-trash-alt delete-item-on-drop" title="Drag item over to delete"></i>
+					<?php endif; ?>
 				</div>
-				<div class="collapsible-body inputs-holder">
-					<?php 
-					$inputs = $this->decode_json_value(); 
-					if ( !empty($inputs) ):
-						foreach( $inputs as $input_id => $input_value ):
-							$input_data = $this->inputs_types[$input_id];
-							?>
-							<span class="input-label"><?php echo $input_data["nice_name"]; ?></span>
-							<input name="<?php echo $input_id; ?>" type="<?php  echo $input_data["type"]; ?>" value="<?php echo $input_value; ?>">
-							<?php 
-						endforeach;
-					else :
-						$this->empty_values_inputs();
-					endif;
-					?>
+				<span class="description customize-control-description"><?php echo $this->description; ?></span> 
+				<ul class="customizer-sortable-ul ui-sortable">
+					<?php echo $this->print_inputs_groups(); ?>
+				</ul>
+				<?php if ( !$this->disable_generator ): ?>
+				<div class="add-new-li customizer-add-new-button">
+					<i class="fas fa-plus"></i>
 				</div>
+				<?php endif; ?>
 				<input class="control-value" type="hidden" <?php $this->link(); ?>>
 			</label>
 			<?php
 		}
 	}	
+	
+	class WP_Single_Input_Generator_Control extends WP_Inputs_Generator_Control {
+		
+		public function sanitize_inputs_array(){
+			if( count( $this->inputs_types ) > 1 ){
+				reset( $this->inputs_types );
+				$first_key = key( $this->inputs_types );				
+				$this->inputs_types = array( $first_key => $this->inputs_types[$first_key] );
+			}
+			else if ( !count( $this->inputs_types ) )
+				$this->inputs_types == array();
+		}
 
+		public function print_inputs ( $input_value ){
+			$input_data = current($this->inputs_types);
+			$input_id = key( $this->inputs_types );
+			$this->echo_single_input($input_id, $input_data["nice_name"], $input_data["type"], $input_data["dependencies"], $input_data["reverse_dependencies"], $input_value);
+		}
+
+		public function print_empty_group(){
+			$this->print_single_inputs_group( '' );			
+		}
+		
+		public function pre_render(){
+			$this->label_classes .= " single-input-generator-control"; 
+			$this->sanitize_inputs_array();
+		}	
+		
+	}
+
+	class Rabas_Single_Input_Control extends WP_Single_Input_Generator_Control {
+
+		public $input_type = '';
+		
+		public function __construct($manager, $id, $args = array())
+		{
+			parent::__construct($manager, $id, $args);
+			
+			$this->input_type = $args["input_type"];
+		}
+		
+		public function pre_render(){
+			$this->label_classes .= " single-input-control"; 
+			$this->disable_generator = true;
+			$this->show_inputs_label = false;
+		}
+
+		public function print_inputs_groups(){
+			$input_value = $this->value();
+			$this->print_single_inputs_group( $input_value );	
+		}
+
+		public function print_empty_group(){
+			$this->print_single_inputs_group( '' );			
+		}
+		
+		public function print_inputs ( $input_value ){
+			$this->echo_single_input('single_input', '', $this->input_type, '', '', $input_value);
+		}		
+
+	}
+	
+	/*Displays a group of inputs, returns as value a JSON
+	/* Keys == inputs ID
+	/*Same as the WP_Inputs_Generator_Control, but only allows one group, doesnt allows generation of new inputs groups.
+	/*The difference is the value returned, instead of an array of inputs group is an array of inputs*/
+	class WP_Mutan_Inputs_Control extends WP_Inputs_Generator_Control {
+		
+		public function pre_render(){
+			$this->label_classes .= " single-inputs-group-control"; 
+			$this->disable_generator = true;
+		}
+
+		public function print_inputs_groups(){
+			$inputs = $this->decode_json_value();
+
+			if ( !empty($inputs) )
+				$this->print_single_inputs_group( $inputs );	
+			else
+				$this->print_empty_group();
+		}
+
+	}
+
+	class WP_Mutan_Gallery_Control extends WP_Extended_Control {
+
+		public function print_base_input_str(){
+			ob_start();
+			$this->print_single_image( '' );
+			return ob_get_clean();
+		}
+		
+		public function decode_json_value(){
+			return json_decode($this->value(), true);
+		}
+		
+		public function print_single_image( $image_src ){
+			?>
+			<li class="customizer-gallery-image-li sortable-li customizer-draggable-li">
+				<div class="gallery-image-holder" data-image-src="<?php echo $image_src; ?>" style="background-image: url(<?php echo $image_src; ?>);">
+					<div class="gallery-image-controls">
+						<div class="edit-image" title="Remove image"><i class="fas fa-pencil-alt"></i></div>
+						<div class="drag-image"></div>
+						<div class="remove-image" title="Remove image"><i class="fas fa-trash"></i></div>
+					</div>
+				</div>
+			</li>
+			<?php
+		}
+		
+		public function print_images(){
+			$images = $this->decode_json_value();
+
+			if( !empty($images) ){
+				foreach( $images as $image_src ){
+					$this->print_single_image($image_src);
+				}
+			}
+		}
+		
+		public function render_content() {
+			?>
+			<label class="customize-control-image-gallery customizer-control-holder <?php echo $this->label_classes; ?>"
+			data-gallery-base-li="<?php print_r(esc_html( $this->print_base_input_str() )); ?>">
+				<span class="customize-control-title"><?php echo $this->label; ?></span>
+				<span class="description customize-control-description"><?php echo $this->description; ?></span> 
+				<ul class="customizer-sortable-ul ui-sortable">
+					<?php echo $this->print_images(); ?>
+				</ul>
+				<div class="add-new-li customizer-add-new-button">
+					<i class="fas fa-plus"></i>
+				</div>
+				<input class="control-value" type="hidden" <?php $this->link(); ?>>
+			</label>
+			<?php
+		}	
+
+	}
+	
+	class WP_List_Generator_Control extends WP_Extended_Control {
+		public $max_num_of_lists;
+		public $button_content;
+		
+		public function __construct($manager, $id, $args = array())
+		{
+			parent::__construct($manager, $id, $args);
+
+			$this->max_num_of_lists = $args["max_num_of_lists"];
+			$this->button_content = $args["button_content"];
+		}
+		
+		public function sanitized_value(){
+			return str_replace('"',"'",$this->setting->value());
+		}
+		
+		public function decoded_value(){
+			return json_decode ( $this->setting->value(), true );
+		}
+		
+		public function the_lists(){
+			$lists = $this->decoded_value();
+			$index = 0;
+			
+			foreach ( $lists as $list){
+				$list_name = $list["name"];
+				$list_items = $list["items"];
+				?>
+				<li 
+				data-list-name="<?php echo $list_name; ?>"  
+				data-list-id="list_<?php echo $index; ?>" 
+				data-list-items="<?php echo $this->stringify_items_array( $list_items ); ?>"
+				class="sortable-li"
+				>
+					<span class="list-name"><?php echo $list_name; ?></span>
+					<i class="fas fa-pencil-alt edit-button" title="Edit"></i>
+					<i class="far fa-trash-alt delete-list" title="Delete List"></i>
+				</li>
+				<?php
+				$index++;
+			}
+		}
+		
+		public function stringify_items_array( $items_array ){
+			$array_length = count($items_array);
+			$string = "";
+
+			foreach ( $items_array as $index=>$item ){
+				$string .= $item;
+				if ( $index < ($array_length - 1) )
+					$string .= ',';
+			}
+			
+			return $string;
+		}
+		
+		public function load_organize_lists_view(){
+		?>
+			<div class="lists-organization">
+				<p>Organizate lists. Right click to edit that list</p>
+				<div class="current-list">
+					<ul class="sortables-ul">
+						<?php
+							if ( !empty($this->value()) )
+								$this->the_lists();
+						?>						
+						<input type="hidden" value="<?php echo $this->sanitized_value(); ?>" data-value="{'first_list':[],'second_list':[],'third_list':[]}" <?php $this->link(); ?>>
+					</ul>
+				</div>
+				<div class="add-list">
+					<i class="fas fa-plus-square" title="Add list"></i>
+				</div>
+			</div>
+		<?php
+		}
+
+		public function load_edit_list_view(){
+		?>
+			<div data-list-id="" class="view-list" style="display: none;">
+				<p> Editing list: <span class="the-list-name">name</span><i class="fas fa-pencil-alt edit-name"></i></p>
+				<span class="list-fast-edition-button"> FAST EDITION </span>
+				<div class="current-list">
+					<ul class="sortables-ul">			
+					</ul>
+				</div>
+				<div class="add-list-item">
+					<i class="fas fa-plus-square" title="Add list item"></i>
+				</div>
+			</div>
+		<?php
+		}
+		
+		public function load_list_item_edition(){
+			?>
+			<div class="insert-item-content ui-draggable">
+				<h6> Editing list item </h6>
+				<textarea class="item-edition-field"></textarea>
+				<div class="item-edition-buttons awaiting-edition">
+					<i class="far fa-save save-changes-button" title="Save changes"></i>
+					<i class="fas fa-times discard-changes-button" title="Discard changes"></i>
+				</div>
+			</div>
+			<?php
+		}
+
+		public function load_csv_list_edition(){
+			?>
+			<div class="cvs-list-edition ui-draggable">
+				<h6> Editing list as CSV </h6>
+				<textarea class="item-edition-field"></textarea>
+				<div class="item-edition-buttons awaiting-edition">
+					<i class="far fa-save save-changes-button" title="Save changes"></i>
+					<i class="fas fa-times discard-changes-button" title="Discard changes"></i>
+				</div>
+			</div>
+			<?php
+		}
+		
+		public function render_content() {
+			?>
+			<label class="customize-control-list-edition <?php echo $this->label_classes; ?>">
+				<span class="customize-control-title"><?php echo $this->label; ?></span>
+				<span class="description customize-control-description"><?php echo $this->description; ?></span> 
+				<div class="list-edition-button">
+					<span><?php echo $this->button_content; ?></span>
+				</div>				
+				<div class="list-edition-panel">
+					<div class="panel-overlay"></div>
+					<div class="lists-panel-title-container">
+						<i class="fas fa-chevron-circle-left close-lists-panel-button"></i>
+						<h5 class="list-edition-panel-title">Lists control panel</h5>
+					</div>
+					<!--<span> Number of lists: <?php echo $this->max_num_of_lists; ?></span>
+					<span> Maximum number of lists possible: 3</span>-->
+					<div class="list-selection"> 
+						<span class="organize-button active">Organize/select list</span>
+					</div>
+					<div class="lists-visualization">
+						<?php $this->load_edit_list_view(); ?>
+						<?php $this->load_organize_lists_view(); ?>
+						<?php $this->load_list_item_edition(); ?>
+					</div>
+				</div>
+			</label>
+			<?php  
+		}
+	}
+
+
+	
+	//Text editor control
+	class Text_Editor_Custom_Control extends WP_Extended_Control{
+		public $type = 'textarea';
+		/**
+		** Render the content on the theme customizer page
+		*/
+		public function render_content() { ?>
+			<label class="<?php echo $this->label_classes; ?>">
+			  <span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			  <?php
+				$settings = array(
+					'textarea_name' 	=> $this->id,
+					'media_buttons' 	=> false,
+					'drag_drop_upload' 	=> false,
+					'teeny'				=> true,
+					'textarea_rows' 	=> 5,
+				  );
+				$this->filter_editor_setting_link();
+				wp_editor($this->value(), $this->id, $settings );
+			  ?>
+			</label>
+		<?php
+			do_action('admin_footer');
+			do_action('admin_print_footer_scripts');
+		}
+		private function filter_editor_setting_link() {
+			add_filter( 'the_editor', function( $output ) { return preg_replace( '/<textarea/', '<textarea ' . $this->get_link(), $output, 1 ); } );
+		}
+	}
+	
 	/*TO ADD
 	/***Option to not use zoom in
 	/***Add the possibility to use MULTIPLE IMAGES per IMAGE CHOICE, and display a carousel on the 'zoom in' view, with all those images
@@ -463,7 +798,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 			$describedby_attr = ( ! empty( $this->description ) ) ? ' aria-describedby="' . esc_attr( $description_id ) . '" ' : '';
 			
 			?>
-			<label class="customize-control-select">
+			<label class="customize-control-select <?php echo $this->label_classes; ?>">
 				<span class="customize-control-title"><?php echo $this->label; ?></span>
 				<span class="description customize-control-description"><?php echo $this->description; ?></span> 	
 				<div class="image-selection-container">
@@ -495,10 +830,6 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 		}
 	}
 
-	/*TO ADD
-	/***Option to not use zoom in
-	/***Add the possibility to use MULTIPLE IMAGES per IMAGE CHOICE, and display a carousel on the 'zoom in' view, with all those images
-	*/
 	class WP_Color_Scheme_Control extends WP_Extended_Control {
 		public $colors_schemes;
 		
@@ -515,7 +846,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 			$description_id = '_customize-description-' . $this->id;
 			$describedby_attr = ( ! empty( $this->description ) ) ? ' aria-describedby="' . esc_attr( $description_id ) . '" ' : '';
 			?>
-			<label class="customize-control-color-schemes">
+			<label class="customize-control-color-schemes <?php echo $this->label_classes; ?>">
 				<span class="customize-control-title"><?php echo $this->label; ?></span>
 				<span class="description customize-control-description"><?php echo $this->description; ?></span> 	
 				<div class="colors-scheme">
@@ -618,7 +949,7 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 			$ordered_items_values = $this->current_value;
 
 			?>
-			<label class="customize-control-sortable-list">
+			<label class="customize-control-sortable-list <?php echo $this->label_classes; ?>">
 				<span class="customize-control-title"><?php echo $this->label; ?></span>
 				<span class="description customize-control-description"><?php echo $this->description; ?></span> 
 				<ul class="sortables-ul">
@@ -644,391 +975,4 @@ if( ! function_exists( 'wp_dropdown_posts' ) ) {
 			</label>
 			<?php  
 		}
-	}
-		
-	class WP_List_Generator_Control extends WP_Extended_Control {
-		public $max_num_of_lists;
-		public $button_content;
-		public $lists = [ 
-			"first_list" 	=> [ "List item 1", "List item 2"],
-			"second_list" 	=> [ "List item 1", "List item 2"],
-			"third_list" 	=> [ "List item 1", "List item 2"],
-		];
-		
-		public function __construct($manager, $id, $args = array())
-		{
-			parent::__construct($manager, $id, $args);
-
-			$this->max_num_of_lists = $args["max_num_of_lists"];
-			$this->button_content = $args["button_content"];
-		}
-		
-		public function get_list_ordered_json(){
-			$list_json = json_encode($this->lists);
-			return str_replace('"',"'",$list_json); 
-		}
-		
-		public function sanitized_value(){
-			return str_replace('"',"'",$this->setting->value());
-		}
-		
-		public function decoded_value(){
-			return json_decode ( $this->setting->value(), true );
-		}
-		
-		public function the_lists(){
-			$lists = $this->decoded_value();
-			$index = 0;
-			
-			foreach ( $lists as $list){
-				$list_name = $list["name"];
-				$list_items = $list["items"];
-				?>
-				<li 
-				data-list-name="<?php echo $list_name; ?>"  
-				data-list-id="list_<?php echo $index; ?>" 
-				data-list-items="<?php echo $this->stringify_items_array( $list_items ); ?>"
-				class="sortable-li"
-				>
-					<span class="list-name"><?php echo $list_name; ?></span><i class="far fa-trash-alt delete-list" title="Delete List"></i>
-				</li>
-				<?php
-				$index++;
-			}
-		}
-		
-		public function stringify_items_array( $items_array ){
-			$array_length = count($items_array);
-			$string = "";
-
-			foreach ( $items_array as $index=>$item ){
-				$string .= $item;
-				if ( $index < ($array_length - 1) )
-					$string .= ',';
-			}
-			
-			return $string;
-		}
-		
-		public function load_organize_lists_view(){
-		?>
-			<div class="lists-organization">
-				<p>Organizate lists. Right click to edit that list</p>
-				<div class="current-list">
-					<ul class="sortables-ul">
-						<!--
-						<li data-list-name="First List"  data-list-id="list_1" data-list-items="BRANDING,NAMING ID,INSIGHTS AND DATA" class="sortable-li">
-							<span class="list-name">First list</span><i class="far fa-trash-alt delete-list" title="Delete List"></i>
-						</li>
-						<li data-list-name="Second List"  data-list-id="list_2" data-list-items="li1" class="sortable-li">
-							<span class="list-name">Second list</span><i class="far fa-trash-alt delete-list" title="Delete List"></i>
-						</li>
-						<li data-list-name="Third List"  data-list-id="list_3" data-list-items="li1,li2" class="sortable-li">
-							<span class="list-name">Third list</span><i class="far fa-trash-alt delete-list" title="Delete List"></i>
-						</li>
-						-->
-						<?php
-							if ( !empty($this->value()) )
-								$this->the_lists();
-						?>						
-						<input type="hidden" value="<?php echo $this->sanitized_value(); ?>" data-value="{'first_list':[],'second_list':[],'third_list':[]}" <?php $this->link(); ?>>
-					</ul>
-				</div>
-				<div class="add-list">
-					<i class="fas fa-plus-square" title="Add list"></i>
-				</div>
-			</div>
-		<?php
-		}
-
-		public function load_edit_list_view(){
-		?>
-			<div data-list-id="" class="view-list" style="display: none;">
-				<p> Editing list: <span class="the-list-name">name</span><i class="fas fa-pencil-alt edit-name"></i></p>
-				<span> Right click to edit item content </span>
-				<div class="current-list">
-					<ul class="sortables-ul">
-						<li class="sortable-li" >First item</li>
-						<li class="sortable-li" >Second item</li>
-						<li class="sortable-li" >Third item</li>
-						<li class="sortable-li" >Forth item</li>
-						<li class="sortable-li" >Fifth item</li>				
-					</ul>
-				</div>
-				<div class="add-list-item">
-					<i class="fas fa-plus-square" title="Add list item"></i>
-				</div>
-			</div>
-		<?php
-		}
-		
-		public function render_content() {
-			?>
-			<label class="customize-control-list-edition">
-				<span class="customize-control-title"><?php echo $this->label; ?></span>
-				<span class="description customize-control-description"><?php echo $this->description; ?></span> 
-				<div class="list-edition-button">
-					<span><?php echo $this->button_content; ?></span>
-				</div>				
-				<div class="list-edition-panel">
-					<div class="panel-overlay"></div>
-					<div class="lists-panel-title-container">
-						<i class="fas fa-chevron-circle-left close-lists-panel-button"></i>
-						<h5 class="list-edition-panel-title">Lists control panel</h5>
-					</div>
-					<span> Number of lists: <?php echo $this->max_num_of_lists; ?></span>
-					<span> Maximum number of lists possible: 3</span>
-					<div class="list-selection"> 
-						<span class="organize-button active">Organize/select list</span>
-					</div>
-					<div class="lists-visualization">
-						<?php $this->load_edit_list_view(); ?>
-						<?php $this->load_organize_lists_view(); ?>
-						<div class="insert-item-content ui-draggable">
-							<h6> Editing list item </h6>
-							<textarea class="item-edition-field"></textarea>
-							<div class="item-edition-buttons awaiting-edition">
-								<i class="far fa-save save-changes-button" title="Save changes"></i>
-								<i class="far fa-trash-alt discard-changes-button" title="Discard changes"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-			</label>
-			<?php  
-		}
-	}
-
-	class WP_Textarea_Generator_Control extends WP_Extended_Control {
-		
-		public function get_items(){
-			return json_decode ( $this->setting->value(), true );
-		}
-		
-		public function print_item( $item_name ){
-			?>
-			<li class="sortable-li">
-				<span class="draggable-ball"></span>
-				<div class="collapsible-title">
-					<div class="draggable-ball-space"></div>
-					<span class="customize-control-arrow">
-						<i class="fas fa-angle-down collapsible-arrow" aria-hidden="true"></i>
-					</span>
-					<span class="customize-control-title"><?php echo $item_name; ?></span><div class="customize-control-notifications-container" style="display: none;"><ul></ul></div> 
-				</div>
-				<div class="collapsible-body">
-					<textarea class="textarea-generator-input"><?php echo $item_name; ?></textarea>
-					<div class="collapsible-body-controls">
-						<i class="fas fa-trash-alt delete-item"></i>
-					</div>
-				</div>					
-			</li>		
-			<?php
-		}
-		
-		public function print_all_items(){
-			$items = $this->get_items();
-			foreach( $items as $item ){
-				$this->print_item($item);
-			}
-		}
-		
-		
-		public function render_content() {
-			?>
-			<label class="customize-control-textarea-generator">
-				<div class="title-and-trash-holder">
-					<span class="customize-control-title"><?php echo $this->label; ?></span>
-					<i class="fas fa-trash-alt delete-item-on-drop" title="Drag item over to delete"></i>
-				</div>
-				<span class="description customize-control-description"><?php echo $this->description; ?></span> 
-				<ul class="textarea-generator-sortable-ul">
-					<?php $this->print_all_items(); ?>			
-				</ul>
-				<div class="add-new-text">
-					<i class="fas fa-plus"></i>
-				</div>
-				<input type="hidden" value="" <?php $this->link(); ?>>
-			</label>
-			<?php  
-		}
-	}
-	
-	//Loads a box with as many inputs as settings passed
-	class WP_Social_Icons_Control extends WP_Extended_Control {
-			public $type = 'social';
-			
-			public function load_setting_input( $key, $value ) {
-                $value = '';
-                if ( isset( $this->settings[ $key ] ) )
-                    $value = $this->settings[ $key ]->value();				
-			?>
-				<label class="field-label"><?php echo $this->settings[ $key ]->pretty_name; ?></label>
-				<input  <?php $this->link( $key ); ?> data-live-id="network" type="text" value="<?php echo $value["value"]; ?>" data-repeat-name="<?php echo $value["id"];?>" class="<?php echo $value["id"]; ?>" name="<?php echo $value["id"]; ?>"/>
-			<?php
-			}
-			
-            public function render_content() {
-			?> <span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span> 
-				<div class="social-control" >
-			<?php
-				array_values ( $this->settings );
-                foreach( $this->settings as $key => $value ) {
-                    $this->load_setting_input( $key, $value );
-                }
-			?>
-				</div>
-			<?php
-            }
 	}	
-	
-	//Text editor control
-	class Text_Editor_Custom_Control extends WP_Extended_Control{
-		public $type = 'textarea';
-		/**
-		** Render the content on the theme customizer page
-		*/
-		public function render_content() { ?>
-			<label>
-			  <span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-			  <?php
-				$settings = array(
-					'textarea_name' 	=> $this->id,
-					'media_buttons' 	=> false,
-					'drag_drop_upload' 	=> false,
-					'teeny'				=> true,
-					'textarea_rows' 	=> 5,
-				  );
-				$this->filter_editor_setting_link();
-				wp_editor($this->value(), $this->id, $settings );
-			  ?>
-			</label>
-		<?php
-			do_action('admin_footer');
-			do_action('admin_print_footer_scripts');
-		}
-		private function filter_editor_setting_link() {
-			add_filter( 'the_editor', function( $output ) { return preg_replace( '/<textarea/', '<textarea ' . $this->get_link(), $output, 1 ); } );
-		}
-	}
-
-	//A control that supports multiple inputs controls, and agrupates them under one box
-	//It needs an associative array of settings. The key will be the setting "nice name"; and the value will be the setting name
-	//Settings array example:
-	//	$menu_extra_item_settings = array ( 
-	//		"Name" 	=> "menu-extra-item-name",
-	//		"URL" 	=> "menu-extra-item-url", 
-	//	);
-	//
-	class WP_Inputs_Container_Control extends WP_Extended_Control {
-		public $type = 'container-control';
-		public $general_title;
-
-		public function load_setting_input( $key, $setting ) {
-			$value = '';
-			if ( isset( $this->settings[ $key ] ) )
-				$value = $this->settings[ $key ]->value();				
-		?>
-			<label class="field-label"><?php echo $key; ?></label>
-			<input  <?php $this->link( $key ); ?> data-live-id="network" type="text" value="<?php echo $value; ?>" data-repeat-name="<?php echo $value;?>" class="<?php echo $value; ?>" name="<?php echo $value; ?>"/>
-		<?php
-		}
-		
-		public function render_content() {
-			//Title
-			if ( !empty ( $this->general_title ) ) :
-		?>
-			<label class="customize-control-title general-title"><?php echo $this->general_title; ?></label>
-		<?php endif;
-			//Control description
-			if ( !empty ( $this->description ) ) :
-		?>
-			<span class="description customize-control-description"><?php echo $this->description ?></span>	
-		<?php endif; ?> 	
-			<div class="title-holder">
-				<span class="customize-control-arrow"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></span>
-				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span> 
-			</div>
-		<?php //INPUTS ?>
-			<div class="input-container-control" >
-		<?php
-			array_values ( $this->settings );
-			//$value = setting object
-			foreach( $this->settings as $key => $value ) {
-				//for every setting given, loads the input
-				$this->load_setting_input( $key, $value );
-			}
-		?>
-			</div>
-		<?php
-		}
-	}	
-	
-	class WP_Inputs_Counter_Control extends WP_Extended_Control {
-		/*  Display a counter on top an a series of inputs under it.
-		/* The settings must be of Key => Value nature, beeing the
-		/* key the label upon the input, and the value the setting id
-		/* IMPORTANT!!!
-		/* 		The counter setting KEY must be especified on the
-		/* $counter of the control, in order to generate it. If not
-		/*	provided, it will cause a FATAL ERROR
-		**************************************************************/
-		
-		public $type = 'container-control'; //Type of control, this string will appear on the control HTML element as a class or classes
-		public $counter; //REQUIRED, the counter setting id
-		public $counter_settings = array ( //The counter settings, 'type' should not be change from number to be a counter
-			'label'			=> '',
-			'description'	=> '',
-			'type'			=> 'number',
-		);
-		
-		public function load_counter( ){
-			?>
-			<label>
-				<?php if ( ! empty( $this->counter_settings['label'] ) ) : ?>
-					<span class="customize-control-title"><?php echo esc_html( $this->counter_settings['label'] ); ?></span>
-				<?php endif;
-				if ( ! empty( $this->counter_settings['description'] ) ) : ?>
-					<span class="description customize-control-description"><?php echo $this->counter_settings['description']; ?></span>
-				<?php endif; ?>
-				<input type="<?php echo esc_attr( $this->counter_settings['type'] ); ?>" <?php $this->input_attrs( $this->counter ); ?> value="<?php echo esc_attr( $this->value( $this->counter ) ); ?>" <?php $this->link( $this->counter ); ?> />
-			</label>
-			<?php
-		}
-		
-		public function load_setting_input( $key, $setting ) {
-			$value = '';
-			if ( isset( $this->settings[ $key ] ) )
-				$value = $this->settings[ $key ]->value();				
-		?>
-			<label class="field-label"><?php echo $key; ?></label>
-			<input  <?php $this->link( $key ); ?> data-live-id="network" type="text" value="<?php echo $value; ?>" data-repeat-name="<?php echo $value;?>" class="<?php echo $value; ?>" name="<?php echo $value; ?>"/>
-		<?php
-		}
-		
-		public function render_content() {
-			if( empty( $this->counter ) ){
-				echo "<span style='color: red; font-weight: bold;'>Fatal error:</span> \$counter is not defined and expects a setting id to be use as a counter";
-				return;
-			}
-		?> 	<div class="title-holder">
-				<span class="customize-control-arrow"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></span>
-				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span> 
-			</div>
-			<div class="input-container-control" >
-		<?php
-			array_values ( $this->settings );
-			//$value = setting object
-			$this->load_counter();
-			
-			foreach( $this->settings as $key => $value ) {
-				if ( $value->id == $this->counter )
-					continue;
-				$this->load_setting_input( $key, $value );
-			}
-		?>
-			</div>
-		<?php
-		}
-	}		
-	

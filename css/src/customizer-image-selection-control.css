@@ -42,3 +42,53 @@
 .zoom-out-text:hover{
     opacity: 1;
 }
+
+/*SELECT RADIO WITH IMAGES CONTROL*/
+/*************************************************************************************************/
+.image-choice {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    margin-top: 1rem;
+    max-width: 100%;
+	position: relative;
+}
+
+.image-selection-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.image-choice > input[type="radio"]:checked {
+    border-color: #3300ff;
+    box-shadow: 0px 0px 8px 0px #3300ff;
+}
+
+input[type=radio]:checked:before {
+    display: none ;
+}
+
+.image-choice > input[type="radio"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    background-color: transparent;
+    color: transparent;
+}
+
+.image-choice > input[type="radio"]:checked {
+    border-color: #3300ff;
+    box-shadow: 0px 0px 8px 0px #3300ff;
+}
+
+.customize-control select{
+	height: auto;
+}
+
+input ~ label{
+	display: inline;
+}

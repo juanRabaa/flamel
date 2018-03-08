@@ -3,7 +3,7 @@
 }
 
 a {
-    color: #8e1d2b;
+    color: #fd2a5f;
 }
 
 li {
@@ -24,7 +24,7 @@ label, legend {
 }
 
 .separator-control {
-    border-top: double 0.3rem #B31F31;
+    border-top: double 0.3rem #fd2a5f;
     padding-top: 1rem;
 
 }
@@ -34,36 +34,45 @@ label, legend {
 }
 
 .customize-panel-back:focus, .customize-panel-back:hover, .customize-section-back:focus, .customize-section-back:hover {
-    color: #B31F31;
-    border-left-color: #B31F31;
+    color: #fd2a5f;
+    border-left-color: #fd2a5f;
 }
 
 #customize-theme-controls .control-section .accordion-section-title:focus:after, #customize-theme-controls .control-section .accordion-section-title:hover:after, #customize-theme-controls .control-section.open .accordion-section-title:after, #customize-theme-controls .control-section:hover>.accordion-section-title:after {
-    color: #B31F31;
+    color: #fd2a5f;
 }
 
 #customize-controls .control-section .accordion-section-title:focus, #customize-controls .control-section .accordion-section-title:hover, #customize-controls .control-section.open .accordion-section-title, #customize-controls .control-section:hover>.accordion-section-title {
-    color: #B31F31;
-    border-left-color: #B31F31;
+    color: #fd2a5f;
+    border-left-color: #fd2a5f;
 }
 
 .button.button-primary, button.button-primary, input[type="submit"].button-primary, input[type="reset"].button-primary, input[type="button"].button-primary {
     color: #FFF;
-    background-color: #B31F31;
-    border-color: #811a27;
+    background-color: #fd2a5f00;
+    border-color: #fd2a5f;
+}
+
+@media screen and (max-width: 640px){
+	#publish-settings{
+		height: 30px;
+	}
+}
+
+#publish-settings{
+	border-left: solid 0.1rem #fd2a5f;
 }
 
 .wp-core-ui .button-primary {
-    background: #c83c4d;
-    -webkit-box-shadow: 0 1px 0 #c83c4d;
-    box-shadow: 0 1px 0 #c83c4d;
+    background: #fd2a5f00;
     text-decoration: none;
-    text-shadow: 0 -1px 1px #c83c4d, 1px 0 1px #c83c4d, 0 1px 1px #c83c4d, -1px 0 1px #c83c4d;
+    text-shadow: none;
+    color: #fd2a5f!important;
 }
 
 .wp-core-ui .button-primary.focus, .wp-core-ui .button-primary:focus {
-    -webkit-box-shadow: 0 1px 0 #B31F31, 0 0 2px 1px #B31F31;
-    box-shadow: 0 1px 0 #B31F31, 0 0 2px 1px #B31F31;
+    -webkit-box-shadow: 0 1px 0 #fd2a5f, 0 0 2px 1px #fd2a5f;
+    box-shadow: 0 1px 0 #fd2a5f, 0 0 2px 1px #fd2a5f;
 }
 
 .wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover {
@@ -73,9 +82,10 @@ label, legend {
 }
 
 .button.button-primary:hover, button.button-primary:hover, input[type="submit"].button-primary:hover, input[type="reset"].button-primary:hover, input[type="button"].button-primary:hover, .button.button-primary:focus, button.button-primary:focus, input[type="submit"].button-primary:focus, input[type="reset"].button-primary:focus, input[type="button"].button-primary:focus {
-    color: #FFF;
-    background-color: #c04d5b;
-    border-color: #811a27;
+    color: #ffffff!important;
+    background-color: #c04d5b00;
+    border-color: #fd2a5f;
+    background-color: #fd2a5f;
 }
 
 .wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover, .wp-core-ui .button-primary:active {
@@ -85,9 +95,32 @@ label, legend {
     box-shadow: inset 0 2px 0 #8e1d2b;
 }
 
+.button-primary#save {
+    border-right-width: 0;
+    transform: none!important;
+}
+
+.wp-core-ui .button-primary-disabled, .wp-core-ui .button-primary.disabled, .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary[disabled] {
+    color: #979797!important;
+    background: #555d66!important;
+    border-color: #555d66!important;
+}
+
+#customize-save-button-wrapper .save:focus, #publish-settings:focus {
+    box-shadow: 0 1px 0 #fd2a5f, 0 0 2px 1px #fd2a5f;
+}
+
+.wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover, .wp-core-ui .button-primary:active {
+    background-color: #fd2a5f;
+    border-color: #fd2a5f;
+}
+
+#customize-header-actions .customize-controls-preview-toggle, #customize-header-actions .spinner, #customize-save-button-wrapper, .button-primary#save, #publish-settings {
+    transition:  all 0.2s;
+}
 
 .wp-core-ui .button-link {
-    color: #B31F31;
+    color: #fd2a5f;
 }
 
 .customize-pane-child {
@@ -97,7 +130,7 @@ label, legend {
 .input-container-control {
 	display: none;
     width: 100%;
-    background: #B31F31;
+    background: #fd2a5f;
     padding: 0.5rem;
     box-sizing: border-box;
 	color: white;
@@ -139,7 +172,7 @@ label, legend {
 }
 
 .title-holder:hover  span {
-	color: #B31F31;
+	color: #fd2a5f;
 } 
 
 .controls-separator{
@@ -156,136 +189,174 @@ label, legend {
 	cursor: move;
 }
 
-
-
-
-
-/*SELECT RADIO WITH IMAGES CONTROL*/
-/*************************************************************************************************/
-.image-choice {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    margin-top: 1rem;
-    max-width: 100%;
-	position: relative;
-}
-
-.image-selection-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.image-choice > input[type="radio"]:checked {
-    border-color: #3300ff;
-    box-shadow: 0px 0px 8px 0px #3300ff;
-}
-
-input[type=radio]:checked:before {
-    display: none ;
-}
-
-.image-choice > input[type="radio"] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-    background-color: transparent;
-    color: transparent;
-}
-
-.image-choice > input[type="radio"]:checked {
-    border-color: #3300ff;
-    box-shadow: 0px 0px 8px 0px #3300ff;
-}
-
-.customize-control select{
-	height: auto;
-}
-
-input ~ label{
-	display: inline;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.customize-control-tax-mult-dropdown {
+.customizer-control-holder {
     padding: 1rem;
     border-radius: 0.5rem;
     border: solid 0.1rem #adadad;
     cursor: default;
 }
 
-.tax-mult-dropdown-sortable-ul {
-    margin-left:  0;
+/*Collapsibles*
+/*************************************************************************************************/
+.collapsible-body {
+    display:  none;
+    background-color: #ffffff;/*    background-color: #fd2a5f;*/
+    padding: 1rem 0.7rem;
 }
 
-.add-new-li {
-    text-align: center;
+.collapsible-body input:not([type='checkbox']), .collapsible-body textarea{
+	width: 100%;
+	background-color: #fd2a5f0a;
 }
 
-.add-new-li i {
+.customizer-inputs-group .input-label {
+    color: #fd2a5f;
+    font-size: 1.6rem;
+    font-weight:  bold;
+}
+
+.customizer-inputs-group .inputs-generator-inputs-holder {
+    margin-bottom: 1rem!important;
+}
+
+.customizer-inputs-group input, .customizer-inputs-group textarea, .customizer-inputs-group select {
+    margin-bottom: 0!important;
+}
+
+.customize-control-multiple-inputs input[type=checkbox] {
+    margin-bottom: 0!important;
+}
+
+.collapsible-title {
     transition: all 0.4s;
-    font-size: 4rem;
+    display: block;
+    background: #ffffff;
+    border: solid 1px #bbbbbb;
+    padding: 0.5rem;
     cursor: pointer;
+    position: relative;
+    height: 3.6rem;
+    box-sizing:  border-box;
+    overflow:  hidden;
 }
 
-.add-new-li i:hover {
+.collapsible-title .collapsible-arrow:hover {
     color: #fd2a5f;
 }
 
-.tax-mult-dropdown-sortable-ul li {
-    margin-bottom: 1rem;
-    position: relative;
+.collapsible-title i {
+    transition:  all 0.4s;
 }
 
-.tax-mult-dropdown-sortable-ul .collapsible-title {
-    padding:  0;
-    padding-left: 2rem;
+.collapsible-title .delete-item:hover {
+    color: #a80606;
 }
 
-.tax-mult-dropdown-sortable-ul .collapsible-title select {
-    margin: 0;
-    height:  100%;
-    border: 0;
+.collapsible-title .delete-item:hover ~ i {
+    color: #555d66;
 }
 
-.tax-mult-dropdown-sortable-ul .draggable-ball {
-    left: -0.7rem;
+.collapsible-title:hover .collapsible-arrow {
+    color: #fd2a5f;
 }
 
-.tax-mult-dropdown-sortable-ul .ui-sortable-placeholder:before {
+.collapsible-title:hover .customize-control-title {
+    color: #fd2a5f;
+}
+
+.collapsible-title.customize-control-title {
+    transition: all 0.4s;
+}
+
+
+.collapsible-body-controls .delete-item {
+    font-size:  2.5rem;
+    color: #ffffff;
+    transition:  all 0.4s;
+    cursor:  pointer;
+}
+
+.collapsible-body-controls {
+    text-align:  right;
+    margin-top: 1rem;
+}
+
+.collapsible-body-controls .delete-item:hover {
+    color: #000000;
+}
+
+.collapsible-title.collapsible-open ~ .collapsible-body {
+    border: solid 0.1rem #bbbbbb;
+    border-top-width: 0;
+}
+
+/*Dragable lists and generators controlls*/
+/*************************************************************************************************/
+
+.title-and-trash-holder .customize-control-title {
+    width: 70%;
+    display: inline-block;
+    box-sizing: border-box;
+	margin-bottom: 0;
+}
+
+.title-and-trash-holder .delete-item-on-drop {
+    width: 28%;
+    display: inline-block;
+    box-sizing:  border-box;
+    text-align: right;
+    font-size: 3rem;
+	margin: 0;
+}
+
+.title-and-trash-holder .delete-item-on-drop.trashcan-activated {
+	animation: transhcanActivated 1.5s infinite;
+}
+
+@keyframes transhcanActivated {
+  0% {
+    color: #555d66;
+  }
+  50% {
+    color: #ff0000;
+  }
+  100% {
+    color: #555d66;
+  }  
+}
+
+.title-and-trash-holder{
+	display: flex;
+	align-items: center;
+}
+
+.title-holder .customize-control-arrow {
+    width:  15%;
+    text-align:  center;
+}
+
+.customizer-add-new-button {
+    text-align:  center;
+}
+
+.customizer-add-new-button i:hover {
+    color: #fd2a5f;
+}
+
+.customizer-add-new-button i {
+    transition: all 0.4s;
+    font-size: 4rem;
+    cursor:  pointer;
+}
+
+.bullet-draggable.ui-sortable-placeholder {
+	height: 3.6rem!important;
+	box-sizing: border-box;
+	border-style: none!important;
+	overflow: hidden;
+}
+
+.bullet-draggable.ui-sortable-placeholder:before {
     content: "";
     display: block;
     width: 1.7rem;
@@ -293,9 +364,180 @@ input ~ label{
     background-color: #fd2a5f;
     border-radius: 50%;
     position: absolute;
-    left: -0.7rem;
+	left: 0;
     top: 0.9rem;
     cursor: move;
     transition: all 0.4s;
     z-index: 2;
 }
+
+.customizer-sortable-ul {
+    margin-left: 0;
+}
+
+.customizer-draggable-li{
+    position:  relative;
+}
+
+.customizer-draggable-li .draggable-ball-space {
+    height: 3.4rem;
+    width: 3.4rem;
+    position: absolute;
+    left: -1.9rem;
+    top: -0.1rem;
+    background: #eeeeee;
+    border: solid 0.1rem #bbbbbb;
+    border-left: 0;
+    border-radius: 100%;
+    display:  flex;
+    align-items:  center;
+    justify-content: center;
+}
+
+.customizer-draggable-li .draggable-ball {
+    display:  block;
+    width: 1.7rem;
+    height: 1.7rem;
+    background-color: #555d66;
+    border-radius: 50%;
+    position: absolute;
+    left: 0rem;
+    top: 0.9rem;
+    cursor: move;
+    transition:  all 0.4s;
+    z-index:  2;
+}
+
+.customizer-draggable-li .draggable-ball:hover {
+    background-color: #fd2a5f;
+    box-shadow: 0px 0px 2px 0px #fd2a5f;
+}
+
+.customizer-draggable-li .customize-control-title {
+    user-select: none;
+    left: 2rem;
+    position: relative;
+    white-space:  nowrap;
+    width: 80%;
+    overflow:  hidden;
+    text-overflow:  ellipsis;
+}
+
+.customizer-draggable-li.bullet-draggable .customizer-draggable-li-title:after {
+    content:  "";
+    height: 3.4rem;
+    width: 3.4rem;
+    position: absolute;
+    left: -2rem;
+    top: -0.1rem;
+    background: #eeeeee;
+    border: solid 0.1rem #bbbbbb;
+    border-left: 0;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bullet-draggable {
+    padding-left: 0.8rem;
+}
+
+.customizer-sortable-list {
+    margin-left:  0;
+}
+
+.customizer-sortable-list li {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.customizer-add-new-button {
+    text-align: center;
+}
+
+.customizer-add-new-button i {
+    transition: all 0.4s;
+    font-size: 4rem;
+    cursor: pointer;
+}
+
+.customizer-add-new-button i:hover {
+    color: #fd2a5f;
+}
+
+.bullet-draggable .customizer-draggable-li-title {
+    position: relative;
+    background: #ffffff;
+    border-left-width: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    height: 3.6rem;
+    transition: all 0.4s;
+}
+
+.input-wp-media-image-holder .input-image-src {
+    position:  relative;
+    max-height: 15rem;
+    opacity: 1;
+}
+
+.input-wp-media-image-holder {
+    position:  relative;
+    border: dashed 0.1rem #555d66;
+    min-height: 6rem;
+    cursor:  pointer;
+    display:  flex;
+    align-items:  center;
+    justify-content:  center;
+}
+
+.input-wp-media-image-holder .input-image-placeholder {
+    position:  absolute;
+    display:  flex;
+    align-items: center;
+    justify-content:  center;
+    height:  100%;
+    width:  100%;
+    top: 0;
+    left:  0;
+    z-index: -1;
+}
+
+.input-wp-media-image-holder .input-image-placeholder p {
+    font-size: 2rem;
+    margin-bottom: 0;
+}
+
+.input-wp-media-image-holder:hover .input-image-src {
+    opacity: 0.2;
+}
+
+.input-wp-media-image-holder:hover .input-image-placeholder, .input-wp-media-image-holder .input-image-src[src=""] ~ .input-image-placeholder {
+    z-index: 2;
+}
+
+.input-wp-media-image-holder input {
+    position:  absolute;
+    top: 0;
+    z-index:  -1;
+    opacity: 0;
+}
+
+.remove-image-button {
+    text-align: center;
+    font-size: 3rem;
+}
+
+.remove-image-button i:hover {
+    color:  red;
+}
+
+.remove-image-button i {
+    transition:  all 0.3s;
+    cursor:  pointer;
+}
+
+
+
+

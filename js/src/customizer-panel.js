@@ -76,8 +76,10 @@
             $(window).load(function(){
 				$(document).on("click",".title-holder", function(){
 					var $settings = $(this).siblings(".input-container-control");
+					
 					if (!$settings.length)
 						$settings = $(this).siblings(".collapsible-body");
+
 					var $arrow = $(this).children(".customize-control-arrow i:not(.delete-item)");
 					if ( !$settings.hasClass("animating") ){
 						$settings.addClass("animating");

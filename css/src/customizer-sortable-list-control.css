@@ -10,7 +10,7 @@
 	overflow: hidden;
 }
 
-.sortables-ul > .sortable-li:before {
+.sortables-ul > .sortable-li:not(.ui-sortable-placeholder):before {
     content: counter(list, decimal);
     counter-increment: list;
     position: absolute;

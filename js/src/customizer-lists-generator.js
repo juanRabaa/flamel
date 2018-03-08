@@ -14,6 +14,14 @@
 		$(document).on("click", ".list-edition-button", function(){
 			openListEditionPanel( $(this).siblings(".list-edition-panel") );
 		});
+
+		$(document).keydown(function(e) {
+			var $focusedInput = $(".insert-item-content textarea:focus");
+			if( $focusedInput.length && e.which == 13 ){
+				e.preventDefault();
+				saveEditorChanges( $focusedInput.closest(".insert-item-content") );
+			}
+		});
 		
 		setTimeout(function(){
 			$( ".insert-item-content" ).draggable();
@@ -40,15 +48,26 @@
 					updateList($item.parents(".list-edition-panel"));
 				}
 			});	
+
+			$(document).on( "click", ".list-edition-panel .view-list .list-fast-edition-button", function(event){
+				var $viewList = $(this).closest(".view-list");
+				var $listItems = $viewList.find('li');
+				var csv = "";
+				var counter = 1;
+				$listItems.each( function( index ){
+					csv +=  $(this).find('.list-item-name').text().trim();
+					if ( counter != index )
+						csv += ', ';
+				})
+				console.log(csv);
+			})
 			
-			$(document).on( "contextmenu", ".list-edition-panel .view-list .sortables-ul li", function(event){
-				event.preventDefault();
-				openItemEdition($(this));
+			$(document).on( "click", ".list-edition-panel .view-list .sortables-ul li .edit-button", function(event){
+				openItemEdition( $(this).closest('li') );
 			})
 
-			$(document).on( "contextmenu", ".list-edition-panel .lists-organization .sortables-ul li", function(event){
-				event.preventDefault();
-				createListView($(this).parents(".lists-organization").siblings(".view-list"), $(this));
+			$(document).on( "click", ".list-edition-panel .lists-organization .sortables-ul li .edit-button", function(event){
+				createListView($(this).parents(".lists-organization").siblings(".view-list"), $(this).closest('li'));
 				showSection( $(this).parents(".lists-visualization"), "view-list" );
 			})
 			
@@ -137,14 +156,16 @@
 		if( title ){
 			$list.append(
 			'<li data-list-name="'+ title +'"  data-list-id="list_'+ (listLength + 1) +
-			'" data-list-items="" class="sortable-li"><span class="list-name">'+ title +'</span><i class="far fa-trash-alt delete-list" title="Delete List"></i></li>');
+			'" data-list-items="" class="sortable-li"><span class="list-name">'+ title +'</span>'
+			+'<i class="fas fa-pencil-alt edit-button" title="Edit"></i><i class="far fa-trash-alt delete-list" title="Delete List"></i></li>');
 			organizeLists( $listsOrganization );
 		}
 	}
 	
 	function addListItem( $listEditionPanel ){
 		var $list = $listEditionPanel.find(".view-list ul");
-		$list.append('<li class="sortable-li"><span class="list-item-name"></span><i class="far fa-trash-alt delete-list-item" title="Delete List"></i></li>');
+		$list.append('<li class="sortable-li"><span class="list-item-name"></span>'
+		+'<i class="fas fa-pencil-alt edit-button" title="Edit"></i><i class="far fa-trash-alt delete-list-item" title="Delete List"></i></li>');
 	}
 	
 	function saveEditorChanges( $editor ){
@@ -155,6 +176,7 @@
 		
 		$listItemContent.text(newContent);
 		updateList($currentPanel);
+		closeItemEdition( $editor );
 	}
 	
 	function closeItemEdition( $editionContainer ){
@@ -243,7 +265,7 @@
 		$viewList.find("span.the-list-name").html( $list.attr("data-list-name") );
 		$sortableList.html("");
 		arrayListItems.forEach(function(item, index, arr){
-			$sortableList.append('<li class="sortable-li"><span class="list-item-name">'+ item +'</span><i class="far fa-trash-alt delete-list-item" title="Delete List"></i></li>');
+			$sortableList.append('<li class="sortable-li"><span class="list-item-name">'+ item +'</span><i class="fas fa-pencil-alt edit-button" title="Edit"></i><i class="far fa-trash-alt delete-list-item" title="Delete List"></i></li>');
 		})
 	}
 
