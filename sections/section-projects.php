@@ -12,7 +12,6 @@ if ( !$show_section )
 ?>
 <section id="section-projects" class="<?php echo $visibility_class; ?>">
 	<?php 
-	echo get_theme_mod('section-projects-tag', '');
 	if ($show_section): 
 		$args = array( 
 			'tag_id'			=> get_theme_mod('section-projects-tag', ''),

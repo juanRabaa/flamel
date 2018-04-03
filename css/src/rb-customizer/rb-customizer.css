@@ -142,7 +142,7 @@ label, legend {
 }
 
 .item.item-text.item-network {
-    margin-bottom: 1rem;  
+    margin-bottom: 1rem;
 }
 
 .customize-control-arrow {
@@ -157,7 +157,7 @@ label, legend {
 
 .rotate {
     animation: half-turn 0.4s;
-    animation-fill-mode: forwards;	
+    animation-fill-mode: forwards;
 }
 
 .title-holder {
@@ -173,16 +173,21 @@ label, legend {
 
 .title-holder:hover  span {
 	color: #fd2a5f;
-} 
+}
 
 .controls-separator{
     margin: 3rem 0;
     text-align: center;
     border: solid 0.3rem #fd2a5f;
+    background-color: #fd2a5f;
     border-left: 0;
     border-right: 0;
     font-weight: bold;
-	font-size: 2.3rem;
+    font-size: 2.3rem;
+    color: #ffffff;
+    position:  relative;
+    left: -1.2rem;
+    width: calc(100% + 2.4rem);
 }
 
 .image-gallery-thumbnail-wrapper{
@@ -322,7 +327,7 @@ label, legend {
   }
   100% {
     color: #555d66;
-  }  
+  }
 }
 
 .title-and-trash-holder{
@@ -541,3 +546,75 @@ label, legend {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#rb-tinymce-editor-panel .controls-bar {
+    text-align: right;
+    padding: 1rem;
+    padding-top: 0;
+}
+
+#rb-tinymce-editor-panel .controls-bar i {
+    cursor:  pointer;
+    font-size: 3rem;
+    color: #fd2a5f;
+}
+
+.tinymce-placeholder {
+    position:  relative;
+}
+
+.customize-tinymce-control .edit-button {
+    position:  absolute;
+    width:  100%;
+    height:  100%;
+    top: 0;
+    left:  0;
+    display:  flex;
+    align-items:  center;
+    justify-content:  center;
+    background-color: #fd2a5f;
+    color: #ffffff;
+    font-weight:  bold;
+    font-size: 4rem;
+    opacity: 0;
+    transition:  all 0.3s;
+    user-select:  none;
+}
+
+.customize-tinymce-control textarea {
+    margin-bottom:  0;
+}
+
+.customize-tinymce-control .edit-button:hover {
+    opacity: 1;
+}
+
+#rb-tinymce-editor-panel {
+    position: fixed;
+    bottom: 0;
+    min-height: 20rem;
+    width: 100%;
+    background: #ffffff;
+    border-top: solid 0.3rem #fd2a5f;
+}

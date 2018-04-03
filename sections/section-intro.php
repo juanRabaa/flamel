@@ -18,39 +18,40 @@ if ( !$show_section )
 			<img class="intro-image-desktop" src="<?php echo get_theme_mod("section-intro-image-desktop")?>">
 		</div>
 		<div data-wow-delay="2s" data-wow-duration="1s" class="wow fadeInUp" id="intro-text">
-			<p><?php echo get_theme_mod("section-intro-title",__("Welcome to my website", "flamel-genosha")); ?></p>
+			<p id="section-intro-title"><?php echo get_theme_mod("section-intro-title",__("Welcome to my website", "flamel-genosha")); ?></p>
 		</div>
 	</div>
-	<?php 
-	if( get_theme_mod('section-intro-separator-show', true) ): 
-		$image_src = get_theme_mod('section-intro-separator-image', "");
-		$post_id = get_theme_mod('section-intro-separator-post', -1);
-		$use_thumbnail = get_theme_mod('section-intro-separator-use-thumbnail', true);
+	<?php
+	$section_separator_info = json_decode(get_theme_mod('section-intro-separator-info'), true);
+	if( $section_separator_info['separator_show'] ):
+		$image_src = $section_separator_info['separator_image'];
+		$post_id = $section_separator_info['separator_post'] ? $section_separator_info['separator_post'] : -1;
+		$use_thumbnail = $section_separator_info['separator_use_thumbnail'];
 		if ( $use_thumbnail && $post_id != -1 )
 			$image_src = get_the_post_thumbnail_url($post_id,'full');
 	?>
 	<div class="section-separator" style="background-image: url('<?php echo $image_src; ?>');">
 		<?php
-			$title = get_theme_mod('section-intro-separator-text', "");
-			$post_permalink = get_permalink(get_theme_mod('section-intro-separator-post', -1));
-			
+		$title = $section_separator_info['separator_link_text'];
+		$post_permalink = get_permalink($post_id);
+
 			if( !empty($title) && !empty($post_permalink) ):
 		?>
 		<div class="separator-link">
 			<h6>
-			<?php 
+			<?php
 				$title_length = strlen($title);
-				
+
 				if ( $title_length > 80)
 					$title = mb_strimwidth($title, 0, 83, "...");
-				
+
 				echo $title; ?>
 			</h6>
 			<i class="fa fa-angle-right"></i>
-			<a href="<?php echo $post_permalink; ?>"></a> 
+			<a href="<?php echo $post_permalink; ?>"></a>
 		</div>
 		<?php endif; ?>
 	</div>
-	<?php endif; ?>	
+	<?php endif; ?>
 	<?php endif; ?>
 </section>

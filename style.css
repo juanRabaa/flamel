@@ -1,9 +1,9 @@
 /*
 Theme Name: Flamel
-Theme URI: 
+Theme URI:
 Author: Genosha
 Author URI:
-Description: 
+Description:
 Version: 1.0
 License:
 License URI:
@@ -36,6 +36,7 @@ img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
 
 *{
 	font-family: "Trade Gothic", "Raleway" ,"HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	letter-spacing: 0.05rem;
 }
 
 body {
@@ -49,7 +50,7 @@ body {
 img{
 	max-width: 100%;
 	height: auto;
-}	
+}
 
 a {
 	color: #fd2a5f;
@@ -65,6 +66,7 @@ p {
 h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.5rem;
     font-family: "Nanami Light", "Trade Gothic", "Raleway" ,"HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	letter-spacing: 0.05rem!important;
 }
 
 blockquote, dl, figure, form, ol, p, pre, table, ul {
@@ -178,7 +180,7 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 
 #navbar-menu a {
     color:  #000000;
-    font-weight: bold;
+    font-weight: 400;
     text-transform:  uppercase;
     font-size: 1.7rem;
 }
@@ -251,12 +253,12 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
     color: #ffffff;
 }
 
-#navbar.in-section-text-slide #logo-svg path, #navbar.in-section-text-slide #logo-svg polygon, #navbar.in-section-authors #logo-svg path, 
+#navbar.in-section-text-slide #logo-svg path, #navbar.in-section-text-slide #logo-svg polygon, #navbar.in-section-authors #logo-svg path,
 #navbar.in-section-authors #logo-svg polygon, #navbar.in-section-process #logo-svg path, #navbar.post-navbar #logo-svg polygon, #navbar.post-navbar #logo-svg path, #navbar.post-navbar #logo-svg polygon, .post-fotter svg path, .post-fotter svg polygon {
     stroke: #fd2a5f;
 }
 
-#navbar.in-section-text-slide #logo-svg path, #navbar.in-section-authors #logo-svg path, #navbar.in-section-process #logo-svg path, 
+#navbar.in-section-text-slide #logo-svg path, #navbar.in-section-authors #logo-svg path, #navbar.in-section-process #logo-svg path,
 #navbar.in-section-text-slide #logo-svg polygon, #navbar.in-section-authors #logo-svg polygon, #navbar.in-section-process #logo-svg polygon, #navbar.post-navbar #logo-svg polygon, #navbar.post-navbar #logo-svg path, .post-fotter svg path, .post-fotter svg polygon {
     fill: #fd2a5f;
 }
@@ -304,6 +306,8 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
     align-items:  flex-end;
     padding: 3rem;
     box-sizing:  border-box;
+    z-index: 2;
+    position:  relative;
 }
 
 .separator-link {
@@ -609,7 +613,8 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 
 .process-desktop .process {
     display: inline-flex;
-    width: max-content;
+    /*width: max-content;*/
+	width: 100%;
 }
 
 .process-desktop .process-content {
@@ -1054,11 +1059,11 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 	#navbar > .container {
 		width: 90%;
 	}
-	
+
 	#navbar > .container > .row {
 		justify-content:  space-between;
 	}
-	
+
 	#navbar-menu a{
 		font-size: 2rem;
 	}
@@ -1070,11 +1075,11 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 	.intro-image-mobile{
 		display: none!important;
 	}
-	
+
 	.intro-image-desktop{
 		display: inline-block;
 	}
-    
+
     .section-title {
         writing-mode: vertical-lr;
     }
@@ -1089,23 +1094,23 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 	#section-text-slide .section-title-column {
 		width: 0;
 	}
-	
+
 	.slider-title{
 		/* writing-mode: vertical-lr; */
 		max-height: 22VH;
 		font-size: 1.4rem;
 		margin: -0.5rem;
 	}
-	
+
 	.slider-header {
 		display: flex;
 		align-items: flex-end;
 	}
-	
+
 	#section-tools-images > img {
 		max-height: 10rem;
 	}
-	
+
 	#logo-svg .mobile-logo{
 		display: none;
 	}
@@ -1113,15 +1118,15 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 	#logo-svg .desktop-logo{
 		display: block;
 	}
-	
+
 	#intro-text p{
 		width: 100%;
 	}
-	
+
 	.slider-buttons{
 		margin-left: 0;
 	}
-	
+
 	.slider-buttons > span{
 		/* width: 5rem; */
 		/* height: 0.5rem; */
@@ -1145,7 +1150,7 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 	#section-lists .list-container ul li:before{
 		display: none;
 	}
-	
+
 	#section-lists .list-container ul li:after {
 		content: "";
 		position: relative;
@@ -1156,11 +1161,11 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 		top: -0.8rem;
 		margin-left: 0.5rem;
 	}
-	
+
 	#section-lists .list-container ul li:last-child:after{
 		display: none;
 	}
-	
+
 	.separator-link > i {
 		font-size: 2rem;
 	}
@@ -1170,21 +1175,21 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 		width: 100%;
 		min-height: 2rem;
 	}
-	
+
 	#section-tools-title {
 		color: #fd2a5f;
 		margin-bottom: 2rem;
 		margin-left: -0.6rem;
 	}
-	
+
 	.author-description .author-name{
 		font-size: 1.8rem;
-	}	
+	}
 
 	#section-tools-images > div {
 		width: auto;
-	}		
-	
+	}
+
 }
 
 
@@ -1343,8 +1348,8 @@ span.title-text-navbar {
 
 	#section-authors > .section-content:after {
 		display:  none;
-	}	
-	
+	}
+
 	.author-photo {
 		display: block;
 		width: 110%;
@@ -1358,12 +1363,12 @@ span.title-text-navbar {
 		display:  flex;
 		align-items:  center;
 		width: 100%;
-	}	
-	
+	}
+
 	.process-desktop{
 		display: block;
 	}
-	
+
 	.process-mobile{
 		display: none;
 	}
@@ -1372,22 +1377,21 @@ span.title-text-navbar {
 		width: 60%;
 		text-align:  left;
 	}
-	
+
 	.author-box-holder {
 		width: 50%;
 		box-sizing:  border-box;
-	}	
-		
+	}
+
 	.author-box-bio{
 		opacity: 0;
 	}
-	
+
     .project-slide {
         width: 34rem;
-    }    
+    }
 
     .project-image > div {
         height: 42rem;
-    }	
+    }
 }
-
