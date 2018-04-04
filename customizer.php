@@ -384,6 +384,26 @@ function customizer_api_configuration($customizer_api){
 		)
 	)
 	->add_control(//Control creation
+		'section-process-title',//id
+		RB_Extended_Control,//control class
+		array(//Settings creation
+			'section-process-title' => array(
+				'options' => array(
+					'transport' => 'postMessage',
+					'default'	=> "PROCESO DE TRABAJO",
+				),
+				'selective_refresh' => array(
+					'activated' 		=> true,
+					'selector'  		=> '#section-process .section-title',
+				)
+			)
+		),
+		array(//Control options
+            'label'      => __( 'Título', 'flamel-genosha' ),
+            'type'       => 'text',
+        )
+	)
+	->add_control(//Control creation
 		'section-process-generator',//id
 		RB_List_Generator_Control,//control class
 		array(//Settings creation
@@ -521,7 +541,7 @@ function customizer_api_configuration($customizer_api){
 			'section-projects-title' => array(
 				'options' => array(
 					'transport' => 'postMessage',
-					'default'	=> "Novedades",
+					'default'	=> "Trabajos",
 				),
 				'selective_refresh' => array(
 					'activated' 		=> true,
@@ -535,39 +555,25 @@ function customizer_api_configuration($customizer_api){
         )
 	)
 	->add_control(//Control creation
-		'section-projects-amount',//id
-		RB_Extended_Control,//control class
+		'section-projects-posts',//id
+		RB_Single_Input_Generator_Control,//control class
 		array(//Settings creation
-			'section-projects-amount' => array(
+			'section-projects-posts' => array(
 				'options' => array(
-					'transport' => 'postMessage',
-					'default'	=> 3,
+					'transport' => 'refresh',
 				),
 			)
 		),
         array(//Control options
-			'label'      	 => __( 'Maxima cantidad de proyectos', 'flamel-genosha' ),
-			'type'       	 => 'number',
-			'input_attrs' 	 => array(
-				'min'   	 => 1,
-			)
-		)
-	)
-	->add_control(//Control creation
-		'section-projects-tag',//id
-		RB_Single_Input_Control,//control class
-		array(//Settings creation
-			'section-projects-tag' => array(
-				'options' => array(
-					'transport' => 'postMessage',
-					'default'	=> 3,
+			'label'      			=> __( 'Proyectos', 'flamel-genosha' ),
+			'inputs_types'       	=> array(
+				'post_id'	=>	array(
+					'nice_name'		=>	__( 'Proyecto', 'flamel-genosha' ),
+					'type'			=>  "post",
 				),
-			)
-		),
-        array(//Control options
-			'label'      			=> __( 'Tag', 'flamel-genosha' ),
-			'input_type'       		=> 'tag',
-			'description'			=> 'El tag que tienen que tener los posts para ser tomados como proyectos',
+			),
+			'show_option_none'		=> '(Seleccionar)',
+			'dinamic_label'			=> 'post_id',
 		)
 	);
 

@@ -11,14 +11,12 @@ if ( !$show_section )
 	$visibility_class = "display-none-section";
 ?>
 <section id="section-projects" class="<?php echo $visibility_class; ?>">
-	<?php 
-	if ($show_section): 
-		$args = array( 
-			'tag_id'			=> get_theme_mod('section-projects-tag', ''),
-			'post_type'			=> 'post',
-			'posts_per_page' 	=> get_theme_mod('section-projects-amount', 3),
-		);
-		$wp_query = new WP_Query( $args );
+	<?php
+	if ($show_section):
+		$posts_ids = json_decode( get_theme_mod( 'section-projects-posts', '{}') , true );
+		if ( empty($posts_ids) )
+			$posts_ids = array();
+
 		$delay = 0;
 	?>
 		<div class="container">
@@ -27,7 +25,7 @@ if ( !$show_section )
 					<div class="shadow-right"></div>
 					<div class="shadow-right-bottom"></div>
 					<div class="shadow-right-top"></div>
-				</div>		
+				</div>
 				<div class="shadow-left-holder">
 					<div class="shadow-left"></div>
 					<div class="shadow-left-bottom"></div>
@@ -36,32 +34,29 @@ if ( !$show_section )
 			</div>
 		</div>
 		<div class="section-content container">
+			<h5 class="section-title"><?php echo get_theme_mod( 'section-projects-title', 'Trabajos'); ?></h5>			
 			<div class="projects-slides-container" id="projects-slider">
-				<?php 
-				while($wp_query->have_posts()): 
-					$wp_query->the_post();
-				?>
+				<?php foreach( $posts_ids as $post_ID ): ?>
 				<div data-wow-duration="1s" data-wow-delay="<?php echo $delay; ?>s" class="project-slide wow fadeInUp">
 					<div class="project-image">
-						<div style="background-image: url('<?php echo get_the_post_thumbnail_url(null,'full'); ?>');"></div>
+						<div style="background-image: url('<?php echo get_the_post_thumbnail_url($post_ID,'full'); ?>');"></div>
 					</div>
-					<h6 class="project-category"><?php echo get_the_category()[0]->name; ?></h6>
-					<span class="project-name"><?php the_title(); ?></span>
-					<a href="<?php the_permalink(); ?>"></a>
+					<h6 class="project-category"><?php echo get_the_category($post_ID)[0]->name; ?></h6>
+					<span class="project-name"><?php echo get_the_title($post_ID); ?></span>
+					<a href="<?php echo get_the_permalink($post_ID); ?>"></a>
 				</div>
-				<?php 
+				<?php
 					$delay += 0.3;
 						if ( $delay == 3 )
 							break;
-					endwhile; 
-				//wp_reset_query();
+				endforeach;
 				?>
-			</div>		
+			</div>
 		</div>
-		<?php 
+		<?php
 		$section_separator_info = json_decode(get_theme_mod('section-projects-separator-info'), true);
-		
-		if( $section_separator_info['separator_show'] ): 
+
+		if( $section_separator_info['separator_show'] ):
 			$image_src = $section_separator_info['separator_image'];
 			$post_id = $section_separator_info['separator_post'] ? $section_separator_info['separator_post'] : -1;
 			$use_thumbnail = $section_separator_info['separator_use_thumbnail'];
@@ -73,22 +68,22 @@ if ( !$show_section )
 		<?php
 			$title = $section_separator_info['separator_link_text'];
 			$post_permalink = get_permalink($post_id);
-			
+
 			if( !empty($title) && !empty($post_permalink) ):
 		?>
 		<div class="separator-link">
 			<h6>
-			<?php 
+			<?php
 				$title_length = strlen($title);
 				if ( $title_length > 80)
 					$title = mb_strimwidth($title, 0, 83, "...");
-				echo $title; 
+				echo $title;
 			?>
 			</h6>
 			<i class="fa fa-angle-right"></i>
-			<a href="<?php echo $post_permalink; ?>"></a> 
+			<a href="<?php echo $post_permalink; ?>"></a>
 		</div>
-		<?php endif; ?>		
-		<?php endif; ?>	
+		<?php endif; ?>
+		<?php endif; ?>
 	<?php endif; ?>
 </section>

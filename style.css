@@ -293,6 +293,7 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 
 .section-title {
     letter-spacing: 0.05rem;
+    text-transform: uppercase;
 }
 /*separator*/
 
@@ -324,6 +325,7 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
     cursor: pointer;
     position:  absolute;
     bottom:  0;
+	z-index: 2;
 }
 
 .separator-link a {
@@ -796,17 +798,22 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 /*************************************************************************************************/
 #section-projects > .section-content {
     padding-top: 12rem;
-    display:  flex;
-    align-items:  center;
     overflow-y: hidden;
     padding-bottom: 3rem;
     width: 100vw;
     max-width: 100vw;
+    /* display: flex; */
 }
 
 #section-projects {
     background-color: #ffffef;
     padding-bottom: 12rem;
+}
+
+#section-projects .section-title {
+    margin-left: calc(10vw - 0.6rem);
+    font-size: 1.5rem;
+    color: #fd2a5f;
 }
 
 .project-slide {
@@ -830,8 +837,9 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
 
 #projects-slider {
     display:  flex;
-    align-items:  center;
+    align-items: flex-start;
     margin:  0 auto;
+    width: min-content;
 }
 
 .project-image > div {
@@ -854,7 +862,7 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
     font-size: 3rem;
     color: #282828;
     line-height: 1.3;
-    white-space:  nowrap;
+    /* white-space:  nowrap; */
 }
 
 .project-slide

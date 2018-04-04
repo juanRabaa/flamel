@@ -14,11 +14,11 @@ if ( !$show_section )
 	<?php if ($show_section): ?>
 		<div class="section-content container">
 			<?php
-				$images_url = json_decode(get_theme_mod('section-tools-images', [])); 
+				$images_url = json_decode(get_theme_mod('section-tools-images', []));
 			?>
-			<h5 id="section-tools-title" class="section-title" >HERRAMIENTAS</h5>
+			<h5 id="section-tools-title" class="section-title"><?php echo get_theme_mod('section-tools-title', 'Herramientas') ?></h5>
 			<div id="section-tools-images">
-			<?php 
+			<?php
 				$delay = 0;
 				foreach( $images_url as $image_url ):
 					?>
@@ -29,10 +29,10 @@ if ( !$show_section )
 			?>
 			</div>
 		</div>
-		<?php 
+		<?php
 		$section_separator_info = json_decode(get_theme_mod('section-tools-separator-info'), true);
-		
-		if( $section_separator_info['separator_show'] ): 
+
+		if( $section_separator_info['separator_show'] ):
 			$image_src = $section_separator_info['separator_image'];
 			$post_id = $section_separator_info['separator_post'] ? $section_separator_info['separator_post'] : -1;
 			$use_thumbnail = $section_separator_info['separator_use_thumbnail'];
@@ -44,22 +44,22 @@ if ( !$show_section )
 		<?php
 			$title = $section_separator_info['separator_link_text'];
 			$post_permalink = get_permalink($post_id);
-			
+
 			if( !empty($title) && !empty($post_permalink) ):
 		?>
 		<div class="separator-link">
 			<h6>
-			<?php 
+			<?php
 				$title_length = strlen($title);
 				if ( $title_length > 80)
 					$title = mb_strimwidth($title, 0, 83, "...");
-				echo $title; 
+				echo $title;
 			?>
 			</h6>
 			<i class="fa fa-angle-right"></i>
-			<a href="<?php echo $post_permalink; ?>"></a> 
+			<a href="<?php echo $post_permalink; ?>"></a>
 		</div>
-		<?php endif; ?>		
-		<?php endif; ?>	
+		<?php endif; ?>
+		<?php endif; ?>
 	<?php endif; ?>
 </section>
